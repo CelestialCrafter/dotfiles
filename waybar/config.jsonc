@@ -23,5 +23,9 @@
       "warning": 50,
       "critical": 80
     }
+  },
+  "clock": {
+    "format": "{:%I:%M %p}",
+    "tooltip-format": "<big>{%B :%Y}</big>\n<tt><small>{calendar}</small></tt>"
   }
 }
