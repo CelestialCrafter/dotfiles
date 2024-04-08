@@ -14,5 +14,14 @@
     "cpu",
     "network",
     "custom/wlogout"
-  ]
+  ],
+
+  "cpu": {
+    "interval": 1,
+    "states": {
+      "light": 30,
+      "warning": 50,
+      "critical": 80
+    }
+  }
 }
