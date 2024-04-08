@@ -27,5 +27,9 @@
   "clock": {
     "format": "{:%I:%M %p}",
     "tooltip-format": "<big>{%B :%Y}</big>\n<tt><small>{calendar}</small></tt>"
+  },
+  "network": {
+    "format-wifi": " {essid}",
+    "format-ethernet": " {ifname}"
   }
 }
