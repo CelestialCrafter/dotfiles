@@ -25,11 +25,17 @@
     }
   },
   "clock": {
-    "format": "{:%I:%M %p}",
-    "tooltip-format": "<big>{%B :%Y}</big>\n<tt><small>{calendar}</small></tt>"
+    "format": "  {:%I:%M %p}",
+    "tooltip-format": "<tt><big>{calendar}</big></tt>"
   },
   "network": {
-    "format-wifi": " {essid}",
-    "format-ethernet": " {ifname}"
+    "format-wifi": "  {essid}",
+    "format-ethernet": "  {ifname}",
+    "tooltip-format-wifi": "Strength: {signalStrength}%"
+  },
+  "pulseaudio": {
+    "format": "  {volume}%",
+    "scroll-step": 5,
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
   }
 }
