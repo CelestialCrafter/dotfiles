@@ -37,5 +37,14 @@
     "format": "  {volume}%",
     "scroll-step": 5,
     "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  },
+  "mpris": {
+    "format": "{title} - {artist}",
+    "format-alt": "---",
+    "title-len": 20,
+    "artist-len": 20,
+    "tooltip-format": "{dynamic}",
+    "dynamic-order": ["album", "position", "length"],
+    // "ignored-players": ["firefox"]
   }
 }
