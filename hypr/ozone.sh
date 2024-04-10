@@ -12,7 +12,6 @@ do
 	find "$path" -name '*.desktop' -print0 | grep -a -z -E $programs | while read -d $'\0' file
 	do
 		if ! grep -q -- "--enable-features=UseOzonePlatform --ozone-platform=wayland" $file; then
-			cp $file $file.bak
 			echo $(sed "/Exec=/ s/$/ --enable-features=UseOzonePlatform --ozone-platform=wayland/" $file) > $file
 			echo "patched $(basename $file)"
 		fi
