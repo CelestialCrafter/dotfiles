@@ -44,7 +44,7 @@
     "title-len": 20,
     "artist-len": 20,
     "tooltip-format": "{dynamic}",
-    "dynamic-order": ["album", "position", "length"],
+    "dynamic-order": ["album", "position", "length"]
     // "ignored-players": ["firefox"]
   }
 }
