@@ -6,13 +6,13 @@
     "tray"
   ],
   "modules-center": [
-    "mpris",
-    "clock"
+    "mpris"
   ],
   "modules-right": [
     "pulseaudio",
     "cpu",
     "network",
+    "clock",
     "custom/wlogout"
   ],
 
