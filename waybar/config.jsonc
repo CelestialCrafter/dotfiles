@@ -46,5 +46,10 @@
     "tooltip-format": "{dynamic}",
     "dynamic-order": ["album", "position", "length"]
     // "ignored-players": ["firefox"]
+  },
+  "hyprland/workspaces": {
+    "persistent-workspaces": {
+      "*": 3
+    }
   }
 }
