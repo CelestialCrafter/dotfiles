@@ -1,6 +1,6 @@
-text-color=#bfa0ab
-background-color=#11000b
-progress-color=over #922438
+text-color={color7}
+background-color={color0}
+progress-color=over {color2}
 width=256
 height=88
 margin=12
@@ -13,6 +13,6 @@ border-size=0
 invisible=1
 
 [urgency=critical]
-background-color=#922438
-progress-color=over #bfa0ab
+background-color={color2}
+progress-color=over {color7}
 invisible=0

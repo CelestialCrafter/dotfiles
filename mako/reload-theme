@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+from os.path import expandvars
+from subprocess import run
+from json import load
+
+config = expandvars("$XDG_CONFIG_HOME")
+cache = expandvars("$XDG_CACHE_HOME")
+
+colors = load(open(f'{cache}/wal/colors.json'))
+template = open(f'{config}/mako/config-template').read()
+
+open(f'{config}/mako/config', 'w').write(template.format(**colors["colors"]))
+run(['makoctl', 'reload'])
