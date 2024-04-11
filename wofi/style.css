@@ -5,30 +5,26 @@
 
 #input {
 	padding: 4px;
-	margin: 4px;
+	margin: 12px;
 	padding-left: 20px;
-	border: 1px solid #fff;
+	border: 1px solid rgb(--wofi-color0);
 	color: rgb(--wofi-color0);
 	background-color: rgb(--wofi-color0);
   outline: none;
 	border-radius: 15px;
 }
 
-/*
 #inner-box {
 	margin: 4px;
-	border: 10px solid #fff;
-	color: #cba6f7;
-	font-weight: bold;
-	background-color: #fff;
-	border-radius: 15px;
+	padding: 8px;
+	padding-top: 0px;
+	color: rgb(--wofi-color0);
+	background-color: rgb(--wofi-color0);
 }
 
 #outer-box {
-	margin: 0px;
-	border: none;
 	border-radius: 15px;
-	background-color: #fff;
+	background-color: rgb(--wofi-color0);
 }
 
 #scroll {
@@ -36,10 +32,9 @@
 	border: none;
 	border-radius: 15px;
 	margin-bottom: 5px;
-	background: rgb(255,255,255);
 }
 
-#text:selected {
+/*#text:selected {
 	color: #fff;
 	margin: 0px 0px;
 	border: none;
