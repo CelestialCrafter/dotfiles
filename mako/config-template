@@ -1,6 +1,6 @@
-text-color={color7}
-background-color={color0}
-progress-color=over {color2}
+text-color={cursor}
+background-color={background}
+progress-color=over {foreground}
 width=256
 height=88
 margin=12

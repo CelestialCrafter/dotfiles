@@ -6,8 +6,11 @@ from json import load
 config = expandvars("$XDG_CONFIG_HOME")
 cache = expandvars("$XDG_CACHE_HOME")
 
-colors = load(open(f'{cache}/wal/colors.json'))
+theme = load(open(f'{cache}/wal/colors.json'))
 template = open(f'{config}/mako/config-template').read()
 
-open(f'{config}/mako/config', 'w').write(template.format(**colors["colors"]))
+open(f'{config}/mako/config', 'w').write(template.format(**{
+	**theme["colors"],
+	**theme["special"]
+}))
 run(['makoctl', 'reload'])
