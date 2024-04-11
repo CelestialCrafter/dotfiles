@@ -1,6 +1,6 @@
 #window {
 	background-color: --wofi-color0;
-	border-radius: 15px;
+	border-radius: 16px;
 }
 
 #input {
@@ -9,7 +9,7 @@
 	padding-left: 20px;
 	border: 1px solid --wofi-color1;
 	color: #fff;
-	border-radius: 15px;
+	border-radius: 16px;
 }
 
 #inner-box {
@@ -20,21 +20,21 @@
 }
 
 #outer-box {
-	border-radius: 15px;
+	border-radius: 16px;
 	background-color: --wofi-color0;
 }
 
 #scroll {
-	margin-top: 5px;
-	border-radius: 15px;
-	margin-bottom: 5px;
+	margin-top: 4px;
+	border-radius: 16px;
+	margin-bottom: 4px;
 }
 
 #entry {
 	margin: 4px;
 	padding: 8px;
 	outline: none;
-	border-radius: 15px;
+	border-radius: 16px;
 }
 
 #entry image {
