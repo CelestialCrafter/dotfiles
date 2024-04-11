@@ -7,10 +7,8 @@
 	padding: 8px;
 	margin: 12px;
 	padding-left: 20px;
-	border: 1px solid --wofi-color0;
-	color: --wofi-color0;
-	background: linear-gradient(45deg, --wofi-color0 30%, --wofi-color0 100%);
-  outline: none;
+	border: 1px solid --wofi-color1;
+	color: #fff;
 	border-radius: 15px;
 }
 
@@ -18,8 +16,7 @@
 	margin: 4px;
 	padding: 8px;
 	padding-top: 0px;
-	color: --wofi-color0;
-	background-color: --wofi-color0;
+	color: --wofi-color7;
 }
 
 #outer-box {
@@ -34,12 +31,26 @@
 }
 
 #entry {
+	margin: 4px;
 	padding: 8px;
 	outline: none;
 	border-radius: 15px;
-	background-color: --wofi-color0;
 }
 
-#entry:selected {
-	background: linear-gradient(45deg, --wofi-color0 30%, --wofi-color0 100%);
+#entry image {
+	margin-left: 4px;
+}
+
+#entry:selected, #entry:selected list, #input {
+	background: linear-gradient(145deg, --wofi-color1 30%, --wofi-color2 100%);
+}
+
+#entry:selected list {
+	margin-top: 6px;
+	/* expanader probably has an odd width */
+	margin-left: 5px;
+}
+
+#text {
+	margin-left: 8px;
 }
