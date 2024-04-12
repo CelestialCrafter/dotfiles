@@ -39,6 +39,7 @@
   "mpris": {
     "format": "{title} - {artist}",
     "title-len": 30,
+		"artist-len": 30,
     "tooltip-format": "{dynamic}",
     "dynamic-order": ["album", "position", "length"]
     // "ignored-players": ["firefox"]
