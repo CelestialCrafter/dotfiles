@@ -45,6 +45,9 @@ window#waybar {
 #workspaces .active {
 	background: rgba(255, 255, 255, 0.25);
 }
+#workspaces .active:hover {
+	background: rgba(255, 255, 255, 0.25);
+}
 
 #workspaces button {
 	border: none;
@@ -53,7 +56,7 @@ window#waybar {
 #workspaces button:hover {
   box-shadow: inherit;
   text-shadow: inherit;
-	background: transparent;
+	background: inherit;
 }
 
 tooltip {
