@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 shopt -s globstar
 
 programs="dev.vencord.Vesktop.desktop|com.visualstudio.code.desktop|com.spotify.Client"

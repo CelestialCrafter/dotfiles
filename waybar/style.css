@@ -1,0 +1,62 @@
+@import "/home/celestial/.cache/wal/colors-waybar.css";
+
+* {
+	font-size: 14px;
+}
+
+window#waybar {
+	background: transparent;
+}
+
+.modules-left, .modules-right, .modules-center {
+	margin: 8px;
+}
+
+.modules-left {
+	padding: 8px;
+}
+
+.modules-right {
+	padding: 8px 16px;
+}
+
+.modules-right .module {
+  margin: 0px 2px;
+}
+
+.modules-left, .modules-right {
+	color: #ffffff;
+	background: linear-gradient(145deg, @color1 30%, @color2 100%);
+	border-radius: 16px;
+}
+
+#custom-wlogout {
+	margin-left: 8px;
+}
+
+#mpris {
+	background: @background;
+	border: 1px solid @color2;
+	border-radius: 16px;
+	padding: 8px 16px;
+}
+
+#workspaces button {
+	border: none;
+}
+
+#workspaces button:hover {
+  box-shadow: inherit;
+  text-shadow: inherit;
+	background: transparent;
+}
+
+tooltip {
+	background: @background;
+	border: 1px solid @color2;
+	border-radius: 16px;
+}
+
+tooltip * {
+	color: @cursor;
+}

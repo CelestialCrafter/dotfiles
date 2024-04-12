@@ -1,9 +1,8 @@
 {
   "spacing": 8,
   "modules-left": [
-    "custom/wofi",
-    "hyprland/workspaces",
-    "tray"
+    "custom/wlogout",
+    "hyprland/workspaces"
   ],
   "modules-center": [
     "mpris"
@@ -12,11 +11,11 @@
     "pulseaudio",
     "cpu",
     "network",
-    "clock",
-    "custom/wlogout"
+    "clock"
   ],
 
   "cpu": {
+		"format": " {}%",
     "interval": 1,
     "states": {
       "light": 30,
@@ -26,7 +25,6 @@
   },
   "clock": {
     "format": "  {:%I:%M %p}",
-    "tooltip-format": "<tt><big>{calendar}</big></tt>"
   },
   "network": {
     "format-wifi": "  {essid}",
@@ -40,9 +38,7 @@
   },
   "mpris": {
     "format": "{title} - {artist}",
-    "format-alt": "---",
-    "title-len": 20,
-    "artist-len": 20,
+    "title-len": 30,
     "tooltip-format": "{dynamic}",
     "dynamic-order": ["album", "position", "length"]
     // "ignored-players": ["firefox"]
@@ -51,5 +47,10 @@
     "persistent-workspaces": {
       "*": 3
     }
-  }
+  },
+	"custom/wlogout": {
+		"format": "",
+		"on-click": "wlogout",
+		"tooltip": false
+	}
 }
