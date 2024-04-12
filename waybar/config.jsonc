@@ -51,7 +51,7 @@
   },
 	"custom/wlogout": {
 		"format": "",
-		"on-click": "wlogout",
+		"on-click": "wlogout -b 4",
 		"tooltip": false
 	}
 }
