@@ -16,6 +16,7 @@
 
   "cpu": {
 		"format": " {}%",
+		"on-click": "kitty btop",
     "interval": 1,
     "states": {
       "light": 30,
@@ -25,6 +26,7 @@
   },
   "clock": {
     "format": "  {:%I:%M %p}",
+		"on-click": "gnome-calendar"
   },
   "network": {
     "format-wifi": "  {essid}",
@@ -51,7 +53,7 @@
   },
 	"custom/wlogout": {
 		"format": "",
-		"on-click": "wlogout -b 4",
+		"on-click": "~/.config/waybar/system-actions.sh",
 		"tooltip": false
 	}
 }

@@ -32,13 +32,14 @@ menu() {
 Screen
 Region"
 
-	action=$(echo "$actions" | wofi --show dmenu)
+	action=$(echo "$actions" | wofi --prompt Mode --show dmenu)
 }
 
 action="Region"
 
 if [ "$1" != "skip" ]; then
 	menu
+	unfade
 fi
 
 teeout="$HOME/Pictures/Screenshots/$date$randomchars.png"
