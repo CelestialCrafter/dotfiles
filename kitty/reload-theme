@@ -1,0 +1,16 @@
+#!/usr/bin/env python
+from os.path import expandvars
+from subprocess import run
+from json import load
+
+config = expandvars("$XDG_CONFIG_HOME")
+cache = expandvars("$XDG_CACHE_HOME")
+
+theme = load(open(f'{cache}/wal/colors.json'))
+template = open(f'{config}/kitty/kitty-template.conf').read()
+
+open(f'{config}/kitty/kitty.conf', 'w').write(template.format(**{
+	**theme["colors"],
+	**theme["special"]
+}))
+run(['killall', '-q', '-SIGUSR1', '-r', 'kitty'])

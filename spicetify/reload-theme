@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+from os.path import expandvars
+from json import load
+
+config = expandvars("$XDG_CONFIG_HOME")
+cache = expandvars("$XDG_CACHE_HOME")
+
+theme = load(open(f'{cache}/wal/colors.json'))
+template = open(f'{config}/spicetify/color-template.ini').read()
+
+open(f'{config}/spicetify/Themes/ziro/color.ini', 'w').write(template.format(**{
+	**{x: y.replace('#', '') for (x, y) in theme["colors"].items()},
+	**{x: y.replace('#', '') for (x, y) in theme["special"].items()}
+}))
