@@ -1,0 +1,3 @@
+[submodule "spicetify/Extensions/huh-spicetify-extensions"]
+	path = spicetify/Extensions/huh-spicetify-extensions
+	url = https://github.com/CelestialCrafter/huh-spicetify-extensions/
