@@ -1,56 +1,64 @@
 {
-  "spacing": 8,
-  "modules-left": [
-    "custom/wlogout",
-    "hyprland/workspaces"
-  ],
-  "modules-center": [
-    "mpris"
-  ],
-  "modules-right": [
-    "pulseaudio",
-    "cpu",
-    "network",
-    "clock"
-  ],
+	"spacing": 8,
+	"modules-left": [
+		"custom/wlogout",
+		"hyprland/workspaces",
+		"hyprland/submap"
+	],
+	"modules-center": [
+		"mpris"
+	],
+	"modules-right": [
+		"pulseaudio",
+		"cpu",
+		"network",
+		"clock"
+	],
 
-  "cpu": {
+	"cpu": {
 		"format": " {}%",
 		"on-click": "kitty btop",
-    "interval": 1,
-    "states": {
-      "light": 30,
-      "warning": 50,
-      "critical": 80
-    }
-  },
-  "clock": {
-    "format": "  {:%I:%M %p}",
+		"interval": 1,
+		"states": {
+			"light": 30,
+			"warning": 50,
+			"critical": 80
+		}
+	},
+	"clock": {
+		"format": "  {:%I:%M %p}",
 		"on-click": "gnome-calendar"
-  },
-  "network": {
-    "format-wifi": "  {essid}",
-    "format-ethernet": "  {ifname}",
-    "tooltip-format-wifi": "Strength: {signalStrength}%"
-  },
-  "pulseaudio": {
-    "format": "  {volume}%",
-    "scroll-step": 5,
-    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-  },
-  "mpris": {
-    "format": "{title} - {artist}",
-    "title-len": 30,
+	},
+	"network": {
+		"format-wifi": "  {essid}",
+		"format-ethernet": "  {ifname}",
+		"tooltip-format-wifi": "Strength: {signalStrength}%"
+	},
+	"pulseaudio": {
+		"format": "  {volume}%",
+		"scroll-step": 5,
+		"on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+	},
+	"mpris": {
+		"format": "{title} - {artist}",
+		"title-len": 30,
 		"artist-len": 30,
-    "tooltip-format": "{dynamic}",
-    "dynamic-order": ["album", "position", "length"]
-    // "ignored-players": ["firefox"]
-  },
-  "hyprland/workspaces": {
-    "persistent-workspaces": {
-      "*": 3
-    }
-  },
+		"tooltip-format": "{dynamic}",
+		"dynamic-order": ["album", "position", "length"]
+		// "ignored-players": ["firefox"]
+	},
+	"hyprland/workspaces": {
+		"persistent-workspaces": {
+			"*": 3
+		},
+		"show-special": true,
+		"format": "{icon}",
+		"format-icons": {
+			"special": "S"
+		},
+		"on-scroll-up": "hyprctl dispatch workspace e+1",
+		"on-scroll-down": "hyprctl dispatch workspace e-1"
+	},
 	"custom/wlogout": {
 		"format": "",
 		"on-click": "~/.config/waybar/system-actions.sh",
