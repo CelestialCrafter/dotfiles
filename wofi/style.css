@@ -6,7 +6,7 @@
 
 #window {
 	background-color: rgba(--wofi-rgb-color0, 0.6);
-	border-radius: 4px;
+	border-radius: 6px;
 }
 
 #input {
@@ -14,7 +14,7 @@
 	margin: 16px;
 	padding-left: 14px;
 	color: #fff;
-	border-radius: 4px;
+	border-radius: 6px;
 }
 
 #input image {
@@ -29,12 +29,12 @@
 }
 
 #outer-box {
-	border-radius: 4px;
+	border-radius: 6px;
 }
 
 #scroll {
 	margin-top: 4px;
-	border-radius: 4px;
+	border-radius: 6px;
 	margin-bottom: 4px;
 }
 
@@ -42,7 +42,7 @@
 	margin: 4px;
 	padding: 8px;
 	outline: none;
-	border-radius: 4px;
+	border-radius: 6px;
 }
 
 #entry image {
