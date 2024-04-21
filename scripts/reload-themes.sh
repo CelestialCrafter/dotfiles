@@ -4,4 +4,8 @@
 
 ~/.config/spicetify/reload-theme
 spicetify-cli apply
-~/.config/hypr/disable-gpu.sh
+
+pkill -SIGUSR2 waybar
+
+~/.config/scripts/disable-gpu.sh
+

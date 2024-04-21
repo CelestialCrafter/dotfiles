@@ -62,7 +62,7 @@
 	},
 	"custom/wlogout": {
 		"format": "",
-		"on-click": "~/.config/waybar/system-actions.sh",
+		"on-click": "~/.config/scripts/menus/system-actions.sh",
 		"tooltip": false
 	}
 }
