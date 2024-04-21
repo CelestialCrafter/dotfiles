@@ -5,7 +5,7 @@
 }
 
 #window {
-	background-color: rgba(--wofi-rgb-color0, 0.6);
+	background-color: rgba(--wofi-rgb-color0, 0.8);
 	border-radius: 6px;
 }
 
@@ -50,7 +50,7 @@
 }
 
 #entry:selected, #entry:selected list, #input {
-	background: linear-gradient(145deg, --wofi-color1 30%, --wofi-color2 100%);
+	background: linear-gradient(145deg, --wofi-color3 30%, --wofi-color4 100%);
 }
 
 #entry:selected {
