@@ -2,6 +2,8 @@
 
 ~/.config/kitty/reload-theme
 
+~/.config/neofetch/reload-theme.sh
+
 ~/.config/spicetify/reload-theme
 spicetify-cli apply
 
