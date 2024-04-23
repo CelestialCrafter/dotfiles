@@ -3,11 +3,9 @@
 check_command() {
 	if [ $? -eq 0 ]; then
 		if [ ! -z "$1" ]; then
-			echo "success"
 			exit 0
 		fi
 	else
-		echo "failure"
 		exit 1
 	fi
 }
