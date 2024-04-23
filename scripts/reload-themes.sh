@@ -2,8 +2,11 @@
 
 ~/.config/kitty/reload-theme
 
-~/.config/neofetch/reload-theme.sh
-
+if command -v nix-shell &> /dev/null then
+	nix-shell ~/.config/neofetch/shell.nix --command ~/.config/neofetch/reload-theme.sh
+else
+	~/.config/neofetch/reload-theme.sh
+fi
 ~/.config/spicetify/reload-theme
 spicetify-cli apply
 
