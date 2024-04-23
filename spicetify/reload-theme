@@ -6,9 +6,6 @@ from json import load
 config = expandvars("$XDG_CONFIG_HOME")
 cache = expandvars("$XDG_CACHE_HOME")
 
-run(['git', 'submodule', 'foreach', 'git', 'pull']);
-run(['cp', f'{config}/spicetify/Extensions/huh-spicetify-extensions/fullAppDisplayModified/fullAppDisplayMod.js', f'{config}/spicetify/Extensions'])
-
 theme = load(open(f'{cache}/wal/colors.json'))
 template = open(f'{config}/spicetify/color-template.ini').read()
 
