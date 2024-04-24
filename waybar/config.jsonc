@@ -17,7 +17,7 @@
 	],
 
 	"cpu": {
-		"format": " {}%",
+		"format": "  {}%",
 		"on-click": "kitty btop",
 		"interval": 1,
 		"states": {
@@ -31,12 +31,12 @@
 		"on-click": "gnome-calendar"
 	},
 	"network": {
-		"format-wifi": "  {essid}",
-		"format-ethernet": "  {ifname}",
+		"format-wifi": "   {essid}",
+		"format-ethernet": "   {ifname}",
 		"tooltip-format-wifi": "Strength: {signalStrength}%"
 	},
 	"pulseaudio": {
-		"format": "  {volume}%",
+		"format": "   {volume}%",
 		"scroll-step": 5,
 		"on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
 	},
