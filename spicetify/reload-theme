@@ -15,4 +15,8 @@ open(f'{config}/spicetify/Themes/ziro/color.ini', 'w').write(template.format(**{
 	**{x: y.replace('#', '') for (x, y) in theme["special"].items()}
 }))
 
+spotifyRunning = subprocess.run(['pgrep', 'spotify'], stdout=subprocess.PIPE).stdout.decode('utf-8') != ''
+
 subprocess.run(['spicetify-cli', 'apply'], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+if spotifyRunning:
+    subprocess.Popen(['com.spotify.Client', '--disable-gpu-compositing'])
