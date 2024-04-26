@@ -49,9 +49,6 @@
 		// "ignored-players": ["firefox"]
 	},
 	"hyprland/workspaces": {
-		"persistent-workspaces": {
-			"*": 3
-		},
 		"show-special": true,
 		"format": "{icon}",
 		"format-icons": {
