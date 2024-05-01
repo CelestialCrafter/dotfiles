@@ -7,18 +7,19 @@ from json import load
 config = expandvars("$XDG_CONFIG_HOME")
 cache = expandvars("$XDG_CACHE_HOME")
 
-vault = "/home/celestial/Documents/vault"
-theme = f"{vault}/.obsidian/themes/pywal"
+vault_path = "/home/celestial/Documents/vault"
+theme_path = f"{vault_path}/.obsidian/themes/pywal"
 
 theme = load(open(f'{cache}/wal/colors.json'))
 template = open(f'{config}/obsidian/theme-template.css').read()
 
-shutil.rmtree(theme)
-os.mkdir(theme)
+if os.path.exists(theme_path):
+	shutil.rmtree(theme_path)
+os.mkdir(theme_path)
 
-open(f'{theme}/theme.css', 'w').write(template.format(**{
+open(f'{theme_path}/theme.css', 'w').write(template.format(**{
 	**theme["colors"],
 	**theme["special"]
 }))
 
-shutil.copyfile(f'{config}/obsidian/manifest.json', f'{theme}/manifest.json')
+shutil.copyfile(f'{config}/obsidian/manifest.json', f'{theme_path}/manifest.json')
