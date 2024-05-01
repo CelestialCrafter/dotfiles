@@ -11,13 +11,19 @@ vault_path = "/home/celestial/Documents/vault"
 theme_path = f"{vault_path}/.obsidian/themes/pywal"
 
 theme = load(open(f'{cache}/wal/colors.json'))
-template = open(f'{config}/obsidian/theme-template.css').read()
+theme_template = open(f'{config}/obsidian/theme-template.css').read()
+appearance_template = open(f'{config}/obsidian/appearance-template.json').read()
 
 if os.path.exists(theme_path):
 	shutil.rmtree(theme_path)
 os.mkdir(theme_path)
 
-open(f'{theme_path}/theme.css', 'w').write(template.format(**{
+open(f'{theme_path}/theme.css', 'w').write(theme_template.format(**{
+	**theme["colors"],
+	**theme["special"]
+}))
+
+open(f'{vault_path}/.obsidian/appearance.json', 'w').write(appearance_template.format(**{
 	**theme["colors"],
 	**theme["special"]
 }))
