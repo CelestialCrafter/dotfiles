@@ -3,7 +3,8 @@
 actions="Lock
 Logout
 Reboot
-Shutdown"
+Shutdown
+Suspend"
 
 case $(echo "$actions" | wofi --prompt Action --show dmenu) in
 	Lock)
@@ -17,5 +18,8 @@ case $(echo "$actions" | wofi --prompt Action --show dmenu) in
 		;;
 	Reboot)
 		systemctl reboot
+		;;
+	Suspend)
+		systemctl suspend
 		;;
 esac

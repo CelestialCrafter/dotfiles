@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+import os, shutil
+from os.path import expandvars
+from json import load
+
+
+config = expandvars("$XDG_CONFIG_HOME")
+cache = expandvars("$XDG_CACHE_HOME")
+
+vault = "/home/celestial/Documents/vault"
+theme = f"{vault}/.obsidian/themes/pywal"
+
+theme = load(open(f'{cache}/wal/colors.json'))
+template = open(f'{config}/obsidian/theme-template.css').read()
+
+shutil.rmtree(theme)
+os.mkdir(theme)
+
+open(f'{theme}/theme.css', 'w').write(template.format(**{
+	**theme["colors"],
+	**theme["special"]
+}))
+
+shutil.copyfile(f'{config}/obsidian/manifest.json', f'{theme}/manifest.json')
