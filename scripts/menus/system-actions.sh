@@ -20,6 +20,6 @@ case $(echo "$actions" | wofi --prompt Action --show dmenu) in
 		systemctl reboot
 		;;
 	Suspend)
-		systemctl suspend
+		hyprlock && systemctl suspend
 		;;
 esac
