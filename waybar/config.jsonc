@@ -46,7 +46,6 @@
 		"artist-len": 30,
 		"tooltip-format": "{dynamic}",
 		"dynamic-order": ["album", "position", "length"]
-		// "ignored-players": ["firefox"]
 	},
 	"hyprland/workspaces": {
 		"show-special": true,
