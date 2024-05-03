@@ -51,16 +51,11 @@
 
 .theme-dark {{
 	--background-accent: {color2};
-	--background-floating: {background};
 	--background-tertiary: rgba({background.rgb}, 0.45);
 }}
 
 #popout_22681 {{
 	background-color: {background};
-}}
-
-.inspectedIndicator__0c5e3 {{
-	background: transparent;
 }}
 
 /* status indicators */
