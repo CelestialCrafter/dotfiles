@@ -13,6 +13,7 @@
 
 	/* primary.* */
 	--primary-600: {background};
+	--primary-630: {background};
 	
 	/* *.color2 */
 	--scrollbar-auto-thumb: {color2};
@@ -50,11 +51,16 @@
 
 .theme-dark {{
 	--background-accent: {color2};
+	--background-floating: {background};
 	--background-tertiary: rgba({background.rgb}, 0.45);
 }}
 
 #popout_22681 {{
 	background-color: {background};
+}}
+
+.inspectedIndicator__0c5e3 {{
+	background: transparent;
 }}
 
 /* status indicators */
