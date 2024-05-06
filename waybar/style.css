@@ -11,6 +11,7 @@ window#waybar {
 .modules-left, .modules-right, .modules-center {
 	margin: 8px;
 	margin-bottom: 0;
+	min-height: 32px;
 }
 
 .modules-left {
