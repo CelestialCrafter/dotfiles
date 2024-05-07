@@ -21,6 +21,8 @@
 
 	/* *.color3 */
 	--red-400: {color3};
+	--gradient: linear-gradient(145deg, {color3} 30%, {color4} 100%);
+	--gradient-20: linear-gradient(145deg, rgba({color3.rgb}, 0.45) 30%, rgba({color4.rgb}, 0.45) 100%);
 
 	/* *.color4 */
 	--yellow-300: {color4};

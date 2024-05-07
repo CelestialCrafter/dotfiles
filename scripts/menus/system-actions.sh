@@ -8,7 +8,7 @@ Suspend"
 
 case $(echo "$actions" | wofi --prompt Action --show dmenu) in
 	Lock)
-		hyprlock
+		pidof hyprlock || hyprlock
 		;;
 	Logout)
 		loginctl terminate-user $USER
@@ -20,6 +20,7 @@ case $(echo "$actions" | wofi --prompt Action --show dmenu) in
 		systemctl reboot
 		;;
 	Suspend)
-		hyprlock && systemctl suspend
+		systemctl suspend
+		pidof hyprlock || hyprlock
 		;;
 esac

@@ -1,0 +1,5 @@
+[color]
+gradient = 1
+gradient_count = 2
+gradient_color_1 = '{color3}'
+gradient_color_2 = '{color4}'
