@@ -56,7 +56,7 @@
 	--background-tertiary: rgba({background.rgb}, 0.45);
 	--background-floating: {background};
 	--profile-gradient-primary-color: {color3} !important;
-        --profile-gradient-secondary-color: {color4} !important;
+  --profile-gradient-secondary-color: {color4} !important;
 	--profile-body-background-color: transparent !important;
 }}
 
