@@ -54,10 +54,31 @@
 .theme-dark {{
 	--background-accent: {color2};
 	--background-tertiary: rgba({background.rgb}, 0.45);
+	--background-floating: {background};
+	--profile-gradient-primary-color: {color3} !important;
+        --profile-gradient-secondary-color: {color4} !important;
+	--profile-body-background-color: transparent !important;
 }}
 
-#popout_22681 {{
-	background-color: {background};
+.backdrop__1a911 {{
+	background: rgba(0, 0, 0, 0.25) !important;
+}}
+
+.quickswitcher_b5bb0a input {{
+	padding: 0 24px;
+	background: linear-gradient(145deg, {color3} 30%, {color4} 100%);
+}}
+
+.quickswitcher_b5bb0a {{
+	border-radius: 24px;
+	background: {background} !important;
+}}
+
+.scroller_d4b86c {{
+	background: none;
+	overflow: hidden !important;
+	padding: 10px !important;
+	margin-right: unset !important;
 }}
 
 /* status indicators */
