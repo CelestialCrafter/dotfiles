@@ -2,72 +2,60 @@
 
 * {
 	font-size: 14px;
+	color: @color7;
 }
 
 window#waybar {
 	background: transparent;
 }
-
-.modules-left, .modules-right, .modules-center {
-	margin: 8px;
+	
+.modules-left, #mpris, .modules-right {
+	margin: 9px;
 	margin-bottom: 0;
-	min-height: 32px;
 }
 
-.modules-left {
+.module {
+	border-radius: 24px;
 	padding: 8px;
-}
-
-.modules-right {
-	padding: 8px 16px;
-}
-
-.modules-right .module {
-  margin: 0px 2px;
-}
-
-.modules-left *, .modules-right * {
-	color: #ffffff;
-}
-
-.modules-left, .modules-right {
 	background: linear-gradient(145deg, @color3 30%, @color4 100%);
-	border-radius: 6px;
 }
 
 #custom-wlogout {
-	margin: 0 8px;
+	background: @color2;
+}
+
+#mpris, #custom-wlogout, .modules-right .module {
+	padding: 8px 18px;
 }
 
 #mpris {
 	background: alpha(@background, 0.6);
 	color: @cursor;
 	border: 1px solid @color1;
-	border-radius: 6px;
-	padding: 8px 16px;
+}
+
+
+#workspaces .active {
+	font-weight: bold;
+	color: #ffffff;
+	background: alpha(@color7, 0.25);
+}
+
+#workspaces button:hover {
+	background: alpha(@color7, 0.25);
+}
+
+#workspaces button {
+	border: none;
+	margin: 0 1px;
+	border-radius: 24px;
 }
 
 #pulseaudio.muted {
 	color: @color15;
 }
 
-#workspaces .special {
-	margin-left: 4px;
-}
-
-#workspaces .active {
-	font-weight: bold;
-	background: alpha(@color7, 0.25);
-}
-#workspaces .active:hover {
-	background: alpha(@color7, 0.25);
-}
-
-#workspaces button {
-	border: none;
-}
-
-#workspaces button:hover {
+button:hover {
 	box-shadow: inherit;
 	text-shadow: inherit;
 	background: inherit;
