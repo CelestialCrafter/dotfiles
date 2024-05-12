@@ -24,7 +24,7 @@ window#waybar {
 	background: @color2;
 }
 
-#mpris, #custom-wlogout, .modules-right .module {
+#mpris, #submap, #custom-wlogout, .modules-right .module {
 	padding: 8px 18px;
 }
 
