@@ -1,0 +1,52 @@
+{
+	"manifest_version": 2,
+	"name": "Pywal",
+	"author": "CelestialCrafter",
+	"version": "1.0.0",
+	"theme": {
+		"colors": {
+      icons: colorscheme.accentPrimary,
+      icons_attention: colorscheme.accentSecondary,
+      frame: colorscheme.background,
+      tab_text: colorscheme.background,
+      tab_loading: colorscheme.accentPrimary,
+      tab_background_text: colorscheme.text,
+      tab_selected: colorscheme.foreground,
+      tab_line: colorscheme.foreground,
+      tab_background_separator: colorscheme.background,
+      toolbar: colorscheme.background,
+      toolbar_field: colorscheme.background,
+      toolbar_field_focus: colorscheme.background,
+      toolbar_field_text: colorscheme.text,
+      toolbar_field_text_focus: colorscheme.text,
+      toolbar_field_border: colorscheme.background,
+      toolbar_field_border_focus: colorscheme.background,
+      toolbar_field_separator: colorscheme.background,
+      toolbar_field_highlight: colorscheme.accentPrimary,
+      toolbar_field_highlight_text: colorscheme.text,
+      toolbar_bottom_separator: colorscheme.background,
+      toolbar_top_separator: colorscheme.background,
+      toolbar_vertical_separator: colorscheme.backgroundLight,
+      ntp_background: colorscheme.background,
+      ntp_text: colorscheme.foreground,
+      popup: colorscheme.background,
+      popup_border: colorscheme.backgroundLight,
+      popup_text: colorscheme.foreground,
+      popup_highlight: colorscheme.accentSecondary,
+      popup_highlight_text: colorscheme.text,
+      sidebar: colorscheme.background,
+      sidebar_border: colorscheme.backgroundLight,
+      sidebar_text: colorscheme.foreground,
+      sidebar_highlight: colorscheme.accentPrimary,
+      sidebar_highlight_text: colorscheme.text,
+      bookmark_text: colorscheme.text,
+      button_background_hover: colorscheme.backgroundLight,
+      button_background_active: colorscheme.backgroundLight,
+		}
+	},
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "pywal@celestialcrafter.github.io"
+		}
+	}
+}
