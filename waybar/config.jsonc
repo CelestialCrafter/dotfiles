@@ -51,7 +51,8 @@
 		"show-special": true,
 		"format": "{icon}",
 		"format-icons": {
-			"scratchpad": "S"
+			"scratchpad": "S",
+			"ecratchpad": "E"
 		},
 		"on-scroll-up": "hyprctl dispatch workspace e+1",
 		"on-scroll-down": "hyprctl dispatch workspace e-1"
