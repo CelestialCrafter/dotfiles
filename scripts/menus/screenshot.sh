@@ -54,10 +54,10 @@ case $action in
 			fade
 			exit 1
 		fi
-		grim -g "$slurpout" - | tee "$teeout" | wl-copy --type image/png
+		grim -l 0 -g "$slurpout" - | tee "$teeout" | wl-copy --type image/png
 		;;
 	Screen)
-		grim - | tee "$teeout" | wl-copy --type image/png
+		grim -l 0 - | tee "$teeout" | wl-copy --type image/png
 		;;
 	Window)
 		freeze
@@ -70,6 +70,6 @@ case $action in
 			fade
 			exit 1
 		fi
-		grim -g "$slurpout" - | tee "$teeout" | wl-copy --type image/png
+		grim -l 0 -g "$slurpout" - | tee "$teeout" | wl-copy --type image/png
 esac
 unfreeze

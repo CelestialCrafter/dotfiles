@@ -12,5 +12,5 @@ case $action in
 		kitty --class candy_cava -o window_padding_width=20 cava
 		;;
 	cbonsai)
-		kitty --class candy_cbonsai -o window_padding_width=20 cbonsai -l -b 2 -L 48
+		kitty --class candy_cbonsai -o window_padding_width=20 cbonsai -l -b 2 -L 48 -t 0.06
 esac
