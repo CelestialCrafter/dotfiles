@@ -1,2 +1,4 @@
-stow_setup.sh
+assets*
+
 picture.png
+stow_setup.sh
