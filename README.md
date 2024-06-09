@@ -3,6 +3,10 @@ my dotfiles!
 
 https://github.com/CelestialCrafter/dotfiles/assets/44733683/1443857b-8731-4c71-a7de-db9c8be59dc3
 
+## IMPORTANT!!
+if you are here for the hyprland rice, please switch to the hyprland branch!<br>
+master is for whatever rice im currently working on (currently river)
+
 ## main programs
 - hyprland
 - waybar
