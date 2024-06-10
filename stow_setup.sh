@@ -5,6 +5,4 @@ if ! command -v stow >/dev/null 2>&1; then
 	exit 1
 fi
 
-cd ~/dotfiles
-
 stow --dotfiles . -t "$HOME/"
