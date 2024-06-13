@@ -2,7 +2,7 @@
 
 shopt -s globstar
 
-programs="dev.vencord.Vesktop.desktop|com.visualstudio.code.desktop|com.spotify.Client"
+programs="dev.vencord.Vesktop.desktop|com.visualstudio.code.desktop|com.spotify.Client|md.obsidian.Obsidian"
 
 IFS=':'
 read -r -a paths <<< "$XDG_DATA_DIRS"
