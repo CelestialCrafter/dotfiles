@@ -147,6 +147,7 @@ pkill fnott
 
 swww-daemon &
 fnott &
+yambar &
 ~/.config/scripts/generate-wallpaper-scroll && ~/.config/scripts/set-wallpaper-scroll.sh 0 &
 ~/.config/discord/install.sh
 wideriver \
