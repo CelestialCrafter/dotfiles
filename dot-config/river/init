@@ -9,7 +9,7 @@
 # documentation.
 
 # Note: the "Super" modifier is also known as Logo, GUI, Windows, Mod4, etc.
-
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY
 riverctl map normal None Print spawn 'grim -l 0 -g "$(slurp)" - | wl-copy --type image/png'
 riverctl map normal Super R spawn fuzzel
 riverctl map normal Super+Shift Return spawn foot
@@ -18,7 +18,7 @@ riverctl map normal Super+Shift Return spawn foot
 riverctl map normal Super Q close
 
 # Super+Shift+E to exit river
-riverctl map normal Super+Shift E exit
+riverctl map normal Control+Alt Escape exit
 
 # Super+J and Super+K to focus the next/previous view in the layout stack
 riverctl map normal Super J focus-view next
@@ -125,10 +125,9 @@ do
     riverctl map $mode None XF86MonBrightnessDown spawn 'brightnessctl set 5%-'
 done
 
-# Set background and border color
-riverctl background-color 0x002b36
-riverctl border-color-focused 0x93a1a1
-riverctl border-color-unfocused 0x586e75
+riverctl background-color 0xfaf4ed
+riverctl focus-follows-cursor always
+riverctl set-cursor-warp on-focus-change
 
 # Set keyboard repeat rate
 riverctl set-repeat 50 300
@@ -143,14 +142,18 @@ riverctl rule-add ssd
 riverctl default-layout wideriver
 
 pkill wideriver
-pkill wbg
+pkill swww-daemon
+pkill fnott
 
+swww-daemon &
+fnott &
 ~/.config/scripts/generate-wallpaper-scroll && ~/.config/scripts/set-wallpaper-scroll.sh 0 &
+~/.config/discord/install.sh
 wideriver \
 	--layout left \
 	--stack dwindle \
 	--count 1 \
 	--ratio 0.55 \
-	--smart-gaps \
-	--inner-gaps 12 \
-	--outer-gaps 12 &
+	--inner-gaps 14 \
+	--border-width 0 \
+	--outer-gaps 14 &

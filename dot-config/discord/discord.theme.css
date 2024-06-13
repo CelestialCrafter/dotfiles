@@ -16,48 +16,11 @@
     --font-display: var(--Chat-Font-Used);
     --font-code: var(--Chat-Font-Used);
 
-    --background-tertiary: var(--background-primary);
-    --background-secondary-alt: var(--background-primary);
+    --background-tertiary: var(--background-primary) !important;
+    --background-secondary-alt: var(--background-primary) !important;
 }
 
-.theme-dark {
-    --input-background: #1f1d2e;
-    --bg-overlay-chat: #26233a;
-    --home-background: #26233a;
-    --modal-footer-background: #26233a;
-    --primary-600: #26233a;
-    --bg-mod-faint: #6e6af622;
-    --card-secondary-bg: #00000060;
-    --background-message-highlight: #6e6af633;
-    --background-message-highlight-hover: #6e6af622;
-    --background-mentioned: #6e6af633;
-    --background-mentioned-hover: #6e6af622;
-    --info-warning-foreground: #6e6af6;
-    --background-primary: #26233a;
-    --background-secondary: #1f1d2e;
-    --background-secondary-alt: #26233a;
-    --channeltextarea-background: #2c2842;
-    --background-tertiary: #191724;
-    --background-accent: #0000003a;
-    --text-normal: #dad7fd;
-    --text-spotify: #9ccfd8;
-    --text-muted: #4f4c58;
-    --text-link: #31748f;
-    --background-floating: #1f1d2e;
-    --header-primary: #e0def4;
-    --header-secondary: #9ccfd8;
-    --interactive-normal: #e0def4;
-    --interactive-hover: #c4a7e7;
-    --interactive-active: #e0def4;
-    --ping: #eb6f92;
-    --background-modifier-selected: #26233ab4;
-    --scrollbar-thin-thumb: #191724;
-    --scrollbar-thin-track: transparent;
-    --scrollbar-auto-thumb: #191724;
-    --scrollbar-auto-track: transparent;
-}
-
-.theme-light {
+.theme-light, .theme-dark {
     --background-primary: #faf4ed;
     --background-secondary: #fffaf3;
     --background-secondary-alt: #f2e9de;
