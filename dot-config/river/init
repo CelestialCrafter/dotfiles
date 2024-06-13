@@ -10,7 +10,8 @@
 
 # Note: the "Super" modifier is also known as Logo, GUI, Windows, Mod4, etc.
 
-# Super+Shift+Return to start an instance of foot (https://codeberg.org/dnkl/foot)
+riverctl map normal None Print spawn 'grim -l 0 -g "$(slurp)" - | wl-copy --type image/png'
+riverctl map normal Super R spawn fuzzel
 riverctl map normal Super+Shift Return spawn foot
 
 # Super+Q to close the focused view
@@ -40,30 +41,12 @@ riverctl map normal Super+Shift Comma send-to-output previous
 riverctl map normal Super Return zoom
 
 # Super+H and Super+L to decrease/increase the main ratio of rivertile(1)
-riverctl map normal Super H send-layout-cmd rivertile "main-ratio -0.05"
-riverctl map normal Super L send-layout-cmd rivertile "main-ratio +0.05"
+riverctl map normal Super H send-layout-cmd wideriver "--ratio -0.05"
+riverctl map normal Super L send-layout-cmd wideriver "--ratio +0.05"
 
 # Super+Shift+H and Super+Shift+L to increment/decrement the main count of rivertile(1)
-riverctl map normal Super+Shift H send-layout-cmd rivertile "main-count +1"
-riverctl map normal Super+Shift L send-layout-cmd rivertile "main-count -1"
-
-# Super+Alt+{H,J,K,L} to move views
-riverctl map normal Super+Alt H move left 100
-riverctl map normal Super+Alt J move down 100
-riverctl map normal Super+Alt K move up 100
-riverctl map normal Super+Alt L move right 100
-
-# Super+Alt+Control+{H,J,K,L} to snap views to screen edges
-riverctl map normal Super+Alt+Control H snap left
-riverctl map normal Super+Alt+Control J snap down
-riverctl map normal Super+Alt+Control K snap up
-riverctl map normal Super+Alt+Control L snap right
-
-# Super+Alt+Shift+{H,J,K,L} to resize views
-riverctl map normal Super+Alt+Shift H resize horizontal -100
-riverctl map normal Super+Alt+Shift J resize vertical 100
-riverctl map normal Super+Alt+Shift K resize vertical -100
-riverctl map normal Super+Alt+Shift L resize horizontal 100
+riverctl map normal Super+Shift H send-layout-cmd wideriver "--count +1"
+riverctl map normal Super+Shift L send-layout-cmd wideriver "--count -1"
 
 # Super + Left Mouse Button to move views
 riverctl map-pointer normal Super BTN_LEFT move-view
@@ -79,7 +62,7 @@ do
     tags=$((1 << ($i - 1)))
 
     # Super+[1-9] to focus tag [0-8]
-    riverctl map normal Super $i set-focused-tags $tags
+    riverctl map normal Super $i spawn "riverctl set-focused-tags $tags && ~/.config/scripts/set-wallpaper-scroll.sh $(($i - 1))"
 
     # Super+Shift+[1-9] to tag focused view with tag [0-8]
     riverctl map normal Super+Shift $i set-view-tags $tags
@@ -153,10 +136,21 @@ riverctl set-repeat 50 300
 # Make all views with an app-id that starts with "float" and title "foo" start floating.
 riverctl rule-add -app-id 'float*' -title 'foo' float
 
-# Make all views with app-id "bar" and any title use client-side decorations
-riverctl rule-add -app-id "bar" csd
+riverctl rule-add ssd
 
 # Set the default layout generator to be rivertile and start it.
 # River will send the process group of the init executable SIGTERM on exit.
-riverctl default-layout bsp-layout
-river-bsp-layout --inner-gap 5 --outer-gap 10 --split-perc 0.5 &
+riverctl default-layout wideriver
+
+pkill wideriver
+pkill wbg
+
+~/.config/scripts/generate-wallpaper-scroll && ~/.config/scripts/set-wallpaper-scroll.sh 0 &
+wideriver \
+	--layout left \
+	--stack dwindle \
+	--count 1 \
+	--ratio 0.55 \
+	--smart-gaps \
+	--inner-gaps 12 \
+	--outer-gaps 12 &
