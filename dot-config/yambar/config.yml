@@ -1,33 +1,54 @@
 symbols: &symbols Symbols Nerd Font:pixelsize=12
 azuki: &azuki azuki_font:pixelsize=20
 love: &love b4637aff
-gold: &gold b4637aff
+rose: &rose d7827eff
+gold: &gold ea9d34ff
+muted: &muted 9893a5ff
+
 bar:
   height: 42
   location: top
   font: *azuki
   layer: top
   foreground: 575279ff
-  background: fffaf3aa
-
+  # background: fffaf3aa
+  background: f2e9e1ff
   left:
     - river:
         anchors:
           - base: &river_base
-              left-margin: 10
-              right-margin: 1
-              default: {string: {text: ┻, font: *azuki}}
+              left-margin: 14
+              default: {string: {text: ┻, foreground: *muted}}
               conditions:
-                state == urgent: {string: {text: u, font: *azuki, foreground: *gold}}
-                state == focused: {string: {text: ┨, font: *azuki, foreground: *love}}
-                id == 10: {string: {text: ┯, font: *azuki}}
+                state == urgent: {string: {text: ┛, foreground: *gold}}
+                state == focused: {string: {text: ┨, foreground: *rose}}
+                id == 10: {string: {text: ┯, foreground: *muted}}
         content:
           map:
             default:
               map:
-                on-click:
-                  left: sh -c "riverctl set-focused-tags $((1 << ({id} - 1)))"
-                  right: sh -c "riverctl toggle-focused-tags $((1 << ({id} -1)))"
                 <<: *river_base
+                on-click:
+                  left: sh -c "riverctl set-focused-tags $((1 << ({id} - 1))) && ~/.config/scripts/set-wallpaper-scroll.sh $(({id} - 1))"
+                  right: sh -c "riverctl toggle-focused-tags $((1 << ({id} -1)))"
             conditions:
               state == invisible && ~occupied: {empty: {}}
+    - foreign-toplevel:
+        content:
+          map:
+            margin: 18
+            default: {empty: {}}
+            conditions:
+              activated: {string: {text: "{app-id}"}}
+  right:
+    - pulse:
+        content:
+          map:
+            margin: 18
+            default: {empty: {}}
+            conditions:
+              sink_online: {string: {text: "{sink_percent}%"}}
+    - clock:
+        content:
+          - string: {text: "{date} {time}", right-margin: 14}
+

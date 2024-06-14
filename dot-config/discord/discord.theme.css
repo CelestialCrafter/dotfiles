@@ -16,32 +16,31 @@
     --font-display: var(--Chat-Font-Used);
     --font-code: var(--Chat-Font-Used);
 
-    --background-tertiary: var(--background-primary) !important;
-    --background-secondary-alt: var(--background-primary) !important;
+    --background-tertiary: var(--background-secondary) !important;
+    --background-secondary-alt: var(--background-secondary) !important;
+    --mention-foreground: var(--text-normal) !important;
 }
 
 .theme-light, .theme-dark {
     --background-primary: #faf4ed;
     --background-secondary: #fffaf3;
-    --background-secondary-alt: #f2e9de;
+    --background-secondary-alt: var(--background-secondary);
     --channeltextarea-background: var(--background-primary);
-    --background-tertiary: #f2e9de;
+    --background-tertiary: var(--background-secondary);
     --background-accent: #d7827e;
     --text-normal: #575279;
     --text-spotify: #575279;
     --text-muted: #6e6a86;
     --text-link: #286983;
-    --background-floating: #f2e9de;
+    --background-floating: var(--background-secondary);
     --header-primary: #575279;
     --header-secondary: #575279;
     --header-spotify: #56949f;
     --interactive-normal: #575279;
     --interactive-hover: #6e6a86;
     --interactive-active: #575279;
-}
-
-.mainCard__0ec2c {
-    background-color: var(--background-secondary) !important;
+    --bg-overlay-selected: #f2e9de;
+    --autocomplete-bg: var(--background-secondary);
 }
 
 .body-2wLx-E,
