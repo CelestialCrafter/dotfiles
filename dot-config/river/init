@@ -10,6 +10,10 @@
 
 # Note: the "Super" modifier is also known as Logo, GUI, Windows, Mod4, etc.
 dbus-update-activation-environment --systemd WAYLAND_DISPLAY
+
+# lock system before doing ANYTHING else
+riverctl spawn swaylock
+
 riverctl map normal None Print spawn 'grim -l 0 -g "$(slurp)" - | wl-copy --type image/png'
 riverctl map normal Super R spawn fuzzel
 riverctl map normal Super+Shift Return spawn foot
@@ -122,6 +126,8 @@ for mode in normal locked; do
 	riverctl map $mode None XF86AudioPlay spawn 'playerctl play-pause'
 	riverctl map $mode None XF86AudioPrev spawn 'playerctl previous'
 	riverctl map $mode None XF86AudioNext spawn 'playerctl next'
+	riverctl map-pointer $mode Super BTN_SIDE spawn "playerctld shift"
+	riverctl map-pointer $mode Super BTN_EXTRA spawn "playerctld unshift"
 
 	# Control screen backlight brightness with brightnessctl (https://github.com/Hummer12007/brightnessctl)
 	riverctl map $mode None XF86MonBrightnessUp spawn 'brightnessctl set +5%'
@@ -144,23 +150,28 @@ riverctl rule-add ssd
 # River will send the process group of the init executable SIGTERM on exit.
 riverctl default-layout wideriver
 
-pkill wideriver
 pkill swww-daemon
 pkill fnott
+pkill playerctld
 pkill yambar
-pkill swaylock -SIGUSR1
+pkill wideriver
 
-swaylock &
-swww-daemon &
-fnott &
-yambar &
-~/.config/scripts/generate-wallpaper-scroll && ~/.config/scripts/set-wallpaper-scroll.sh 0 &
-~/.config/discord/install.sh
-wideriver \
+riverctl spawn swww-daemon
+riverctl spawn fnott
+riverctl spawn "playerctld daemon"
+riverctl spawn yambar
+
+riverctl spawn "wideriver \
 	--layout left \
 	--stack dwindle \
 	--count 1 \
 	--ratio 0.55 \
 	--inner-gaps 14 \
 	--border-width 0 \
-	--outer-gaps 14 &
+	--outer-gaps 14"
+
+~/.config/discord/install.sh
+
+~/.config/scripts/generate-wallpaper-scroll
+~/.config/scripts/set-wallpaper-scroll.sh 0
+

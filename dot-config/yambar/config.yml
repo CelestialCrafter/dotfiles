@@ -32,7 +32,8 @@ bar:
                   left: sh -c "riverctl set-focused-tags $((1 << ({id} - 1))) && ~/.config/scripts/set-wallpaper-scroll.sh $(({id} - 1))"
                   right: sh -c "riverctl toggle-focused-tags $((1 << ({id} -1)))"
             conditions:
-              state == invisible && ~occupied: {empty: {}}
+              # keep the first *persistent workspaces + special workspace always shown
+              state == invisible && ~occupied && id > 3 && id != 10: {empty: {}}
     - foreign-toplevel:
         content:
           map:
