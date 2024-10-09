@@ -1,15 +1,4 @@
-#!/usr/bin/env sh
-
-# This is the example configuration file for river.
-#
-# If you wish to edit this, you will probably want to copy it to
-# $XDG_CONFIG_HOME/river/init or $HOME/.config/river/init first.
-#
-# See the river(1), riverctl(1), and rivertile(1) man pages for complete
-# documentation.
-
-# Note: the "Super" modifier is also known as Logo, GUI, Windows, Mod4, etc.
-dbus-update-activation-environment --systemd WAYLAND_DISPLAY
+#!/usr/bin/env bash
 
 # lock system before doing ANYTHING else
 riverctl spawn swaylock
@@ -18,144 +7,110 @@ riverctl map normal None Print spawn 'grim -l 0 -g "$(slurp)" - | wl-copy --type
 riverctl map normal Super R spawn fuzzel
 riverctl map normal Super+Shift Return spawn foot
 
-# Super+Q to close the focused view
 riverctl map normal Super Q close
-
-# Super+Shift+E to exit river
 riverctl map normal Control+Alt Escape exit
 
-# Super+J and Super+K to focus the next/previous view in the layout stack
 riverctl map normal Super J focus-view next
 riverctl map normal Super K focus-view previous
 
-# Super+Shift+J and Super+Shift+K to swap the focused view with the next/previous
-# view in the layout stack
 riverctl map normal Super+Shift J swap next
 riverctl map normal Super+Shift K swap previous
 
-# Super+Period and Super+Comma to focus the next/previous output
 riverctl map normal Super Period focus-output next
 riverctl map normal Super Comma focus-output previous
 
-# Super+Shift+{Period,Comma} to send the focused view to the next/previous output
 riverctl map normal Super+Shift Period send-to-output next
 riverctl map normal Super+Shift Comma send-to-output previous
 
-# Super+Return to bump the focused view to the top of the layout stack
 riverctl map normal Super Return zoom
 
-# Super+H and Super+L to decrease/increase the main ratio of rivertile(1)
 riverctl map normal Super H send-layout-cmd wideriver "--ratio -0.05"
 riverctl map normal Super L send-layout-cmd wideriver "--ratio +0.05"
 
-# Super+Shift+H and Super+Shift+L to increment/decrement the main count of rivertile(1)
-riverctl map normal Super+Shift H send-layout-cmd wideriver "--count +1"
-riverctl map normal Super+Shift L send-layout-cmd wideriver "--count -1"
+riverctl map normal Super+Shift L send-layout-cmd wideriver "--count +1"
+riverctl map normal Super+Shift H send-layout-cmd wideriver "--count -1"
 
-# Super + Left Mouse Button to move views
 riverctl map-pointer normal Super BTN_LEFT move-view
 
-# Super + Right Mouse Button to resize views
 riverctl map-pointer normal Super BTN_RIGHT resize-view
 
-# Super + Middle Mouse Button to toggle float
 riverctl map-pointer normal Super BTN_MIDDLE toggle-float
 
 for i in $(seq 1 10); do
 	tags=$((1 << ($i - 1)))
+
 	if [ $i == 10 ]; then
 		name="S"
 	else
 		name=$i
 	fi
 
-	# Super+[1-9] to focus tag [0-8]
-	riverctl map normal Super $name spawn "riverctl set-focused-tags $tags && ~/.config/scripts/set-wallpaper-scroll.sh $(($i - 1))"
+	# Super+[1-9] -> focus tag [0-8]
+	riverctl map normal Super $name spawn "riverctl set-focused-tags $tags & ~/.config/scripts/set-background.sh $i"
 
-	# Super+Shift+[1-9] to tag focused view with tag [0-8]
+	# Super+Shift+[1-9] -> tag focused view with tag [0-8]
 	riverctl map normal Super+Shift $name set-view-tags $tags
 
-	# Super+Control+[1-9] to toggle focus of tag [0-8]
+	# Super+Control+[1-9] -> toggle focus of tag [0-8]
 	riverctl map normal Super+Control $name toggle-focused-tags $tags
 
-	# Super+Shift+Control+[1-9] to toggle tag [0-8] of focused view
+	# Super+Shift+Control+[1-9] -> toggle tag [0-8] of focused view
 	riverctl map normal Super+Shift+Control $name toggle-view-tags $tags
 done
 
-# Super+0 to focus all tags
-# Super+Shift+0 to tag focused view with all tags
+# Super+0 -> focus all tags
+# Super+Shift+0 -> tag focused view with all tags
 all_tags=$(((1 << 32) - 1))
 riverctl map normal Super 0 set-focused-tags $all_tags
 riverctl map normal Super+Shift 0 set-view-tags $all_tags
 
-# Super+Space to toggle float
 riverctl map normal Super Space toggle-float
-
-# Super+F to toggle fullscreen
 riverctl map normal Super F toggle-fullscreen
 
-# Super+{Up,Right,Down,Left} to change layout orientation
 riverctl map normal Super Up send-layout-cmd rivertile "main-location top"
 riverctl map normal Super Right send-layout-cmd rivertile "main-location right"
 riverctl map normal Super Down send-layout-cmd rivertile "main-location bottom"
 riverctl map normal Super Left send-layout-cmd rivertile "main-location left"
 
-# Declare a passthrough mode. This mode has only a single mapping to return to
-# normal mode. This makes it useful for testing a nested wayland compositor
-riverctl declare-mode passthrough
-
-# Super+F11 to enter passthrough mode
-riverctl map normal Super F11 enter-mode passthrough
-
-# Super+F11 to return to normal mode
-riverctl map passthrough Super F11 enter-mode normal
-
-# Various media key mapping examples for both normal and locked mode which do
-# not have a modifier
 for mode in normal locked; do
-	# Eject the optical drive (well if you still have one that is)
-	riverctl map $mode None XF86Eject spawn 'eject -T'
-
-	# Control pulse audio volume with pamixer (https://github.com/cdemoulins/pamixer)
-	riverctl map $mode None XF86AudioRaiseVolume spawn 'pamixer -i 5'
-	riverctl map $mode None XF86AudioLowerVolume spawn 'pamixer -d 5'
+	# volume control
+	riverctl map $mode None XF86AudioRaiseVolume spawn "pamixer -i 5"
+	riverctl map $mode None XF86AudioLowerVolume spawn "pamixer -d 5"
 	riverctl map $mode None XF86AudioMute spawn 'pamixer --toggle-mute'
 
-	# Control MPRIS aware media players with playerctl (https://github.com/altdesktop/playerctl)
+	# playerctl
 	riverctl map $mode None XF86AudioMedia spawn 'playerctl play-pause'
 	riverctl map $mode None XF86AudioPlay spawn 'playerctl play-pause'
 	riverctl map $mode None XF86AudioPrev spawn 'playerctl previous'
 	riverctl map $mode None XF86AudioNext spawn 'playerctl next'
 	riverctl map-pointer $mode Super BTN_SIDE spawn "playerctld shift"
 	riverctl map-pointer $mode Super BTN_EXTRA spawn "playerctld unshift"
-
-	# Control screen backlight brightness with brightnessctl (https://github.com/Hummer12007/brightnessctl)
-	riverctl map $mode None XF86MonBrightnessUp spawn 'brightnessctl set +5%'
-	riverctl map $mode None XF86MonBrightnessDown spawn 'brightnessctl set 5%-'
 done
 
 riverctl background-color 0xfaf4ed
 riverctl focus-follows-cursor always
 riverctl set-cursor-warp on-focus-change
 
-# Set keyboard repeat rate
+# keyboard character repeat rate
 riverctl set-repeat 50 300
 
-# Make all views with an app-id that starts with "float" and title "foo" start floating.
-riverctl rule-add -app-id 'float*' -title 'foo' float
-
+# serverside decorations
 riverctl rule-add ssd
 
-# Set the default layout generator to be rivertile and start it.
-# River will send the process group of the init executable SIGTERM on exit.
+# wideriver layout generator
 riverctl default-layout wideriver
 
+# fix a few issues (i forgot which lol)
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=river
+
+# kill old processes
 pkill swww-daemon
 pkill fnott
 pkill playerctld
 pkill yambar
 pkill wideriver
 
+# spawn new ones
 riverctl spawn swww-daemon
 riverctl spawn fnott
 riverctl spawn "playerctld daemon"
@@ -170,8 +125,8 @@ riverctl spawn "wideriver \
 	--border-width 0 \
 	--outer-gaps 14"
 
+# install discord theme
 ~/.config/discord/install.sh
 
-~/.config/scripts/generate-wallpaper-scroll
-~/.config/scripts/set-wallpaper-scroll.sh 0
-
+# set initial bg
+~/.config/scripts/set-background.sh 1

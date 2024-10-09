@@ -1,4 +1,3 @@
-symbols: &symbols Symbols Nerd Font:pixelsize=12
 azuki: &azuki azuki_font:pixelsize=20
 love: &love b4637aff
 rose: &rose d7827eff
@@ -11,7 +10,6 @@ bar:
   font: *azuki
   layer: top
   foreground: 575279ff
-  # background: fffaf3aa
   background: f2e9e1ff
   left:
     - river:
@@ -29,7 +27,7 @@ bar:
               map:
                 <<: *river_base
                 on-click:
-                  left: sh -c "riverctl set-focused-tags $((1 << ({id} - 1))) && ~/.config/scripts/set-wallpaper-scroll.sh $(({id} - 1))"
+                  left: sh -c "riverctl set-focused-tags $((1 << ({id} - 1))) & ~/.config/scripts/set-background.sh {id}"
                   right: sh -c "riverctl toggle-focused-tags $((1 << ({id} -1)))"
             conditions:
               # keep the first *persistent workspaces + special workspace always shown
@@ -50,6 +48,6 @@ bar:
             conditions:
               sink_online: {string: {text: "{sink_percent}%"}}
     - clock:
+        time-format: "%I:%M %p"
         content:
           - string: {text: "{date} {time}", right-margin: 14}
-

@@ -1,0 +1,53 @@
+# font
+font=azuki_font
+font-size=18
+
+# layout text colors
+layout-bg-color=000000
+layout-border-color=000000
+layout-text-color=575279
+
+# text color
+text-color=575279
+text-clear-color=575279
+text-caps-lock-color=ea9d34
+text-ver-color=56949f
+text-wrong-color=b4637a
+
+# highlight segments
+bs-hl-color=d7827e
+key-hl-color=d7827e
+caps-lock-bs-hl-color=d7827e
+caps-lock-key-hl-color=d7827e
+
+# highlight segments separator
+separator-color=00000000
+
+# inside of the indicator
+inside-color=f2e9e1
+inside-clear-color=f2e9e1
+inside-caps-lock-color=f2e9e1
+inside-ver-color=f2e9e1
+inside-wrong-color=f2e9e1
+
+# line between segments and ring/outside of segments
+line-color=cecacd
+line-clear-color=cecacd
+line-caps-lock-color=cecacd
+line-ver-color=cecacd
+line-wrong-color=cecacd
+
+# ring
+ring-color=cecacd
+ring-clear-color=cecacd
+ring-caps-lock-color=cecacd
+ring-ver-color=cecacd
+ring-wrong-color=cecacd
+
+# indicator
+indicator-thickness=16
+indicator-radius=65
+
+# background
+color=faf4ed
+image=~/Pictures/Wallpapers/lockscreen.png

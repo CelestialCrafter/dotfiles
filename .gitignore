@@ -1,6 +1,4 @@
-mako/config
-cava/config
-spicetify/Themes/ziro/color.ini
-spicetify/Backup
-spicetify/Extracted
-spicetify/Extensions/fullAppDisplayMod.js
+dot-config/spicetify/Themes/ziro/color.ini
+dot-config/spicetify/Backup
+dot-config/spicetify/Extracted
+dot-config/spicetify/Extensions/fullAppDisplayMod.js
