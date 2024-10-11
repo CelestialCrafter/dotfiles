@@ -8,8 +8,8 @@ my dotfiles!
 please switch to the branch your rice is for!
 master is for whatever rice im currently working on (currently unknown)
 
-- [hyprland](https://github.com/CelestialCrafter/dotfiles/tree/hyprland)
-- [river](https://github.com/CelestialCrafter/dotfiles/tree/river)
+- [\[hyprland\] yet another hyprland rice!](https://github.com/CelestialCrafter/dotfiles/tree/hyprland)
+- [\[river\] a calm and cute rice](https://github.com/CelestialCrafter/dotfiles/tree/river)
 
 ## main programs
 
