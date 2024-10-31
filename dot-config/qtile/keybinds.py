@@ -61,6 +61,15 @@ keys = [
     Key(["control", "mod1"], "r", lazy.reload_config(), desc="reload config"),
     Key(["control", "mod1"], "Escape", lazy.shutdown(), desc="exit qtile"),
 
+    # media
+    Key([], "XF86AudioNext", lazy.spawn("playerctl next"), desc="next track"),
+    Key([], "XF86AudioPrev", lazy.spawn("playerctl previous"), desc="previous track"),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("pamixer -i 1"), desc="raise volume"),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("pamixer -d 1"), desc="lower volume"),
+    Key([], "XF86AudioMute",  lazy.spawn("pamixer -t"), desc="toggle mute"),
+    Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"), desc="toggle play/pause"),
+    Key([], "XF86AudioStop", lazy.spawn("playerctl shuffle Toggle"), desc="toggle shuffle"),
+
     # misc
     Key([mod], "t", lazy.window.toggle_floating(), desc="toggle floating"),
     Key([mod], "q", lazy.window.kill(), desc="kill"),
@@ -73,6 +82,7 @@ keys = [
 
     Key([mod], "Return", lazy.spawn(terminal), desc="run terminal"),
     Key([mod], "r", lazy.spawncmd(), desc="run prompt"),
+    Key([], "Print", lazy.spawn("sh -c 'grim -l 2 -g \"$(slurp)\" - | wl-copy --type image/png'"), desc="screenshot")
 ]
 
 # virtual terminals
