@@ -9,6 +9,8 @@ colors = dict(
     accent="#f3c477"
 )
 
+slurp_theme = f'-b{colors["background"]}aa -c{colors["primary"]}ff'
+
 layout_defaults = dict(
     # ew... "colour"
     border_normal=RoundedCorners(colour=colors["muted"]),

@@ -3,6 +3,7 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from libqtile.config import Key, Click, Drag
 from groups import groups
+from theme import slurp_theme
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -82,7 +83,7 @@ keys = [
 
     Key([mod], "Return", lazy.spawn(terminal), desc="run terminal"),
     Key([mod], "r", lazy.spawncmd(), desc="run prompt"),
-    Key([], "Print", lazy.spawn("sh -c 'grim -l 2 -g \"$(slurp)\" - | wl-copy --type image/png'"), desc="screenshot")
+    Key([], "Print", lazy.spawn(f"sh -c 'grim -l 2 -g \"$(slurp {slurp_theme})\" - | wl-copy --type image/png'"), desc="screenshot")
 ]
 
 # virtual terminals
