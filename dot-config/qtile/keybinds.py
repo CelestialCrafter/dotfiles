@@ -1,7 +1,7 @@
 from libqtile import qtile
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-from libqtile.config import Key, Click, Drag
+from libqtile.config import Key, KeyChord, Click, Drag
 from groups import groups
 from theme import slurp_theme
 
@@ -69,7 +69,10 @@ keys = [
     Key([], "XF86AudioLowerVolume", lazy.spawn("pamixer -d 1"), desc="lower volume"),
     Key([], "XF86AudioMute",  lazy.spawn("pamixer -t"), desc="toggle mute"),
     Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"), desc="toggle play/pause"),
-    Key([], "XF86AudioStop", lazy.spawn("playerctl shuffle Toggle"), desc="toggle shuffle"),
+    KeyChord([], "XF86AudioStop", [
+        Key([], "XF86AudioNext", lazy.spawn("playerctld shift"), desc="next player"),
+        Key([], "XF86AudioPrev", lazy.spawn("playerctld unshift"), desc="previous player"),
+    ]),
 
     # misc
     Key([mod], "t", lazy.window.toggle_floating(), desc="toggle floating"),

@@ -1,0 +1,10 @@
+:root {
+	.theme-light,
+	.theme-dark {
+	  --background-primary: #0B1221;
+	  --background-primary-alt: #162442;
+	  --background-secondary: #101A30;
+	  --background-secondary-alt: #162442;
+	  --background-accent: #7E3035;
+	}
+}

@@ -2,6 +2,7 @@ from qtile_extras.layout.decorations import RoundedCorners
 
 colors = dict(
     background="#030c21",
+    overlay="#000000",
     muted="#676d7a",
     text="#e3ebfc",
     primary="#7e3035",
