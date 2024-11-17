@@ -1,0 +1,21 @@
+:root {
+	.theme-light,
+	.theme-dark {
+		--base: #060D1C;
+		--surface: #0A1326;
+		--overlay: #0D1930;
+		--text: #D2DFFC;
+		--neutral: #667085;
+		--primary: #87373D;
+		--secondary: #BD6F33;
+		--accent: #CCA66A;
+
+		--background-primary: var(--surface);
+		--background-primary-alt: var(--surface);
+		--background-secondary: var(--overlay);
+		--background-secondary-alt: var(--base);
+		--background-accent: var(--surface);
+
+		--color-accent: var(--primary);
+	}
+}
