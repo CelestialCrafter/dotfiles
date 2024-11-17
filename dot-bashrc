@@ -4,9 +4,4 @@ eval "$(zoxide init bash)"
 alias vim='nvim'
 alias top='btop'
  
-function ps1_git_branch() {
-	BRANCH=$(git branch 2> /dev/null | grep "*" | colrm 1 2)
-	[[ ! -z $BRANCH ]] && echo "($BRANCH) "
-}
-
-PS1='\[\e[94m\]$(ps1_git_branch)\[\e[95m\]\u \W \[\e[0m\]\[\e[5 q\]'
+PS1='\[\e[95m\]\u \W \[\e[0m\]\[\e[5 q\]'
