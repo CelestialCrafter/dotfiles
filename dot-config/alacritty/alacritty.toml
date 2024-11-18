@@ -1,3 +1,7 @@
 [terminal.shell]
 program = "hilbish"
 args = ["-l", "-S"]
+
+[window]
+padding = { x = 12, y = 12 }
+dynamic_padding = true
