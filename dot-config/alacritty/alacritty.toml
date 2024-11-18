@@ -1,0 +1,3 @@
+[terminal.shell]
+program = "hilbish"
+args = ["-l", "-S"]
