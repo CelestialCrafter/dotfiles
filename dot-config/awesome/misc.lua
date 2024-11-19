@@ -1,12 +1,13 @@
 local awful = require("awful")
 local menubar = require("menubar")
 local beautiful = require("beautiful")
+local spiral = require("spiral")
 require("awful.autofocus")
 
 beautiful.init("~/.config/awesome/theme.lua")
 
 awful.layout.layouts = {
-	awful.layout.suit.spiral.dwindle,
+	spiral,
 	awful.layout.suit.max,
 	awful.layout.suit.floating,
 }
