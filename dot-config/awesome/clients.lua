@@ -14,7 +14,11 @@ end)
 -- titlebar
 client.connect_signal("request::titlebars", function(c)
 	awful.titlebar(c, { position = 'left', size = dpi(32) }):setup({
-		awful.titlebar.widget.iconwidget(c),
+		{
+			awful.titlebar.widget.iconwidget(c),
+			margins = dpi(4),
+			widget = wibox.container.margin
+		},
 		nil,
 		{
 			awful.titlebar.widget.maximizedbutton(c),
