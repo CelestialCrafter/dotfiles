@@ -58,18 +58,52 @@ awful.screen.connect_for_each_screen(function(s)
 		widget = wibox.container.margin
 	}
 
-	s.bar = awful.wibar({ height = beautiful.margin_xl + beautiful.margin_m, position = "top", screen = s })
+	local bar_size = beautiful.margin_xl + beautiful.margin_m
+
+	s.popout = wibox({
+		visible = false,
+		ontop = true,
+		height = bar_size,
+		width = s.geometry.width,
+		bg = '#0000ff'
+	})
+	s.popout:setup({
+		text   = 'Hello world!',
+		widget = wibox.widget.textbox,
+	})
+
+	s.popout_button = wibox.widget.textbox("popout")
+	s.popout_button:buttons(gears.table.join(
+	    awful.button({}, 1, nil, function()
+		if s.popout.visible then
+			s.popout.visible = false
+			s.bar.y = 0
+		else
+			s.popout.visible = true
+			s.bar.y = bar_size
+		end
+	    end)
+	))
+
+	s.bar =  awful.wibar({
+		height = bar_size,
+		position = "top",
+		screen = s,
+		ontop =true,
+	})
 	s.bar:setup({
-		layout = wibox.layout.align.horizontal,
-		widget = wibox.container.background,
-		bg = beautiful.base,
 		s.taglist,
 		nil,
 		{
-			layout = wibox.layout.fixed.horizontal,
 			s.prompt,
+			s.popout_button,
 			s.clock,
+			layout = wibox.layout.fixed.horizontal,
 		},
+		id = "menus",
+		widget = wibox.container.background,
+		bg = beautiful.base,
+		layout = wibox.layout.align.horizontal
 	})
 end)
---
+
