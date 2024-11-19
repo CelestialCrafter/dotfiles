@@ -69,6 +69,8 @@ awful.screen.connect_for_each_screen(function(s)
 	s.bar = awful.wibar({ height = dpi(32), position = "top", screen = s })
 	s.bar:setup({
 		layout = wibox.layout.align.horizontal,
+		widget = wibox.container.background,
+		bg = beautiful.base,
 		s.taglist,
 		nil,
 		{

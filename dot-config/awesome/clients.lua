@@ -1,5 +1,6 @@
 local awful = require("awful")
 local wibox = require("wibox")
+local gears = require("gears")
 local beautiful = require("beautiful")
 
 local dpi = beautiful.xresources.apply_dpi
@@ -11,19 +12,29 @@ client.connect_signal("manage", function(c)
 	end
 end)
 
+local m = 4
+local function marginify(w)
+	return {
+		w,
+		left = dpi(m),
+		right = dpi(m),
+		bottom = dpi(m),
+		widget = wibox.container.margin
+	}
+end
+
 -- titlebar
 client.connect_signal("request::titlebars", function(c)
 	awful.titlebar(c, { position = 'left', size = dpi(32) }):setup({
-		{
-			awful.titlebar.widget.iconwidget(c),
-			margins = dpi(4),
-			widget = wibox.container.margin
-		},
+		gears.table.join(
+			marginify(awful.titlebar.widget.iconwidget(c)),
+			{ top = dpi(m) }
+		),
 		nil,
 		{
-			awful.titlebar.widget.maximizedbutton(c),
-			awful.titlebar.widget.stickybutton(c),
-			awful.titlebar.widget.closebutton(c),
+			marginify(awful.titlebar.widget.floatingbutton(c)),
+			marginify(awful.titlebar.widget.stickybutton(c)),
+			marginify(awful.titlebar.widget.closebutton(c)),
 			layout = wibox.layout.fixed.vertical,
 		},
 		layout = wibox.layout.align.vertical,
@@ -45,12 +56,5 @@ local function warp_to_focused(c)
 end
 
 client.connect_signal("swapped", warp_to_focused)
-client.connect_signal("focus", function(c)
-	c.border_color = beautiful.border_focus
-	warp_to_focused(c)
-end)
-
-client.connect_signal("unfocus", function(c)
-	c.border_color = beautiful.border_normal
-end)
+client.connect_signal("focus", warp_to_focused)
 
