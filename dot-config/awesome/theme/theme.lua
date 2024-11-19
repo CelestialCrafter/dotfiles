@@ -15,7 +15,7 @@ theme.margin_xl = theme.margin_l * 2
 -- misc
 theme.useless_gap = theme.margin_s
 theme.wallpaper = "~/Pictures/Wallpapers/normal.png"
-theme.font = "sans 8"
+theme.font = "sans 10"
 
 -- colors
 theme.base = "#0B1221"
