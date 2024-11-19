@@ -2,7 +2,9 @@ local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-local misc      = require("misc")
+local misc = require("misc")
+
+local dpi = beautiful.xresources.apply_dpi
 
 local function set_wallpaper(s)
 	if beautiful.wallpaper then
@@ -29,12 +31,6 @@ awful.screen.connect_for_each_screen(function(s)
 		end),
 		awful.button({}, 3, function()
 			awful.layout.inc(-1)
-		end),
-		awful.button({}, 4, function()
-			awful.layout.inc(1)
-		end),
-		awful.button({}, 5, function()
-			awful.layout.inc(-1)
 		end)
 	))
 
@@ -52,7 +48,7 @@ awful.screen.connect_for_each_screen(function(s)
 	s.prompt = awful.widget.prompt()
 	s.clock = wibox.widget.textclock("%I:%M%P")
 
-	s.bar = awful.wibar({ height = 24, position = "top", screen = s })
+	s.bar = awful.wibar({ height = dpi(32), position = "top", screen = s })
 	s.bar:setup({
 		layout = wibox.layout.align.horizontal,
 		s.taglist,
