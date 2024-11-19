@@ -34,18 +34,11 @@ local globalkeys = gears.table.join(
 	end, { description = "decrease master width", group = "layout" }),
 
 	awful.key({ modkey, "Shift" }, "h", function()
-		awful.tag.incnmaster(1, nil, true)
-	end, { description = "increase master clients", group = "layout" }),
-	awful.key({ modkey, "Shift" }, "l", function()
 		awful.tag.incnmaster(-1, nil, true)
 	end, { description = "decrease master clients", group = "layout" }),
-
-	awful.key({ modkey, "Control" }, "h", function()
-		awful.tag.incncol(1, nil, true)
-	end, { description = "increase columns", group = "layout" }),
-	awful.key({ modkey, "Control" }, "l", function()
-		awful.tag.incncol(-1, nil, true)
-	end, { description = "decrease columns", group = "layout" }),
+	awful.key({ modkey, "Shift" }, "l", function()
+		awful.tag.incnmaster(1, nil, true)
+	end, { description = "increase master clients", group = "layout" }),
 
 	awful.key({ modkey }, "space", function()
 		awful.layout.inc(1)
