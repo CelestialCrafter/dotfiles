@@ -6,6 +6,7 @@ require("errors")
 
 require("misc")
 require("bar")
+require("menu")
 require("clients")
 require("keybinds")
 require("rules")
