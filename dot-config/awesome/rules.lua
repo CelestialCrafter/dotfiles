@@ -19,5 +19,8 @@ awful.rules.rules = {
 	},
 
 	-- titlebars for normal clients/dialogs
-	{ rule_any = { type = { "normal", "dialog" } }, properties = { titlebars_enabled = true } },
+	{
+		rule_any = { type = { "normal", "dialog" } },
+		properties = { titlebars_enabled = true }
+	},
 }
