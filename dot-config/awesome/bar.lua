@@ -4,8 +4,6 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local misc = require("misc")
 
-local dpi = beautiful.xresources.apply_dpi
-
 local function set_wallpaper(s)
 	if beautiful.wallpaper then
 		local wallpaper = beautiful.wallpaper
@@ -34,7 +32,7 @@ awful.screen.connect_for_each_screen(function(s)
 	))
 	s.layout = {
 		s.layout,
-		margins = dpi(4),
+		margins = beautiful.margin_s,
 		widget = wibox.container.margin
 	}
 
@@ -48,8 +46,8 @@ awful.screen.connect_for_each_screen(function(s)
 					widget = wibox.widget.textbox
 				},
 				id = 'text_margin_role',
-				left = dpi(12),
-				right = dpi(12),
+				left = beautiful.margin_l - beautiful.margin_s,
+				right = beautiful.margin_l - beautiful.margin_s,
 				widget = wibox.container.margin
 			},
 			id = 'background_role',
@@ -62,11 +60,16 @@ awful.screen.connect_for_each_screen(function(s)
 			awful.button({}, 3, awful.tag.viewtoggle)
 		),
 	})
+	s.taglist = {
+		s.taglist,
+		margins = beautiful.margin_s,
+		widget = wibox.container.margin
+	}
 
 	s.prompt = awful.widget.prompt()
 	s.clock = wibox.widget.textclock("%I:%M%P")
 
-	s.bar = awful.wibar({ height = dpi(32), position = "top", screen = s })
+	s.bar = awful.wibar({ height = beautiful.margin_xl + beautiful.margin_m, position = "top", screen = s })
 	s.bar:setup({
 		layout = wibox.layout.align.horizontal,
 		widget = wibox.container.background,

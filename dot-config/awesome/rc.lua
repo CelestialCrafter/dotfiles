@@ -1,4 +1,4 @@
--- if luarocks is installed, register luarocks packages
+-- register luarocks stuff if its installed
 pcall(require, "luarocks.loader")
 
 -- keep errors at the top, just incase
@@ -7,6 +7,6 @@ require("errors")
 require("misc")
 require("bar")
 require("menu")
-require("clients")
+require("client.client")
 require("keybinds")
 require("rules")
