@@ -45,7 +45,7 @@ local function do_spiral(p, is_spiral)
     end
 end
 
-spiral.name = "spiral"
+spiral.name = "dwindle"
 function spiral.arrange(p)
     return do_spiral(p, false)
 end

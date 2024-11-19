@@ -2,6 +2,16 @@
 program = "hilbish"
 args = ["-l", "-S"]
 
+[colors.primary]
+foreground = "#D2DFFC"
+background = "#0B1221"
+
+[colors.normal]
+black = "#0B1221"
+red = "#87373D"
+green = "#BD6F33"
+yellow = "#CCA66A"
+
 [window]
 padding = { x = 12, y = 12 }
 dynamic_padding = true

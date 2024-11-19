@@ -1,0 +1,26 @@
+#!/usr/bin/env python3
+
+from PIL import Image
+
+colors = {
+		'primary': (53, 22, 24),
+		'secondary': (74, 44, 20),
+		'accent': (80, 65, 42)
+}
+
+im = Image.open('base.png').convert('RGBA')
+alpha = im.getchannel('A')
+im = im.convert('RGB')
+
+for name, rgb in colors.items():
+	r, g, b = rgb
+
+	matrix = (
+		r / 100, 0, 0, 0,
+		0, g / 100, 0, 0,
+		0, 0, b / 100, 0
+	)
+	new = im.convert('RGB', matrix)
+	
+	new.putalpha(alpha)
+	new.save(name + '.png')
