@@ -21,21 +21,6 @@ awful.screen.connect_for_each_screen(function(s)
 	set_wallpaper(s)
 	awful.tag(misc.tags, s, awful.layout.layouts[1])
 
-	s.layout = awful.widget.layoutbox(s)
-	s.layout:buttons(gears.table.join(
-		awful.button({}, 1, function()
-			awful.layout.inc(1)
-		end),
-		awful.button({}, 3, function()
-			awful.layout.inc(-1)
-		end)
-	))
-	s.layout = {
-		s.layout,
-		margins = beautiful.margin_s,
-		widget = wibox.container.margin
-	}
-
 	s.taglist = awful.widget.taglist({
 		screen = s,
 		filter = awful.widget.taglist.filter.all,
@@ -80,7 +65,6 @@ awful.screen.connect_for_each_screen(function(s)
 			layout = wibox.layout.fixed.horizontal,
 			s.prompt,
 			s.clock,
-			s.layout,
 		},
 	})
 end)
