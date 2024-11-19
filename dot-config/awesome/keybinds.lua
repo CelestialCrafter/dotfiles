@@ -1,5 +1,6 @@
 local awful = require("awful")
 local gears = require("gears")
+local naughty = require("naughty")
 local menubar = require("menubar")
 local popup = require("awful.hotkeys_popup")
 local misc = require("misc")
@@ -77,42 +78,54 @@ globalkeys = gears.table.join(
 	globalkeys,
 	awful.key({ modkey }, "0", awful.tag.history.restore, { description = "previous tag", group = "tag" })
 )
-for i = 1, 9 do
+
+local function tag_code(name)
+	local number = tonumber(name, 10)
+	if number ~= nil then
+		return "#" .. number + 9
+	end
+
+	return name:lower()
+end
+
+for i, name in ipairs(misc.tags) do
+	local code = tag_code(name)
+
 	globalkeys = gears.table.join(
 		globalkeys,
-		awful.key({ modkey }, "#" .. i + 9, function()
+		awful.key({ modkey }, code, function()
 			local screen = awful.screen.focused()
 			local tag = screen.tags[i]
 			if tag then
 				tag:view_only()
 			end
-		end, { description = "view #" .. i, group = "tag" }),
+		end, { description = "view #" .. name, group = "tag" }),
 
-		awful.key({ modkey, "Control" }, "#" .. i + 9, function()
+		awful.key({ modkey, "Control" }, code, function()
 			local screen = awful.screen.focused()
 			local tag = screen.tags[i]
 			if tag then
 				awful.tag.viewtoggle(tag)
 			end
-		end, { description = "toggle #" .. i, group = "tag" }),
+		end, { description = "toggle #" .. name, group = "tag" }),
 
-		awful.key({ modkey, "Shift" }, "#" .. i + 9, function()
+		awful.key({ modkey, "Shift" }, code, function()
 			if client.focus then
 				local tag = client.focus.screen.tags[i]
 				if tag then
 					client.focus:move_to_tag(tag)
 				end
 			end
-		end, { description = "move client to #" .. i, group = "tag" }),
+		end, { description = "move client to #" .. name, group = "tag" }),
 
-		awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9, function()
+		awful.key({ modkey, "Control", "Shift" }, code, function()
 			if client.focus then
 				local tag = client.focus.screen.tags[i]
 				if tag then
 					client.focus:toggle_tag(tag)
 				end
 			end
-		end, { description = "toggle client on tag #" .. i, group = "tag" })
+		end, { description = "toggle client on tag #" .. name, group = "tag" })
 	)
 end
 

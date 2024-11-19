@@ -2,6 +2,7 @@ local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
+local misc      = require("misc")
 
 local function set_wallpaper(s)
 	if beautiful.wallpaper then
@@ -18,7 +19,7 @@ screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
 	set_wallpaper(s)
-	awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+	awful.tag(misc.tags, s, awful.layout.layouts[1])
 
 
 	s.layout = awful.widget.layoutbox(s)
@@ -49,8 +50,9 @@ awful.screen.connect_for_each_screen(function(s)
 	})
 
 	s.prompt = awful.widget.prompt()
+	s.clock = wibox.widget.textclock("%I:%M%P")
 
-	s.bar = awful.wibar({ position = "top", screen = s })
+	s.bar = awful.wibar({ height = 24, position = "top", screen = s })
 	s.bar:setup({
 		layout = wibox.layout.align.horizontal,
 		s.taglist,
@@ -58,6 +60,7 @@ awful.screen.connect_for_each_screen(function(s)
 		{
 			layout = wibox.layout.fixed.horizontal,
 			s.prompt,
+			s.clock,
 			s.layout,
 		},
 	})
