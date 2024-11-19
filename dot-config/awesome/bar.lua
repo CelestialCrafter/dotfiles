@@ -21,38 +21,42 @@ awful.screen.connect_for_each_screen(function(s)
 	set_wallpaper(s)
 	awful.tag(misc.tags, s, awful.layout.layouts[1])
 
-	s.taglist = awful.widget.taglist({
-		screen = s,
-		filter = awful.widget.taglist.filter.all,
-		widget_template = {
-			{
-				{
-					id = 'text_role',
-					widget = wibox.widget.textbox
-				},
-				id = 'text_margin_role',
-				left = beautiful.margin_l - beautiful.margin_s,
-				right = beautiful.margin_l - beautiful.margin_s,
-				widget = wibox.container.margin
-			},
-			id = 'background_role',
-			widget = wibox.container.background
-		},
-		buttons = gears.table.join(
-			awful.button({}, 1, function(t)
-				t:view_only()
-			end),
-			awful.button({}, 3, awful.tag.viewtoggle)
-		),
-	})
 	s.taglist = {
-		s.taglist,
+		awful.widget.taglist({
+			screen = s,
+			filter = awful.widget.taglist.filter.all,
+			widget_template = {
+				{
+					{
+						id = 'text_role',
+						widget = wibox.widget.textbox
+					},
+					id = 'text_margin_role',
+					left = beautiful.margin_l - beautiful.margin_s,
+					right = beautiful.margin_l - beautiful.margin_s,
+					widget = wibox.container.margin
+				},
+				id = 'background_role',
+				widget = wibox.container.background
+			},
+			buttons = gears.table.join(
+				awful.button({}, 1, function(t)
+					t:view_only()
+				end),
+				awful.button({}, 3, awful.tag.viewtoggle)
+			),
+		}),
 		margins = beautiful.margin_s,
-		widget = wibox.container.margin
+		layout = wibox.container.margin
 	}
 
 	s.prompt = awful.widget.prompt()
-	s.clock = wibox.widget.textclock("%I:%M%P")
+	s.clock = {
+		wibox.widget.textclock("<big>%I:%M%P</big>"),
+		font = beautiful.font_l,
+		right = beautiful.margin_s,
+		widget = wibox.container.margin
+	}
 
 	s.bar = awful.wibar({ height = beautiful.margin_xl + beautiful.margin_m, position = "top", screen = s })
 	s.bar:setup({
