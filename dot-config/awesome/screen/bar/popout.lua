@@ -70,19 +70,24 @@ return function(s, bar, widget)
 			margins = beautiful.margin_s,
 			layout = wibox.container.margin,
 		},
-		bottom = 1,
-		color = beautiful.subtle,
-		layout = wibox.container.margin,
+		wibox.widget {
+			thickness = beautiful.margin_s / 2,
+			color = beautiful.subtle,
+			widget = wibox.widget.separator,
+		},
+		layout = wibox.layout.fixed.vertical
 	})
 
 	widget:buttons(gears.table.join(
 	awful.button({}, 1, nil, function()
 		if popout.visible then
 			popout.visible = false
+			widget.bg = beautiful.overlay
 			bar.y = 0
 			bar.ontop = false
 		else
 			popout.visible = true
+			widget.bg = beautiful.secondary
 			bar.y = popout.height
 			bar.ontop = true
 		end

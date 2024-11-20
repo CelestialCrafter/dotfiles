@@ -13,7 +13,7 @@ awful.layout.layouts = {
 
 local editor = "nvim"
 local terminal = "alacritty"
-local tags = { "1", "2", "3", "4", "5", "6", "7", "8", "S" }
+local tags = { "1", "2", "3", "4", "5", "6", "S" }
 
 return {
 	editor = editor,

@@ -19,18 +19,32 @@ return function(s)
 		end
 	})
 
-	local popout_button = wibox.widget.textbox("popout")
+	local popout_button = wibox.widget {
+		wibox.widget {
+			text = "+",
+			align = "center",
+			widget = wibox.widget.textbox
+		},
+		shape = beautiful.rounded_rect,
+		forced_width = beautiful.margin_xl,
+		forced_height = beautiful.margin_xl,
+		bg = beautiful.overlay,
+		widget = wibox.container.background
+	}
 	popout(s, bar, popout_button)
 
 	bar:setup({
 		{
-			taglist(s),
+			{
+				taglist(s),
+				popout_button,
+				spacing = beautiful.margin_s,
+				layout = wibox.layout.fixed.horizontal
+			},
 			nil,
 			{
 				s.prompt,
-				popout_button,
 				wibox.widget.textclock("<big>%I:%M%P</big>"),
-				spacing = beautiful.margin_s,
 				layout = wibox.layout.fixed.horizontal,
 			},
 			layout = wibox.layout.align.horizontal,
