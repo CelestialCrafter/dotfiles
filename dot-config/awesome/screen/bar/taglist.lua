@@ -7,6 +7,10 @@ return function(s)
 	 return awful.widget.taglist({
 		screen = s,
 		filter = awful.widget.taglist.filter.all,
+		style = {
+			spacing = beautiful.margin_s,
+			shape = beautiful.rounded_rect
+		},
 		widget_template = {
 			{
 				{

@@ -43,8 +43,6 @@ theme.bg_systray = theme.surface
 
 theme.taglist_bg_focus = theme.primary
 theme.taglist_bg_occupied = theme.overlay
-theme.taglist_shape = theme.rounded_rect
-theme.taglist_spacing = theme.margin_s
 
 theme.fg_normal = theme.text
 theme.fg_focus = theme.text
