@@ -31,7 +31,7 @@ theme.text = "#D2DFFC"
 
 -- shapes
 theme.rounded_rect = function(cr, w, h)
-	gears.shape.rounded_rect(cr, w, h, dpi(8))
+	gears.shape.rounded_rect(cr, w, h, dpi(theme.margin_m))
 end
 
 -- awesome
