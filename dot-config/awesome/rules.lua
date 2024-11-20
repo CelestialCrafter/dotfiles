@@ -1,5 +1,6 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
+
 local keybinds  = require("keybinds")
 
 awful.rules.rules = {

@@ -3,10 +3,9 @@ pcall(require, "luarocks.loader")
 
 -- keep errors at the top, just incase
 require("errors")
-
 require("misc")
-require("bar")
+require("screen")
 require("menu")
-require("client.client")
+require("client")
 require("keybinds")
 require("rules")
