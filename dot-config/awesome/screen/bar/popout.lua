@@ -5,7 +5,7 @@ local beautiful = require("beautiful")
 
 local function selector_section(s, id, color)
 	local section = wibox.widget {
-		wibox.widget.base.make_widget(),
+		wibox.widget {},
 		shape = function(cr, w, h)
 			gears.shape.rounded_rect(cr, w, h, beautiful.margin_m)
 		end,
@@ -13,9 +13,16 @@ local function selector_section(s, id, color)
 		widget = wibox.container.background,
 	}
 
+	local page = wibox.widget {
+		wibox.widget.textbox("hello world"),
+		bg = color,
+		widget = wibox.container.background,
+	}
+
 	section:connect_signal("section", function(_, section_id)
 		if section_id == id then
 			section.bg = color
+			s.selector:set(2, page)
 		else
 			section.bg = beautiful.subtle
 		end
@@ -43,10 +50,12 @@ return function(s, bar, widget)
 			layout = wibox.layout.flex.vertical,
 			id = "sections"
 		},
+		wibox.widget {},
+		spacing = beautiful.margin_s,
 		layout = wibox.layout.fixed.horizontal,
 	}
 
-	s.selector.sections.children[1].bg = beautiful.primary
+	s.selector.sections.children[1]:emit_signal("section", 1)
 
 	local popout = wibox({
 		visible = false,
