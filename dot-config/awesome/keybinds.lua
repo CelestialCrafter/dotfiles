@@ -2,6 +2,7 @@ local awful = require("awful")
 local gears = require("gears")
 local menubar = require("menubar")
 local popup = require("awful.hotkeys_popup")
+
 local misc = require("misc")
 
 local modkey = "Mod4"
