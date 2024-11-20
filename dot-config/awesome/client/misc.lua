@@ -9,7 +9,7 @@ client.connect_signal("manage", function(c)
 end)
 
 -- rounded corners
-client.connect_signal("manage", function (c)
+client.connect_signal("manage", function(c)
     c.shape = beautiful.rounded_rect
 end)
 

@@ -71,9 +71,11 @@ awful.screen.connect_for_each_screen(function(s)
 		if s.popout.visible then
 			s.popout.visible = false
 			s.bar.y = 0
+			s.bar.ontop = false
 		else
 			s.popout.visible = true
 			s.bar.y = s.popout.height
+			s.bar.ontop = true
 		end
 	    end)
 	))
@@ -82,7 +84,6 @@ awful.screen.connect_for_each_screen(function(s)
 		height = beautiful.margin_xl + beautiful.margin_m,
 		position = "top",
 		screen = s,
-		ontop = true,
 		bg = beautiful.base
 	})
 	s.bar:setup({
