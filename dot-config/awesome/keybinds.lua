@@ -2,6 +2,7 @@ local awful = require("awful")
 local gears = require("gears")
 local menubar = require("menubar")
 local popup = require("awful.hotkeys_popup")
+local titlebar = require("client.titlebar")
 
 local misc = require("misc")
 
@@ -138,26 +139,9 @@ local clientkeys = gears.table.join(
 		c:swap(awful.client.getmaster())
 	end, { description = "move to master", group = "layout" }),
 
-	awful.key(
-		{ modkey, "Mod1" },
-		"space",
-		awful.client.floating.toggle,
-		{ description = "toggle floating", group = "client" }
-	),
-
-	awful.key({ modkey, "Mod1" }, "f", function(c)
-		c.fullscreen = not c.fullscreen
-		c:raise()
-	end, { description = "toggle fullscreen", group = "client" }),
-
-	awful.key({ modkey, "Mod1" }, "t", function(c)
-		c.ontop = not c.ontop
-	end, { description = "toggle keep on top", group = "client" }),
-
-	awful.key({ modkey, "Mod1" }, "m", function(c)
-		c.maximized = not c.maximized
-		c:raise()
-	end, { description = "toggle maximized", group = "client" })
+	awful.key({ modkey }, "t", function(c)
+		awful.titlebar.toggle(c, titlebar.position)
+	end, { description = "toggle titlebar", group = "client" })
 )
 
 local clientbuttons = gears.table.join(
