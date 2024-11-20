@@ -31,7 +31,7 @@ theme.text = "#D2DFFC"
 
 -- shapes
 theme.rounded_rect = function(cr, w, h)
-	gears.shape.rounded_rect(cr, w, h, dpi(theme.margin_m))
+	gears.shape.rounded_rect(cr, w, h, theme.margin_m)
 end
 
 -- awesome
@@ -44,8 +44,7 @@ theme.bg_systray = theme.surface
 theme.taglist_bg_focus = theme.primary
 theme.taglist_bg_occupied = theme.overlay
 theme.taglist_shape = theme.rounded_rect
-theme.taglist_spacing = dpi(4)
-theme.wibar_bg = theme.base
+theme.taglist_spacing = theme.margin_s
 
 theme.fg_normal = theme.text
 theme.fg_focus = theme.text

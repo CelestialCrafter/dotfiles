@@ -8,9 +8,7 @@ local launcher = require("screen.bar.launcher")
 local function selector_section(s, id, color, page)
 	local section = wibox.widget {
 		wibox.widget {},
-		shape = function(cr, w, h)
-			gears.shape.rounded_rect(cr, w, h, beautiful.margin_m)
-		end,
+		shape = gears.shape.rounded_bar,
 		bg = beautiful.subtle,
 		widget = wibox.container.background,
 	}
