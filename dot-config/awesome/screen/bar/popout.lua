@@ -3,7 +3,9 @@ local gears = require("gears")
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local function selector_section(s, id, color)
+local launcher = require("screen.bar.launcher")
+
+local function selector_section(s, id, color, page)
 	local section = wibox.widget {
 		wibox.widget {},
 		shape = function(cr, w, h)
@@ -13,16 +15,15 @@ local function selector_section(s, id, color)
 		widget = wibox.container.background,
 	}
 
-	local page = wibox.widget {
-		wibox.widget.textbox("hello world"),
-		bg = color,
-		widget = wibox.container.background,
-	}
-
 	section:connect_signal("section", function(_, section_id)
 		if section_id == id then
 			section.bg = color
-			s.selector:set(2, page)
+			s.selector:set(2, wibox.widget {
+				page,
+				layout = wibox.layout.flex.horizontal,
+				bg = "#ff0000",
+				widget = wibox.container.background
+			})
 		else
 			section.bg = beautiful.subtle
 		end
@@ -42,9 +43,9 @@ end
 return function(s, bar, widget)
 	s.selector = wibox.widget {
 		{
-			selector_section(s, 1, beautiful.primary),
-			selector_section(s, 2, beautiful.secondary),
-			selector_section(s, 3, beautiful.accent),
+			selector_section(s, 1, beautiful.primary, launcher),
+			selector_section(s, 2, beautiful.secondary, wibox.widget {}),
+			selector_section(s, 3, beautiful.accent, wibox.widget {}),
 			spacing = beautiful.margin_m,
 			forced_width = beautiful.margin_l,
 			layout = wibox.layout.flex.vertical,
@@ -52,6 +53,7 @@ return function(s, bar, widget)
 		},
 		wibox.widget {},
 		spacing = beautiful.margin_s,
+		-- fill_space = true,
 		layout = wibox.layout.fixed.horizontal,
 	}
 
