@@ -21,9 +21,9 @@ client.connect_signal("property::fullscreen", function(c)
 	end
 end)
 
--- place above if sticky
-client.connect_signal("property::sticky", function(c)
-	if c.sticky then
+-- place above if floating
+client.connect_signal("property::floating", function(c)
+	if c.floating then
 		c.above = true
 	else
 		c.above = false
