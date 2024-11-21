@@ -9,7 +9,9 @@ return function(s)
 		filter = awful.widget.taglist.filter.all,
 		style = {
 			spacing = beautiful.margin_s,
-			shape = beautiful.rounded_rect
+			shape = beautiful.rounded_rect,
+			bg_focus = beautiful.primary,
+			bg_occupied = beautiful.overlay
 		},
 		widget_template = {
 			{
