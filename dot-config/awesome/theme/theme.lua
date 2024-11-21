@@ -41,9 +41,6 @@ theme.bg_urgent = theme.accent
 theme.bg_minimize = theme.surface
 theme.bg_systray = theme.surface
 
-theme.taglist_bg_focus = theme.primary
-theme.taglist_bg_occupied = theme.overlay
-
 theme.fg_normal = theme.text
 theme.fg_focus = theme.text
 theme.fg_urgent = theme.text

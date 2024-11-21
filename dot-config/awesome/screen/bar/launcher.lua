@@ -2,8 +2,8 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local menu_gen = require("menubar.menu_gen")
 
-local size = beautiful.margin_xl * 2
-
+local margin = beautiful.margin_m
+local size = (beautiful.margin_xl * 2) - margin
 
 local function generate_widget(entry)
 	return wibox.widget {
@@ -24,14 +24,25 @@ local function generate_widget(entry)
 end
 
 local launcher = wibox.widget {
-	spacing = beautiful.margin_s,
-	forced_num_cols = 16,
-	layout = wibox.layout.grid.vertical
+	{
+		{
+			spacing = margin,
+			forced_num_cols = 16,
+			layout = wibox.layout.grid.vertical,
+			id = "entries"
+		},
+		widget = wibox.container.margin,
+		margins = margin,
+		id = "margin"
+	},
+	bg = beautiful.surface,
+	shape = beautiful.rounded_rect,
+	widget = wibox.container.background,
 }
 
 menu_gen.generate(function(new_entries)
 	for _, entry in ipairs(new_entries) do
-		launcher:add(generate_widget(entry))
+		launcher.margin.entries:add(generate_widget(entry))
 	end
 end)
 
