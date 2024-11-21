@@ -2,8 +2,8 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local menu_gen = require("menubar.menu_gen")
 
-local margin = beautiful.margin_m
-local size = (beautiful.margin_xl * 2) - margin
+local margin = beautiful.spacing_m
+local size = (beautiful.spacing_xl * 2) - margin
 
 local function generate_widget(entry)
 	return wibox.widget {

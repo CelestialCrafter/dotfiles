@@ -39,13 +39,13 @@ return function(s, bar, widget)
 			selector_section(s, 1, beautiful.primary, launcher),
 			selector_section(s, 2, beautiful.secondary, wibox.widget {}),
 			selector_section(s, 3, beautiful.accent, wibox.widget {}),
-			spacing = beautiful.margin_m,
-			forced_width = beautiful.margin_l,
+			spacing = beautiful.spacing_m,
+			forced_width = beautiful.spacing_l,
 			layout = wibox.layout.flex.vertical,
 			id = "sections"
 		},
 		wibox.widget {},
-		spacing = beautiful.margin_s,
+		spacing = beautiful.spacing_s,
 		layout = wibox.layout.fixed.horizontal,
 	}
 
@@ -54,18 +54,18 @@ return function(s, bar, widget)
 	s.popout = wibox({
 		visible = false,
 		ontop = true,
-		height = (beautiful.margin_xl * 8) + beautiful.margin_m,
+		height = (beautiful.spacing_xl * 8) + beautiful.spacing_m,
 		width = s.geometry.width,
 		bg = beautiful.base
 	})
 	s.popout:setup({
 		{
 			s.selector,
-			margins = beautiful.margin_s,
+			margins = beautiful.spacing_s,
 			layout = wibox.container.margin
 		},
 		wibox.widget {
-			thickness = beautiful.margin_s / 2,
+			thickness = beautiful.spacing_s / 2,
 			color = beautiful.subtle,
 			widget = wibox.widget.separator
 		},

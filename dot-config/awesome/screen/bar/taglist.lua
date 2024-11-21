@@ -8,7 +8,7 @@ return function(s)
 		screen = s,
 		filter = awful.widget.taglist.filter.all,
 		style = {
-			spacing = beautiful.margin_s,
+			spacing = beautiful.spacing_s,
 			shape = beautiful.rounded_rect,
 			bg_focus = beautiful.primary,
 			bg_occupied = beautiful.overlay
@@ -20,8 +20,8 @@ return function(s)
 					widget = wibox.widget.textbox
 				},
 				id = 'text_margin_role',
-				left = beautiful.margin_l - beautiful.margin_s,
-				right = beautiful.margin_l - beautiful.margin_s,
+				left = beautiful.spacing_l - beautiful.spacing_s,
+				right = beautiful.spacing_l - beautiful.spacing_s,
 				widget = wibox.container.margin
 			},
 			id = 'background_role',

@@ -10,12 +10,12 @@ return function(s)
 	s.prompt = awful.widget.prompt()
 
 	local bar =  awful.wibar({
-		height = beautiful.margin_xl + beautiful.margin_m,
+		height = beautiful.spacing_xl + beautiful.spacing_m,
 		position = "top",
 		screen = s,
 		bg = beautiful.base,
 		shape = function(cr, w, h)
-			gears.shape.partially_rounded_rect(cr, w, h, false, false, true, true, beautiful.margin_m)
+			gears.shape.partially_rounded_rect(cr, w, h, false, false, true, true, beautiful.spacing_m)
 		end
 	})
 
@@ -26,8 +26,8 @@ return function(s)
 			widget = wibox.widget.textbox
 		},
 		shape = beautiful.rounded_rect,
-		forced_width = beautiful.margin_xl,
-		forced_height = beautiful.margin_xl,
+		forced_width = beautiful.spacing_xl,
+		forced_height = beautiful.spacing_xl,
 		bg = beautiful.overlay,
 		widget = wibox.container.background
 	}
@@ -38,7 +38,7 @@ return function(s)
 			{
 				taglist(s),
 				popout_button,
-				spacing = beautiful.margin_s,
+				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal
 			},
 			nil,
@@ -49,7 +49,7 @@ return function(s)
 			},
 			layout = wibox.layout.align.horizontal,
 		},
-		margins = beautiful.margin_s,
+		margins = beautiful.spacing_s,
 		layout = wibox.container.margin
 	})
 end
