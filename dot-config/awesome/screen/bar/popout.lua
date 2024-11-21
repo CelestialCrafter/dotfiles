@@ -51,14 +51,14 @@ return function(s, bar, widget)
 
 	s.selector.sections.children[1]:emit_signal("section", 1)
 
-	local popout = wibox({
+	s.popout = wibox({
 		visible = false,
 		ontop = true,
 		height = (beautiful.margin_xl * 8) + beautiful.margin_m,
 		width = s.geometry.width,
 		bg = beautiful.base
 	})
-	popout:setup({
+	s.popout:setup({
 		{
 			s.selector,
 			margins = beautiful.margin_s,
@@ -72,19 +72,24 @@ return function(s, bar, widget)
 		layout = wibox.layout.fixed.vertical
 	})
 
-	widget:buttons(gears.table.join(
-	awful.button({}, 1, nil, function()
-		if popout.visible then
-			popout.visible = false
+	s.popout:connect_signal("toggle", function()
+		if s.popout.visible then
+			s.popout.visible = false
 			widget.bg = beautiful.overlay
 			bar.y = 0
 			bar.ontop = false
 		else
-			popout.visible = true
+			s.popout.visible = true
 			widget.bg = beautiful.secondary
-			bar.y = popout.height
+			bar.y = s.popout.height
 			bar.ontop = true
 		end
 	end)
-	))
+
+	widget:buttons(gears.table.join(awful.button(
+		{},
+		1,
+		nil,
+		function() s.popout:emit_signal("toggle") end
+	)))
 end

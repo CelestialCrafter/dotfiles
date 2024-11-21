@@ -80,13 +80,16 @@ local globalkeys = gears.table.join(
 	end, { description = "swap with previous", group = "client" }),
 
 	-- launcher
-	awful.key({ modkey }, "r", function()
+	awful.key({ modkey }, "e", function()
 		awful.screen.focused().prompt:run()
-	end, { description = "run prompt", group = "launcher" }),
+	end, { description = "execute", group = "launcher" }),
 	awful.key({ modkey }, "Return", function()
 		awful.spawn(misc.terminal)
 	end, { description = "open terminal", group = "launcher" }),
-	awful.key({ modkey }, "p", menubar.show, { description = "show menubar", group = "launcher" })
+	awful.key({ modkey }, "p", menubar.show, { description = "show menubar", group = "launcher" }),
+	awful.key({ modkey }, "r", function()
+		awful.screen.focused().popout:emit_signal("toggle")
+	end, { description = "show popout", group = "launcher" })
 )
 
 -- tags
