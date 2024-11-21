@@ -7,13 +7,13 @@ local themes_path = "~/.config/awesome/theme/"
 local theme = {}
 
 -- margin
-theme.margin_s = dpi(4)
-theme.margin_m = theme.margin_s * 2
-theme.margin_l = theme.margin_m * 2
-theme.margin_xl = theme.margin_l * 2
+theme.spacing_s = dpi(4)
+theme.spacing_m = theme.spacing_s * 2
+theme.spacing_l = theme.spacing_m * 2
+theme.spacing_xl = theme.spacing_l * 2
 
 -- misc
-theme.useless_gap = theme.margin_s
+theme.useless_gap = theme.spacing_s
 theme.wallpaper = "~/Pictures/Wallpapers/normal.png"
 theme.font = "sans 10"
 
@@ -31,7 +31,7 @@ theme.text = "#D2DFFC"
 
 -- shapes
 theme.rounded_rect = function(cr, w, h)
-	gears.shape.rounded_rect(cr, w, h, theme.margin_m)
+	gears.shape.rounded_rect(cr, w, h, theme.spacing_m)
 end
 
 -- awesome
