@@ -17,6 +17,7 @@ local function selector_section(s, id, color, page)
 		if section_id == id then
 			section.bg = color
 			s.selector:set(2, page)
+			page:emit_signal("open")
 		else
 			section.bg = beautiful.subtle
 		end
@@ -48,8 +49,6 @@ return function(s, bar, widget)
 		spacing = beautiful.spacing_s,
 		layout = wibox.layout.fixed.horizontal,
 	}
-
-	s.selector.sections.children[1]:emit_signal("section", 1)
 
 	local separator_height = beautiful.spacing_s / 2
 	local height = (beautiful.spacing_xl * 8) + beautiful.spacing_m
@@ -86,6 +85,7 @@ return function(s, bar, widget)
 			widget.bg = beautiful.secondary
 			bar.y = s.popout.height
 			bar.ontop = true
+			s.selector.sections.children[1]:emit_signal("section", 1)
 		end
 	end)
 
