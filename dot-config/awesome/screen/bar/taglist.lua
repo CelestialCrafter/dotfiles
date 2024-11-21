@@ -17,11 +17,12 @@ return function(s)
 			{
 				{
 					id = 'text_role',
+					align = "center",
 					widget = wibox.widget.textbox
 				},
 				id = 'text_margin_role',
-				left = beautiful.spacing_l - beautiful.spacing_s,
-				right = beautiful.spacing_l - beautiful.spacing_s,
+				forced_width = beautiful.spacing_xl,
+				forced_height = beautiful.spacing_xl,
 				widget = wibox.container.margin
 			},
 			id = 'background_role',
