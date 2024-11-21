@@ -27,6 +27,28 @@ local globalkeys = gears.table.join(
 		awful.spawn.with_shell("maim -u -s | xclip -selection clipboard -t image/png")
 	end, { description = "screenshot", group = "awesome" }),
 
+	-- media
+	awful.key({}, "XF86AudioMute", function()
+		awful.spawn("pamixer -t")
+	end),
+
+	awful.key({}, "XF86AudioLowerVolume", function()
+		awful.spawn("pamixer -d 2")
+	end),
+	awful.key({}, "XF86AudioRaiseVolume", function()
+		awful.spawn("pamixer -i 2")
+	end),
+
+	awful.key({}, "XF86AudioPlay", function()
+		awful.spawn("playerctl play-pause")
+	end),
+	awful.key({}, "XF86AudioNext", function()
+		awful.spawn("playerctl next")
+	end),
+	awful.key({}, "XF86AudioPrev", function()
+		awful.spawn("playerctl previous")
+	end),
+
 	-- layout
 	awful.key({ modkey }, "l", function()
 		awful.tag.incmwfact(0.05)
