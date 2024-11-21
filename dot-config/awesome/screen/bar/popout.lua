@@ -16,12 +16,7 @@ local function selector_section(s, id, color, page)
 	section:connect_signal("section", function(_, section_id)
 		if section_id == id then
 			section.bg = color
-			s.selector:set(2, wibox.widget {
-				page,
-				layout = wibox.layout.flex.horizontal,
-				bg = "#ff0000",
-				widget = wibox.container.background
-			})
+			s.selector:set(2, page)
 		else
 			section.bg = beautiful.subtle
 		end
@@ -51,7 +46,6 @@ return function(s, bar, widget)
 		},
 		wibox.widget {},
 		spacing = beautiful.margin_s,
-		-- fill_space = true,
 		layout = wibox.layout.fixed.horizontal,
 	}
 
@@ -68,12 +62,12 @@ return function(s, bar, widget)
 		{
 			s.selector,
 			margins = beautiful.margin_s,
-			layout = wibox.container.margin,
+			layout = wibox.container.margin
 		},
 		wibox.widget {
 			thickness = beautiful.margin_s / 2,
 			color = beautiful.subtle,
-			widget = wibox.widget.separator,
+			widget = wibox.widget.separator
 		},
 		layout = wibox.layout.fixed.vertical
 	})
