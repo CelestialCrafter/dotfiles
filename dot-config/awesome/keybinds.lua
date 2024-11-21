@@ -35,13 +35,6 @@ local globalkeys = gears.table.join(
 		awful.tag.incmwfact(-0.05)
 	end, { description = "decrease master width", group = "layout" }),
 
-	awful.key({ modkey, "Shift" }, "h", function()
-		awful.tag.incnmaster(-1, nil, true)
-	end, { description = "decrease master clients", group = "layout" }),
-	awful.key({ modkey, "Shift" }, "l", function()
-		awful.tag.incnmaster(1, nil, true)
-	end, { description = "increase master clients", group = "layout" }),
-
 	awful.key({ modkey }, "space", function()
 		awful.layout.inc(1)
 	end, { description = "select next", group = "layout" }),
@@ -75,11 +68,6 @@ local globalkeys = gears.table.join(
 )
 
 -- tags
-globalkeys = gears.table.join(
-	globalkeys,
-	awful.key({ modkey }, "0", awful.tag.history.restore, { description = "previous tag", group = "tag" })
-)
-
 local function tag_code(name)
 	local number = tonumber(name, 10)
 	if number ~= nil then
@@ -135,7 +123,7 @@ local clientkeys = gears.table.join(
 		c:kill()
 	end, { description = "close", group = "client" }),
 
-	awful.key({ modkey, "Control" }, "Return", function(c)
+	awful.key({ modkey, "Shift" }, "Return", function(c)
 		c:swap(awful.client.getmaster())
 	end, { description = "move to master", group = "layout" }),
 
