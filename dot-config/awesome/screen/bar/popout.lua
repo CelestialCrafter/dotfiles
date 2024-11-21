@@ -51,10 +51,12 @@ return function(s, bar, widget)
 
 	s.selector.sections.children[1]:emit_signal("section", 1)
 
+	local separator_height = beautiful.spacing_s / 2
+	local height = (beautiful.spacing_xl * 8) + beautiful.spacing_m
 	s.popout = wibox({
 		visible = false,
 		ontop = true,
-		height = (beautiful.spacing_xl * 8) + beautiful.spacing_m,
+		height = height + separator_height,
 		width = s.geometry.width,
 		bg = beautiful.base
 	})
@@ -62,10 +64,11 @@ return function(s, bar, widget)
 		{
 			s.selector,
 			margins = beautiful.spacing_s,
+			forced_height = height,
 			layout = wibox.container.margin
 		},
 		wibox.widget {
-			thickness = beautiful.spacing_s / 2,
+			thickness = separator_height,
 			color = beautiful.subtle,
 			widget = wibox.widget.separator
 		},
