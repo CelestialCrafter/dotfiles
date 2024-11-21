@@ -25,8 +25,8 @@ end
 
 local launcher = wibox.widget {
 	spacing = beautiful.margin_s,
-	layout = wibox.layout.grid.vertical,
-	forced_num_cols = 16
+	forced_num_cols = 16,
+	layout = wibox.layout.grid.vertical
 }
 
 menu_gen.generate(function(new_entries)
