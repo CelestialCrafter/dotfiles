@@ -20,8 +20,8 @@ theme.font = "sans 10"
 -- colors
 theme.base = "#0B1221"
 theme.surface = "#0D1933"
-theme.overlay = "#13203B"
-theme.subtle = "#667085"
+theme.overlay = "131F3B"
+theme.subtle = "#3B4457"
 
 theme.primary = "#87373D"
 theme.secondary = "#BD6F33"
