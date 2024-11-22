@@ -11,11 +11,15 @@ client.connect_signal("request::titlebars", function(c)
 		awful.titlebar.widget.iconwidget(c),
 		nil,
 		{
+		    {
 			awful.titlebar.widget.floatingbutton(c),
 			awful.titlebar.widget.stickybutton(c),
 			awful.titlebar.widget.closebutton(c),
-			spacing = beautiful.spacing_s,
+			spacing = beautiful.spacing_m,
 			layout = wibox.layout.fixed.vertical,
+		    },
+		    margins = beautiful.spacing_s,
+		    layout = wibox.container.margin
 		},
 		layout = wibox.layout.align.vertical,
             },
