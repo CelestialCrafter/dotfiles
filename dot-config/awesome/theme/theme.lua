@@ -64,9 +64,5 @@ theme.titlebar_floating_button_focus_inactive = a
 theme.titlebar_floating_button_normal_active = a
 theme.titlebar_floating_button_focus_active = a
 
-theme.layout_floating = a
-theme.layout_max = s
-theme.layout_dwindle = p
-
 return theme
 

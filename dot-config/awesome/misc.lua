@@ -1,12 +1,14 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
-local dwindle = require("dwindle")
+local dwindle = require("layouts.dwindle")
+local expose = require("layouts.expose")
 require("awful.autofocus")
 
 beautiful.init("~/.config/awesome/theme/theme.lua")
 
 awful.layout.layouts = {
 	dwindle,
+	expose,
 	awful.layout.suit.max,
 	awful.layout.suit.floating,
 }
