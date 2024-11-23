@@ -2,9 +2,9 @@ local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
+local launcher  = require("widgets.launcher")
 
 local taglist = require("screen.bar.taglist")
-local popout = require("screen.bar.popout")
 
 return function(s)
 	s.prompt = awful.widget.prompt()
@@ -19,7 +19,7 @@ return function(s)
 		end
 	})
 
-	local popout_button = wibox.widget {
+	local launcher_button = wibox.widget {
 		wibox.widget {
 			text = "+",
 			align = "center",
@@ -31,13 +31,14 @@ return function(s)
 		bg = beautiful.overlay,
 		widget = wibox.container.background
 	}
-	popout(s, bar, popout_button)
+
+	s.launcher = launcher(launcher_button)
 
 	bar:setup({
 		{
 			{
 				taglist(s),
-				popout_button,
+				launcher_button,
 				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal
 			},
