@@ -86,8 +86,6 @@ local globalkeys = gears.table.join(
 	awful.key({ modkey }, "Return", function()
 		awful.spawn(misc.terminal)
 	end, { description = "open terminal", group = "launcher" }),
-	-- @TODO remove this when priority is put into app runner
-	awful.key({ modkey }, "p", menubar.show, { description = "show menubar", group = "launcher" }),
 	awful.key({ modkey }, "r", function()
 		local launcher = awful.screen.focused().launcher
 		launcher.placement = awful.placement.centered
