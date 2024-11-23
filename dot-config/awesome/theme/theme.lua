@@ -1,38 +1,39 @@
 local gears = require("gears")
 local xresources = require("beautiful.xresources")
 
+local user = require("theme.user")
+
 local dpi = xresources.apply_dpi
 local themes_path = "~/.config/awesome/theme/"
 
 local theme = {}
 
--- margin
-theme.spacing_s = dpi(4)
+-- spacing
+theme.spacing_s = dpi(user.base_spacing)
 theme.spacing_m = theme.spacing_s * 2
 theme.spacing_l = theme.spacing_m * 2
 theme.spacing_xl = theme.spacing_l * 2
 
 -- misc
 theme.useless_gap = theme.spacing_s
-theme.wallpaper = "~/Pictures/Wallpapers/normal.png"
-theme.font = "sans 10"
+theme.wallpaper = user.wallpaper
+theme.font = user.font
+theme.rounded = function(cr, w, h)
+	local r = theme.spacing_s * (2 ^ (user.roundness - 1))
+	gears.shape.rounded_rect(cr, w, h, r)
+end
 
 -- colors
-theme.base = "#0B1221"
-theme.surface = "#0D1933"
-theme.overlay = "131F3B"
-theme.subtle = "#3B4457"
+theme.base = user.base
+theme.surface = user.surface
+theme.overlay = user.overlay
+theme.subtle = user.subtle
 
-theme.primary = "#87373D"
-theme.secondary = "#BD6F33"
-theme.accent = "#CCA66A"
+theme.primary = user.primary
+theme.secondary = user.secondary
+theme.accent = user.accent
 
-theme.text = "#D2DFFC"
-
--- shapes
-theme.rounded_rect = function(cr, w, h)
-	gears.shape.rounded_rect(cr, w, h, theme.spacing_m)
-end
+theme.text = user.text
 
 -- awesome
 theme.bg_normal = theme.subtle

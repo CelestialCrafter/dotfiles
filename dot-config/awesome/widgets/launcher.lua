@@ -23,7 +23,7 @@ local function generate_widget(entry)
 		image = {
 			image,
 			bg = beautiful.accent,
-			shape = beautiful.rounded_rect,
+			shape = beautiful.rounded,
 			widget = wibox.container.background
 		}
 	end
@@ -106,7 +106,7 @@ return function(button)
 	local launcher = awful.popup {
 		widget = widget,
 		bg = beautiful.surface,
-		shape = beautiful.rounded_rect,
+		shape = beautiful.rounded,
 		preferred_anchors = {'middle'},
 		ontop = true,
 		visible = false

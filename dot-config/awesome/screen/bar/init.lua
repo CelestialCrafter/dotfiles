@@ -25,7 +25,7 @@ return function(s)
 			align = "center",
 			widget = wibox.widget.textbox
 		},
-		shape = beautiful.rounded_rect,
+		shape = beautiful.rounded,
 		forced_width = beautiful.spacing_xl,
 		forced_height = beautiful.spacing_xl,
 		bg = beautiful.overlay,

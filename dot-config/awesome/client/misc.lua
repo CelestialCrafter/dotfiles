@@ -9,7 +9,7 @@ client.connect_signal("manage", function(c)
 	end
 
 	-- rounded corners
-	c.shape = beautiful.rounded_rect
+	c.shape = beautiful.rounded
 end)
 
 -- rounded corners if not fullscreen
@@ -17,7 +17,7 @@ client.connect_signal("property::fullscreen", function(c)
 	if c.fullscreen then
 		c.shape = gears.shape.rect
 	else
-		c.shape = beautiful.rounded_rect
+		c.shape = beautiful.rounded
 	end
 end)
 
