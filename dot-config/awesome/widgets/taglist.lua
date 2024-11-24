@@ -1,6 +1,7 @@
 local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
+local bling = require("bling")
 local beautiful = require("beautiful")
 
 return function(s)
