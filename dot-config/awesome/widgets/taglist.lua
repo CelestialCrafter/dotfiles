@@ -4,7 +4,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 
 return function(s)
-	 return awful.widget.taglist({
+	return awful.widget.taglist({
 		screen = s,
 		filter = awful.widget.taglist.filter.all,
 		style = {
@@ -29,10 +29,10 @@ return function(s)
 			widget = wibox.container.background
 		},
 		buttons = gears.table.join(
-			awful.button({}, 1, function(t)
-				t:view_only()
-			end),
-			awful.button({}, 3, awful.tag.viewtoggle)
+		awful.button({}, 1, function(t)
+			t:view_only()
+		end),
+		awful.button({}, 3, awful.tag.viewtoggle)
 		)
 	})
 end
