@@ -125,7 +125,7 @@ return function(s)
 		visible = false
 	}
 
-	s.auncher:bind_to_widget(button)
+	s.launcher:bind_to_widget(button)
 	button:buttons(gears.table.join(awful.button(
 		{},
 		1,
@@ -168,6 +168,6 @@ return function(s)
 		}
 	end)
 
-	return s.launcher
+	return button
 end
 
