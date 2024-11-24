@@ -82,19 +82,6 @@ menu_gen.generate(function(new_entries)
 end)
 
 return function(s)
-	local button =  wibox.widget {
-		wibox.widget {
-			text = "+",
-			align = "center",
-			widget = wibox.widget.textbox
-		},
-		shape = beautiful.rounded,
-		forced_width = beautiful.spacing_xl,
-		forced_height = beautiful.spacing_xl,
-		bg = beautiful.overlay,
-		widget = wibox.container.background
-	}
-
 	local widget = wibox.widget {
 		{
 			{
@@ -116,7 +103,7 @@ return function(s)
 		margins = margin,
 	}
 
-	s.launcher = awful.popup {
+	local launcher = awful.popup {
 		widget = widget,
 		bg = beautiful.surface,
 		shape = beautiful.rounded,
@@ -125,20 +112,12 @@ return function(s)
 		visible = false
 	}
 
-	s.launcher:bind_to_widget(button)
-	button:buttons(gears.table.join(awful.button(
-		{},
-		1,
-		nil,
-		function() s.launcher.visible = true end
-	)))
-
 	local search = widget:get_children_by_id("search")[1]
 	local function set_entries(query)
 		widget:get_children_by_id("entries")[1]:set_children(handle_search(query))
 	end
 
-	s.launcher:connect_signal("property::visible", function()
+	launcher:connect_signal("property::visible", function()
 		if not s.launcher.visible then
 			s.launcher.placement = nil
 			return
@@ -168,6 +147,6 @@ return function(s)
 		}
 	end)
 
-	return button
+	s.launcher = launcher
 end
 

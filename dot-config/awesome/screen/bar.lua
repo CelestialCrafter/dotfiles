@@ -3,13 +3,12 @@ local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
 
-local launcher  = require("widgets.launcher")
 local taglist = require("widgets.taglist")
 
 return function(s)
 	s.prompt = awful.widget.prompt()
 
-	local bar =  awful.wibar({
+	local bar = awful.wibar({
 		height = beautiful.spacing_xl + beautiful.spacing_m,
 		position = "top",
 		screen = s,
@@ -23,7 +22,6 @@ return function(s)
 		{
 			{
 				taglist(s),
-				launcher(s),
 				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal
 			},
