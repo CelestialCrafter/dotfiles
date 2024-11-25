@@ -3,6 +3,7 @@ local user = {}
 user.terminal = "alacritty"
 user.wallpaper = "~/Pictures/Wallpapers/normal.png"
 user.font = "sans 10"
+user.preview_update_interval = 5
 
 user.base_spacing = 4
 user.roundness = 2

@@ -1,7 +1,8 @@
 local gears = require("gears")
+local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local user = require("theme.user")
+local user = require("user")
 
 local dpi = beautiful.xresources.apply_dpi
 local themes_path = "~/.config/awesome/theme/"
@@ -16,7 +17,13 @@ theme.spacing_xl = theme.spacing_l * 2
 
 -- misc
 theme.useless_gap = theme.spacing_s
-theme.wallpaper = user.wallpaper
+theme.wallpaper_path = user.wallpaper
+theme.wallpaper = function(s)
+	return wibox.widget.imagebox(gears.surface.crop_surface {
+		surface = gears.surface(beautiful.wallpaper_path),
+		ratio = s.geometry.width/s.geometry.height,
+	})
+end
 theme.font = user.font
 theme.rounded = function(cr, w, h)
 	local r = theme.spacing_s * (2 ^ (user.roundness - 1))
