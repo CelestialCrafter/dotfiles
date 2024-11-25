@@ -16,23 +16,26 @@ return function(s)
 		widget_template = {
 			{
 				{
-					id = 'text_role',
-					align = "center",
-					widget = wibox.widget.textbox
+					{
+						id = "text_role",
+						align = "center",
+						widget = wibox.widget.textbox
+					},
+					id = "text_margin_role",
+					forced_width = beautiful.spacing_xl,
+					forced_height = beautiful.spacing_xl,
+					widget = wibox.container.margin
 				},
-				id = 'text_margin_role',
-				forced_width = beautiful.spacing_xl,
-				forced_height = beautiful.spacing_xl,
-				widget = wibox.container.margin
+				id = "background_role",
+				widget = wibox.container.background
 			},
-			id = 'background_role',
-			widget = wibox.container.background
+			layout = wibox.layout.fixed.vertical
 		},
 		buttons = gears.table.join(
-			awful.button({}, 1, function(t)
-				t:view_only()
-			end),
-			awful.button({}, 3, awful.tag.viewtoggle)
+		awful.button({}, 1, function(t)
+			t:view_only()
+		end),
+		awful.button({}, 3, awful.tag.viewtoggle)
 		)
 	})
 end

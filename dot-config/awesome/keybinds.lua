@@ -1,7 +1,7 @@
 local awful = require("awful")
 local popup = require("awful.hotkeys_popup")
 
-local user = require("theme.user")
+local user = require("user")
 local misc = require("misc")
 
 local modkey = "Mod4"
