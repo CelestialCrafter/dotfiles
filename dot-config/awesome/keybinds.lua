@@ -1,11 +1,12 @@
 local awful = require("awful")
 local gears = require("gears")
-local menubar = require("menubar")
+local bling = require("bling")
 local popup = require("awful.hotkeys_popup")
-local titlebar = require("client.titlebar")
 
+local titlebar = require("client.titlebar")
 local misc = require("misc")
 
+local playerctl = bling.signal.playerctl.cli()
 local modkey = "Mod4"
 
 local globalkeys = gears.table.join(
@@ -28,26 +29,14 @@ local globalkeys = gears.table.join(
 	end, { description = "screenshot", group = "awesome" }),
 
 	-- media
-	awful.key({}, "XF86AudioMute", function()
-		awful.spawn("pamixer -t")
-	end),
+	awful.key({}, "XF86AudioMute", function() awful.spawn("pamixer -t") end),
 
-	awful.key({}, "XF86AudioLowerVolume", function()
-		awful.spawn("pamixer -d 2")
-	end),
-	awful.key({}, "XF86AudioRaiseVolume", function()
-		awful.spawn("pamixer -i 2")
-	end),
+	awful.key({}, "XF86AudioLowerVolume", function() awful.spawn("pamixer -d 2") end),
+	awful.key({}, "XF86AudioRaiseVolume", function() awful.spawn("pamixer -i 2") end),
 
-	awful.key({}, "XF86AudioPlay", function()
-		awful.spawn("playerctl play-pause")
-	end),
-	awful.key({}, "XF86AudioNext", function()
-		awful.spawn("playerctl next")
-	end),
-	awful.key({}, "XF86AudioPrev", function()
-		awful.spawn("playerctl previous")
-	end),
+	awful.key({}, "XF86AudioPlay", function() playerctl:play_pause() end),
+	awful.key({}, "XF86AudioNext", function() playerctl:next() end),
+	awful.key({}, "XF86AudioPrev", function() playerctl:previous() end),
 
 	-- layout
 	awful.key({ modkey }, "l", function()
