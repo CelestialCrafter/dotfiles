@@ -1,7 +1,6 @@
 local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
-local bling = require("bling")
 local beautiful = require("beautiful")
 
 return function(s)
@@ -30,10 +29,10 @@ return function(s)
 			widget = wibox.container.background
 		},
 		buttons = gears.table.join(
-		awful.button({}, 1, function(t)
-			t:view_only()
-		end),
-		awful.button({}, 3, awful.tag.viewtoggle)
+			awful.button({}, 1, function(t)
+				t:view_only()
+			end),
+			awful.button({}, 3, awful.tag.viewtoggle)
 		)
 	})
 end
