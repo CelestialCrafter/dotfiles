@@ -1,11 +1,12 @@
 local user = {}
 
+user.terminal = "alacritty"
+user.wallpaper = "~/Pictures/Wallpapers/normal.png"
+user.font = "sans 10"
+
 user.base_spacing = 4
 user.roundness = 2
 user.spacing_multiplier = 2
-
-user.wallpaper = "~/Pictures/Wallpapers/normal.png"
-user.font = "sans 10"
 
 user.base = "#0B1221"
 user.surface = "#0D1933"

@@ -3,6 +3,8 @@ pcall(require, "luarocks.loader")
 
 -- keep errors at the top, just incase
 require("errors")
+require("awful.autofocus")
+require("theme")
 require("layout")
 require("misc")
 require("keybinds")

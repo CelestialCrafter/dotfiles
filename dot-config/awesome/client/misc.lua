@@ -2,30 +2,32 @@ local awful = require("awful")
 local gears = require("gears")
 local beautiful = require("beautiful")
 
-client.connect_signal("manage", function(c)
-	-- prevent unreachable clients if screens change
-	if awesome.startup and not c.size_hints.user_position and not c.size_hints.program_position then
-		awful.placement.no_offscreen(c)
-	end
+return function()
+	client.connect_signal("manage", function(c)
+		-- prevent unreachable clients if screens change
+		if awesome.startup and not c.size_hints.user_position and not c.size_hints.program_position then
+			awful.placement.no_offscreen(c)
+		end
 
-	-- rounded corners
-	c.shape = beautiful.rounded
-end)
-
--- rounded corners if not fullscreen
-client.connect_signal("property::fullscreen", function(c)
-	if c.fullscreen then
-		c.shape = gears.shape.rect
-	else
+		-- rounded corners
 		c.shape = beautiful.rounded
-	end
-end)
+	end)
 
--- place above if floating
-client.connect_signal("property::floating", function(c)
-	if c.floating then
-		c.above = true
-	else
-		c.above = false
-	end
-end)
+	-- rounded corners if not fullscreen
+	client.connect_signal("property::fullscreen", function(c)
+		if c.fullscreen then
+			c.shape = gears.shape.rect
+		else
+			c.shape = beautiful.rounded
+		end
+	end)
+
+	-- place above if floating
+	client.connect_signal("property::floating", function(c)
+		if c.floating then
+			c.above = true
+		else
+			c.above = false
+		end
+	end)
+end

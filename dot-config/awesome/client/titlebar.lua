@@ -2,11 +2,12 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local position = 'left'
+local misc = require("misc")
 
-client.connect_signal("request::titlebars", function(c)
-	awful.titlebar(c, { position = position, size = beautiful.spacing_xl + beautiful.spacing_m }):setup({
-            {
+return function()
+    client.connect_signal("request::titlebars", function(c)
+	awful.titlebar(c, { position = misc.position, size = beautiful.spacing_xl + beautiful.spacing_m }):setup({
+	    {
 
 		awful.titlebar.widget.iconwidget(c),
 		nil,
@@ -22,12 +23,9 @@ client.connect_signal("request::titlebars", function(c)
 		    layout = wibox.container.margin
 		},
 		layout = wibox.layout.align.vertical,
-            },
-            layout = wibox.container.margin,
-            margins = beautiful.spacing_m
+	    },
+	    layout = wibox.container.margin,
+	    margins = beautiful.spacing_m
 	})
-end)
-
-return {
-    position = position
-}
+    end)
+end

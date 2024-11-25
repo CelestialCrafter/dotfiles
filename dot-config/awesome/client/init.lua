@@ -1,3 +1,3 @@
-require("client.focus")
-require("client.titlebar")
-require("client.misc")
+require("client.focus")()
+require("client.titlebar")()
+require("client.misc")()

@@ -1,9 +1,9 @@
 local gears = require("gears")
-local xresources = require("beautiful.xresources")
+local beautiful = require("beautiful")
 
 local user = require("theme.user")
 
-local dpi = xresources.apply_dpi
+local dpi = beautiful.xresources.apply_dpi
 local themes_path = "~/.config/awesome/theme/"
 
 local theme = {}
@@ -64,5 +64,5 @@ theme.titlebar_floating_button_focus_inactive = a
 theme.titlebar_floating_button_normal_active = a
 theme.titlebar_floating_button_focus_active = a
 
-return theme
+beautiful.init(theme)
 
