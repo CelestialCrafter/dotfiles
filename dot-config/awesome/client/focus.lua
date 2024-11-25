@@ -1,7 +1,7 @@
 return function()
     -- focus follows cursor
     client.connect_signal("mouse::enter", function(c)
-        c:emit_signal("request::activate", "mouse_enter", { raise = false })
+        c:activate({ context = "mouse_enter", raise = false })
     end)
 
     -- cursor follows focus

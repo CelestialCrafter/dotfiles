@@ -1,14 +1,12 @@
 local awful = require("awful")
-local gears = require("gears")
 local popup = require("awful.hotkeys_popup")
-local titlebar = require("client.titlebar")
-local user     = require("theme.user")
 
+local user = require("theme.user")
 local misc = require("misc")
 
 local modkey = "Mod4"
 
-local globalkeys = gears.table.join(
+awful.keyboard.append_global_keybindings({
 	-- awesome
 	awful.key({ "Mod1", "Control" }, "r", awesome.restart, { description = "reload", group = "awesome" }),
 	awful.key({ "Mod1", "Control" }, "q", awesome.quit, { description = "quit", group = "awesome" }),
@@ -91,7 +89,7 @@ local globalkeys = gears.table.join(
 		launcher.placement = awful.placement.centered
 		launcher.visible = true
 	end, { description = "show app runner", group = "launcher" })
-)
+})
 
 -- tags
 local function tag_code(name)
@@ -103,11 +101,67 @@ local function tag_code(name)
 	return name:lower()
 end
 
+awful.keyboard.append_global_keybindings({
+    awful.key {
+        modifiers   = { modkey },
+        keygroup    = "numrow",
+        description = "view tag",
+        group       = "tag",
+        on_press    = function (index)
+            local screen = awful.screen.focused()
+            local tag = screen.tags[index]
+            if tag then
+                tag:view_only()
+            end
+        end,
+    },
+    awful.key {
+        modifiers   = { modkey, "Control" },
+        keygroup    = "numrow",
+        description = "toggle tag",
+        group       = "tag",
+        on_press    = function (index)
+            local screen = awful.screen.focused()
+            local tag = screen.tags[index]
+            if tag then
+                awful.tag.viewtoggle(tag)
+            end
+        end,
+    },
+    awful.key {
+        modifiers = { modkey, "Shift" },
+        keygroup    = "numrow",
+        description = "move client to tag",
+        group       = "tag",
+        on_press    = function (index)
+            if client.focus then
+                local tag = client.focus.screen.tags[index]
+                if tag then
+                    client.focus:move_to_tag(tag)
+                end
+            end
+        end,
+    },
+    awful.key {
+        modifiers   = { modkey, "Control", "Shift" },
+        keygroup    = "numrow",
+        description = "toggle client on tag",
+        group       = "tag",
+        on_press    = function (index)
+            if client.focus then
+                local tag = client.focus.screen.tags[index]
+                if tag then
+                    client.focus:toggle_tag(tag)
+                end
+            end
+        end,
+    }
+})
+
 for i, name in ipairs(misc.tags) do
 	local code = tag_code(name)
 
-	globalkeys = gears.table.join(
-		globalkeys,
+	awful.keyboard.append_global_keybindings({
 		awful.key({ modkey }, code, function()
 			local screen = awful.screen.focused()
 			local tag = screen.tags[i]
@@ -141,35 +195,38 @@ for i, name in ipairs(misc.tags) do
 				end
 			end
 		end, { description = "toggle client on tag #" .. name, group = "tag" })
-	)
+	})
 end
 
-local clientkeys = gears.table.join(
-	awful.key({ modkey }, "q", function(c)
-		c:kill()
-	end, { description = "close", group = "client" }),
+-- client
+local function clientkeys()
+	awful.keyboard.append_client_keybindings({
+		awful.key({ modkey }, "q", function(c)
+			c:kill()
+		end, { description = "close", group = "client" }),
 
-	awful.key({ modkey, "Shift" }, "Return", function(c)
-		c:swap(awful.client.getmaster())
-	end, { description = "move to master", group = "layout" }),
+		awful.key({ modkey, "Shift" }, "Return", function(c)
+			c:swap(awful.client.getmaster())
+		end, { description = "move to master", group = "layout" }),
 
-	awful.key({ modkey }, "t", function(c)
-		awful.titlebar.toggle(c, titlebar.position)
-	end, { description = "toggle titlebar", group = "client" })
-)
+		awful.key({ modkey }, "t", function(c)
+			awful.titlebar.toggle(c, misc.position)
+		end, { description = "toggle titlebar", group = "client" })
+	})
+end
 
-local clientbuttons = gears.table.join(
-	awful.button({ modkey }, 1, function(c)
-		c:emit_signal("request::activate", "mouse_click", { raise = true })
-		awful.mouse.client.move(c)
-	end),
-	awful.button({ modkey }, 3, function(c)
-		c:emit_signal("request::activate", "mouse_click", { raise = true })
-		awful.mouse.client.resize(c)
-	end)
-)
-
-root.keys(globalkeys)
+local function clientbuttons()
+	awful.mouse.append_client_mousebindings({
+		awful.button({ modkey }, 1, function(c)
+			c:activate { context = "mouse_click", action = "mouse_move" }
+			awful.mouse.client.move(c)
+		end),
+		awful.button({ modkey }, 3, function(c)
+			c:activate { context = "mouse_click", action = "mouse_resize" }
+			awful.mouse.client.resize(c)
+		end)
+	})
+end
 
 return {
 	clientbuttons = clientbuttons,
