@@ -1,27 +1,37 @@
 local awful = require("awful")
-local beautiful = require("beautiful")
+local ruled = require("ruled")
+local naughty = require("naughty")
 
-local keybinds  = require("keybinds")
-
-awful.rules.rules = {
-	-- all clients match this
-	{
-		rule = {},
-		properties = {
-			border_width = beautiful.border_width,
-			border_color = beautiful.border_normal,
-			focus = awful.client.focus.filter,
-			raise = true,
-			keys = keybinds.clientkeys,
-			buttons = keybinds.clientbuttons,
-			screen = awful.screen.preferred,
-			placement = awful.placement.no_overlap + awful.placement.no_offscreen,
+ruled.client.connect_signal("request::rules", function()
+	ruled.client.append_rules({
+		{
+			id = "global",
+			rule = {},
+			properties = {
+				focus = awful.client.focus.filter,
+				raise = true,
+				screen = awful.screen.preferred,
+				placement = awful.placement.no_overlap + awful.placement.no_offscreen,
+			},
 		},
-	},
+		{
+			id = "titlebars",
+			rule_any = { type = { "normal", "dialog" } },
+			properties = { titlebars_enabled = true }
+		}
+	})
+end)
 
-	-- titlebars for normal clients/dialogs
-	{
-		rule_any = { type = { "normal", "dialog" } },
-		properties = { titlebars_enabled = true }
-	},
-}
+ruled.notification.connect_signal('request::rules', function()
+    ruled.notification.append_rule {
+        rule = {},
+        properties = {
+            screen = awful.screen.preferred,
+            implicit_timeout = 5,
+        }
+    }
+end)
+
+naughty.connect_signal("request::display", function(n)
+    naughty.layout.box { notification = n }
+end)

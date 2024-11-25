@@ -1,14 +1,10 @@
 local awful = require("awful")
 local gears = require("gears")
 local beautiful = require("beautiful")
+local keybinds  = require("keybinds")
 
 return function()
 	client.connect_signal("manage", function(c)
-		-- prevent unreachable clients if screens change
-		if awesome.startup and not c.size_hints.user_position and not c.size_hints.program_position then
-			awful.placement.no_offscreen(c)
-		end
-
 		-- rounded corners
 		c.shape = beautiful.rounded
 	end)
@@ -30,4 +26,7 @@ return function()
 			c.above = false
 		end
 	end)
+
+	client.connect_signal("request::default_keybindings", keybinds.clientkeys)
+	client.connect_signal("request::default_mousebindings", keybinds.clientbuttons)
 end
