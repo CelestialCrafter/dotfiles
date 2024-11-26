@@ -219,11 +219,9 @@ local function clientbuttons()
 	awful.mouse.append_client_mousebindings({
 		awful.button({ modkey }, 1, function(c)
 			c:activate { context = "mouse_click", action = "mouse_move" }
-			awful.mouse.client.move(c)
 		end),
 		awful.button({ modkey }, 3, function(c)
 			c:activate { context = "mouse_click", action = "mouse_resize" }
-			awful.mouse.client.resize(c)
 		end)
 	})
 end
