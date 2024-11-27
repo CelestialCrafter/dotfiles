@@ -1,5 +1,4 @@
 local gears = require("gears")
-local wibox = require("wibox")
 local beautiful = require("beautiful")
 
 local user = require("user")
@@ -19,10 +18,10 @@ theme.spacing_xl = theme.spacing_l * 2
 theme.useless_gap = theme.spacing_s
 theme.wallpaper_path = user.wallpaper
 theme.wallpaper = function(s)
-	return wibox.widget.imagebox(gears.surface.crop_surface {
+	return gears.surface.crop_surface {
 		surface = gears.surface(beautiful.wallpaper_path),
-		ratio = s.geometry.width/s.geometry.height,
-	})
+		ratio = s.geometry.width / s.geometry.height,
+	}
 end
 theme.font = user.font
 theme.rounded = function(cr, w, h)
