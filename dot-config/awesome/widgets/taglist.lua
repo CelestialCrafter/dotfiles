@@ -3,29 +3,31 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-return function(s)
-	local indicator = {
+local indicator = {
+	{
 		{
+
 			{
-
-				{
-					id = "text_role",
-					align = "center",
-					widget = wibox.widget.textbox,
-				},
-				id = "background_role",
-				widget = wibox.container.background,
-				forced_width = beautiful.spacing_xl,
-				forced_height = beautiful.spacing_xl,
+				id = "text_role",
+				align = "center",
+				widget = wibox.widget.textbox,
 			},
-			margins = beautiful.spacing_s,
-			widget = wibox.container.margin
+			id = "background_role",
+			widget = wibox.container.background,
+			forced_width = beautiful.spacing_xl,
+			forced_height = beautiful.spacing_xl,
 		},
-		valign = "top",
-		halign = "left",
-		widget = wibox.container.place
-	}
+		margins = beautiful.spacing_s,
+		widget = wibox.container.margin
+	},
+	valign = "top",
+	halign = "left",
+	widget = wibox.container.place
+}
 
+return function(s)
+	local width = beautiful.spacing_xl * 8
+	-- @FIX add a limit for rendered tags OR resize previews if height exceeds limit
 	local taglist = awful.widget.taglist({
 		screen = s,
 		filter = awful.widget.taglist.filter.noempty,
@@ -40,50 +42,39 @@ return function(s)
 		widget_template = {
 			{
 				id = "preview",
-				widget = wibox.container.margin,
+				resize = true,
+				clip_shape = beautiful.rounded,
+				widget = wibox.widget.imagebox
 			},
 			indicator,
-			forced_width = beautiful.spacing_xl * 8,
 			layout = wibox.layout.stack,
 			create_callback = function(self, t)
-				local function set_properties()
-					self.preview.widget.resize = true
-					self.preview.widget.clip_shape = beautiful.rounded
-				end
-
 				t:connect_signal("preview", function()
-					self.preview.widget = t.preview
-					set_properties()
+					self.preview.image = t.preview
 				end)
 
 				local wallpaper = beautiful.wallpaper(s)
 				local w, h = gears.surface.get_size(wallpaper)
-				local r = self.forced_width / w
-				self.forced_height = h * r
-
-				self.preview.widget = wibox.widget.imagebox(wallpaper, true)
-				set_properties()
+				local r = width / w
+				self.preview.forced_height = h * r
+				self.preview.image = wallpaper
 			end
 		},
-		buttons = gears.table.join(
-		awful.button({}, 1, function(t)
-			t:view_only()
-		end),
-		awful.button({}, 3, awful.tag.viewtoggle)
-		)
+		buttons = gears.table.join(awful.button({}, 1, function(t) t:view_only() end))
 	})
 
-	-- @FIX add a limit for rendered tags OR resize previews if height exceeds limit
-	s.taglist = awful.popup {
-		widget = {
+	local margin = beautiful.spacing_m
+	taglist = {
+		{
+
 			taglist,
-			margins = beautiful.spacing_m,
+			margins = margin,
 			widget = wibox.container.margin
 		},
-		placement = function(d) awful.placement.left(d, { margins = beautiful.useless_gap * 2 }) end,
-		shape = beautiful.rounded,
-		bg = beautiful.base,
-		ontop = true,
-		visible = false
+		bg = beautiful.surface,
+		widget = wibox.container.background,
+		forced_width = width + (margin * 2)
 	}
+
+	return taglist
 end

@@ -4,7 +4,7 @@ local beautiful = require("beautiful")
 local keybinds  = require("keybinds")
 
 return function()
-	client.connect_signal("manage", function(c)
+	client.connect_signal("request::manage", function(c)
 		-- rounded corners
 		c.shape = beautiful.rounded
 	end)

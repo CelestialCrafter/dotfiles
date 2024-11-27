@@ -19,9 +19,7 @@ return function(s)
 		{},
 		1,
 		nil,
-		function()
-			s.taglist.visible = not s.taglist.visible
-		end
+		function() s.overview.visible = not s.overview.visible end
 	)))
 	s.prompt = awful.widget.prompt()
 

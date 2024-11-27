@@ -103,11 +103,11 @@ return function(s)
 		margins = margin,
 	}
 
-	local launcher = awful.popup {
+	s.launcher = awful.popup {
 		widget = widget,
 		bg = beautiful.surface,
 		shape = beautiful.rounded,
-		preferred_anchors = {'middle'},
+		placement = awful.placement.centered,
 		ontop = true,
 		visible = false
 	}
@@ -117,7 +117,7 @@ return function(s)
 		widget:get_children_by_id("entries")[1]:set_children(handle_search(query))
 	end
 
-	launcher:connect_signal("property::visible", function()
+	s.launcher:connect_signal("property::visible", function()
 		if not s.launcher.visible then
 			s.launcher.placement = nil
 			return
@@ -146,7 +146,5 @@ return function(s)
 			end
 		}
 	end)
-
-	s.launcher = launcher
 end
 
