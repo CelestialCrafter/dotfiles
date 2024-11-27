@@ -81,13 +81,17 @@ awful.keyboard.append_global_keybindings({
 	awful.key({ modkey }, "e", function()
 		awful.screen.focused().prompt:run()
 	end, { description = "execute", group = "launcher" }),
+
 	awful.key({ modkey }, "Return", function()
 		awful.spawn(user.terminal)
 	end, { description = "open terminal", group = "launcher" }),
+
 	awful.key({ modkey }, "r", function()
-		local launcher = awful.screen.focused().launcher
-		launcher.placement = awful.placement.centered
-		launcher.visible = true
+		awful.screen.focused().launcher.visible = true
+	end, { description = "show app runner", group = "launcher" }),
+	awful.key({ modkey }, "o", function()
+		local o = awful.screen.focused().overview
+		o.visible = not o.visible
 	end, { description = "show app runner", group = "launcher" })
 })
 
