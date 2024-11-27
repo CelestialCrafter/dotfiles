@@ -3,8 +3,6 @@ local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
 
-local taglist = require("widgets.taglist")
-
 return function(s)
 	s.prompt = awful.widget.prompt()
 
@@ -21,7 +19,6 @@ return function(s)
 	bar:setup({
 		{
 			{
-				taglist(s),
 				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal
 			},
