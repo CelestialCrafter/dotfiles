@@ -4,6 +4,25 @@ local gears = require("gears")
 local beautiful = require("beautiful")
 
 return function(s)
+	local overview = wibox.widget {
+		{
+			wibox.widget.textbox("Overview"),
+			margins = beautiful.spacing_m,
+			widget = wibox.container.margin
+		},
+		bg = beautiful.overlay,
+		shape = beautiful.rounded,
+		widget = wibox.container.background
+	}
+
+	overview:buttons(gears.table.join(awful.button(
+		{},
+		1,
+		nil,
+		function()
+			s.taglist.visible = not s.taglist.visible
+		end
+	)))
 	s.prompt = awful.widget.prompt()
 
 	local bar = awful.wibar({
@@ -19,6 +38,7 @@ return function(s)
 	bar:setup({
 		{
 			{
+				overview,
 				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal
 			},

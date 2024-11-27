@@ -84,6 +84,6 @@ return function(s)
 		shape = beautiful.rounded,
 		bg = beautiful.base,
 		ontop = true,
-		visible = true
+		visible = false
 	}
 end
