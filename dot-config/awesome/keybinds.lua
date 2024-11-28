@@ -1,5 +1,6 @@
 local awful = require("awful")
 local popup = require("awful.hotkeys_popup")
+local titlebar = require("client.titlebar")
 
 local user = require("user")
 local misc = require("misc")

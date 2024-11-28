@@ -72,8 +72,9 @@ return function(s)
 			widget = wibox.container.margin
 		},
 		bg = beautiful.surface,
+		forced_width = width + (margin * 2),
 		widget = wibox.container.background,
-		forced_width = width + (margin * 2)
+		id = "taglist"
 	}
 
 	return taglist
