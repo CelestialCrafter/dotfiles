@@ -7,7 +7,7 @@ end
 return {
 	setup = setup,
 	tags = { "1", "2", "3", "4", "5", "6", "S" },
-	position = "left",
-	expose_position = "bottom",
+	titlebar_position = "left",
+	bar_position = "top",
 	visual_update_delay = 0.05
 }
