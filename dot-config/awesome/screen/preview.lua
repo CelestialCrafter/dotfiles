@@ -26,6 +26,7 @@ return function(s)
 				t.preview = full
 				t:emit_signal("preview")
 			end
+			collectgarbage("collect")
 		end
 	}
 
