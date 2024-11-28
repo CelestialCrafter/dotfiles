@@ -7,6 +7,7 @@ local misc = require("misc")
 local expose = require("layout.expose")
 
 local function tag_expose(s)
+	-- @FIX changing layouts is not disabled when expose is active
 	for _, c in ipairs(s.clients) do
 		awful.titlebar.hide(c, misc.position)
 	end
@@ -100,6 +101,7 @@ return function(s)
 		destroy_popups()
 
 		for _, c in ipairs(s.clients) do
+			-- @FIX re-arranging clients while expose is active does not re-arrange labels
 			table.insert(popups, awful.popup {
 				widget = {
 					{

@@ -26,6 +26,12 @@ return function(s)
 				t.preview = full
 				t:emit_signal("preview")
 			end
+
+			for _, c in ipairs(s.clients) do
+				c.preview = screenshot(c)
+				c:emit_signal("preview")
+			end
+
 			collectgarbage("collect")
 		end
 	}
