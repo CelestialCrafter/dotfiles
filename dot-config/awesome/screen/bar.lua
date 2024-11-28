@@ -2,6 +2,7 @@ local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
+local misc = require("misc")
 
 return function(s)
 	local overview = wibox.widget {
@@ -25,11 +26,18 @@ return function(s)
 
 	local bar = awful.wibar({
 		height = beautiful.spacing_xl + beautiful.spacing_m,
-		position = "top",
+		position = misc.bar_position,
 		screen = s,
 		bg = beautiful.base,
 		shape = function(cr, w, h)
-			gears.shape.partially_rounded_rect(cr, w, h, false, false, true, true, beautiful.spacing_m)
+			local tl, tr, bl, br
+			if misc.bar_position == "top" then
+				tl, tr, bl, br = false, false, true, true
+			elseif misc.bar_position == "bottom" then
+				tl, tr, bl, br = true, true, false, false
+			end
+
+			gears.shape.partially_rounded_rect(cr, w, h, tl, tr, bl, br, beautiful.spacing_m)
 		end
 	})
 
