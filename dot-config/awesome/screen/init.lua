@@ -1,6 +1,7 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
+local expose    = require("widgets.expose")
 
 local overview = require("widgets.overview")
 local launcher = require("widgets.launcher")
@@ -22,4 +23,5 @@ screen.connect_signal("request::desktop_decoration", function(s)
 	launcher(s)
 	preview(s)
 	overview(s)
+	expose(s)
 end)

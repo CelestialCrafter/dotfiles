@@ -1,6 +1,7 @@
 local awful = require("awful")
 local gears = require("gears")
 local user = require("user")
+local misc = require("misc")
 
 local function screenshot(c, s)
 	local ss = awful.screenshot { client = c, screen = s }
@@ -10,7 +11,7 @@ end
 
 return function(s)
 	-- visual updates happen a bit after signal is sent
-	local tag_updated = gears.timer {
+	local updated_timer = gears.timer {
 		timeout = user.preview_update_interval,
 		autostart = true,
 		callback = function()
@@ -28,9 +29,15 @@ return function(s)
 		end
 	}
 
-	-- @FIX if you switch tags fast enough, previews can be switched up. add a small delay between signal and call
-	local function call() tag_updated:emit_signal("timeout") end
-	screen.connect_signal("tag::history::update", call)
+	local function call() updated_timer:emit_signal("timeout") end
+
+	local visual_timer = gears.timer {
+		timeout = misc.visual_update_delay,
+		single_shot = true,
+		callback = call
+	}
+
+	screen.connect_signal("tag::history::update", function() visual_timer:start() end)
 	tag.connect_signal("tagged", call)
 	tag.connect_signal("untagged", call)
 end
