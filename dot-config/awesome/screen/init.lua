@@ -1,8 +1,8 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-local expose    = require("widgets.expose")
 
+local expose = require("widgets.expose")
 local overview = require("widgets.overview")
 local launcher = require("widgets.launcher")
 local preview = require("screen.preview")

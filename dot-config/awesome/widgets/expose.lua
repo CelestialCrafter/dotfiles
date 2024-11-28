@@ -45,6 +45,46 @@ local function undo_tag_expose(s)
 	end
 end
 
+local function label(c)
+		local margin = {
+			v = beautiful.spacing_s,
+			h = beautiful.spacing_xl
+		}
+
+	return {
+		{
+			{
+				markup = "<big>" .. c.name .. "</big>",
+				halign = "center",
+				widget = wibox.widget.textbox
+			},
+			top = margin.v,
+			bottom = margin.v,
+			left = margin.h,
+			right = margin.h,
+			widget = wibox.container.margin
+		},
+		bg = beautiful.overlay,
+		widget = wibox.container.background,
+		shape = beautiful.rounded,
+		forced_width = math.min(c.width, beautiful.spacing_xl * 10) - (margin.h * 2),
+		forced_height = beautiful.spacing_xl
+	}
+end
+
+local function icon(c)
+	return {
+		{
+			client = c,
+			forced_width = beautiful.spacing_xl,
+			forced_height = beautiful.spacing_xl,
+			widget = awful.widget.clienticon
+		},
+		margins = beautiful.spacing_m,
+		widget = wibox.container.margin
+	}
+end
+
 return function(s)
 	local popups = {}
 
@@ -59,32 +99,29 @@ return function(s)
 	local function create_popups()
 		destroy_popups()
 
-		local margin = {
-			v = beautiful.spacing_s,
-			h = beautiful.spacing_xl
-		}
-
 		for _, c in ipairs(s.clients) do
-			local width =  math.min(c.width, beautiful.spacing_xl * 10) - (margin.h * 2)
-
 			table.insert(popups, awful.popup {
 				widget = {
 					{
-						markup = "<big>" .. c.name .. "</big>",
-						halign = "center",
-						forced_width = width,
-						widget = wibox.widget.textbox
+						icon(c),
+						widget = wibox.container.place,
+						halign = "left",
+						valign = "top",
 					},
-					top = margin.v,
-					bottom = margin.v,
-					left = margin.h,
-					right = margin.h,
-					widget = wibox.container.margin
+					{
+						label(c),
+						widget = wibox.container.place,
+						valign = "bottom",
+					},
+					forced_width = c.width,
+					forced_height = c.height + (beautiful.spacing_xl / 2),
+					fill_space = true,
+					layout = wibox.layout.fixed.vertical
 				},
-				bg = beautiful.overlay,
-				shape = beautiful.rounded,
-				x = c.x + (c.width - width) / 2 - margin.h,
-				y = c.y + c.height + beautiful.spacing_m
+				bg = "#00000000",
+				x = c.x,
+				y = c.y,
+				ontop = true
 			})
 		end
 	end
