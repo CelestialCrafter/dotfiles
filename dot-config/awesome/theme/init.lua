@@ -40,6 +40,7 @@ theme.secondary = user.secondary
 theme.accent = user.accent
 
 theme.text = user.text
+theme.text_subtle = user.text_subtle
 
 -- awesome
 theme.bg_normal = theme.base
