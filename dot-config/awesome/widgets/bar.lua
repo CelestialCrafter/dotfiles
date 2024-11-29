@@ -4,28 +4,17 @@ local gears = require("gears")
 local beautiful = require("beautiful")
 
 local user = require("user")
-
-local function buttonify(w)
-	return wibox.widget {
-		{
-			w,
-			margins = beautiful.spacing_m,
-			widget = wibox.container.margin
-		},
-		bg = beautiful.overlay,
-		shape = beautiful.rounded,
-		widget = wibox.container.background
-	}
-end
+local media = require("widgets.media")
+local bar_element = require("widgets.bar_element")
 
 return function(s)
-	local clock = buttonify(wibox.widget.textclock("%I:%M%P"))
+	local clock = bar_element(wibox.widget.textclock("%I:%M%P"))
 	s.prompt = awful.widget.prompt()
-	local overview = buttonify(wibox.widget.textbox("Overview"))
-	overview:buttons(gears.table.join(awful.button(
+	local overview = bar_element(wibox.widget.textbox("Overview"))
+	overview:add_button(awful.button(
 		{}, 1, nil,
 		function() s.overview.visible = not s.overview.visible end
-	)))
+	))
 
 	local bar = awful.wibar({
 		height = beautiful.spacing_xl + beautiful.spacing_m,
@@ -47,13 +36,15 @@ return function(s)
 		{
 			{
 				overview,
+				s.prompt,
 				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal
 			},
 			nil,
 			{
-				s.prompt,
+				media.song(),
 				clock,
+				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal,
 			},
 			layout = wibox.layout.align.horizontal,

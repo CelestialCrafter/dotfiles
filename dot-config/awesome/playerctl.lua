@@ -84,9 +84,16 @@ local function move(p)
 	manager:move_player_to_top(p)
 end
 
+local function emit()
+	player:emit_signal("metadata", player.metadata())
+	player:emit_signal("status", player.status())
+	player:emit_signal("position", player.position())
+end
+
 local function init_player(name)
 	local p = playerctl.Player.new_from_name(name)
 	manager:manage_player(p)
+	emit()
 
 	p.on_playback_status = function(self, status)
 		move(self)
@@ -100,6 +107,7 @@ local function init_player(name)
 end
 
 local function setup()
+	-- @FIX player-vanished signal isnt getting sent for some reason
 	for _, name in ipairs(manager.player_names) do
 		init_player(name)
 	end
@@ -125,8 +133,11 @@ return {
 	setup = setup,
 	player = player,
 	cycle = function()
+		if #manager.players < 1 then
+			return
+		end
+
 		move(manager.players[#manager.players])
-		player:emit_signal("metadata", player.metadata())
-		player:emit_signal("status", player.status())
+		emit()
 	end,
 }
