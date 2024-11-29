@@ -56,7 +56,8 @@ local function format_metadata(metadata)
 	return {
 		title = data["xesam:title"] or "",
 		artist = table.concat(artists, ", "),
-		artUrl = data["mpris:artUrl"] or "",
+		art_url = data["mpris:artUrl"] or "",
+		id = data["mpris:trackid"] or "",
 		album = data["xesam:album"] or ""
 	}
 end
