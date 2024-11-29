@@ -56,7 +56,7 @@ local function label(c)
 	return {
 		{
 			{
-				markup = "<big>" .. c.name .. "</big>",
+				markup = "<big>" .. gears.string.xml_escape(c.name) .. "</big>",
 				halign = "center",
 				widget = wibox.widget.textbox
 			},

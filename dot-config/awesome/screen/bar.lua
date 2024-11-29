@@ -19,17 +19,13 @@ local function buttonify(w)
 end
 
 return function(s)
+	local clock = buttonify(wibox.widget.textclock("%I:%M%P"))
+	s.prompt = awful.widget.prompt()
 	local overview = buttonify(wibox.widget.textbox("Overview"))
 	overview:buttons(gears.table.join(awful.button(
 		{}, 1, nil,
 		function() s.overview.visible = not s.overview.visible end
 	)))
-
-	local clock = buttonify(wibox.widget.textclock("%I:%M%P"))
-	local calendar = awful.widget.calendar_popup.month()
-	calendar:attach(clock, "tr")
-
-	s.prompt = awful.widget.prompt()
 
 	local bar = awful.wibar({
 		height = beautiful.spacing_xl + beautiful.spacing_m,
