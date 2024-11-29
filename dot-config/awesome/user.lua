@@ -21,5 +21,6 @@ user.secondary = "#BD6F33"
 user.accent = "#CCA66A"
 
 user.text = "#D2DFFC"
+user.text_subtle = "#949EB3"
 
 return user
