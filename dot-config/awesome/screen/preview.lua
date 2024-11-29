@@ -1,5 +1,6 @@
 local awful = require("awful")
 local gears = require("gears")
+
 local user = require("user")
 local misc = require("misc")
 

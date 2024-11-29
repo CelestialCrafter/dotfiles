@@ -36,8 +36,7 @@ return function(s)
 			spacing = beautiful.spacing_m,
 			shape = beautiful.rounded,
 			bg_focus = beautiful.primary,
-			bg_occupied = beautiful.overlay,
-			bg_empty = beautiful.base
+			bg_occupied = beautiful.overlay
 		},
 		widget_template = {
 			{
