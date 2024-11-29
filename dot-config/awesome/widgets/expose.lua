@@ -87,6 +87,7 @@ local function icon(c)
 end
 
 return function(s)
+	-- @PERF use a single popup + manual layout, instead of a popup for every client
 	local popups = {}
 
 	local function destroy_popups()

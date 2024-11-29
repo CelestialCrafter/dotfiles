@@ -23,8 +23,13 @@ local function do_expose(p)
         local col = i % cols
         local row = math.floor(i / cols)
 
-        g.height = math.ceil(wa.height / rows)
-        g.y = g.height * row
+        if #cls == 2 then
+            g.height = wa.height / 2
+            g.y = g.height / 2
+        else
+            g.height = math.ceil(wa.height / rows)
+            g.y = g.height * row
+        end
 
         g.width = math.ceil(wa.width / cols)
         g.x = g.width * col
