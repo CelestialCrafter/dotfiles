@@ -2,11 +2,15 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local misc = require("misc")
+local user = require("user")
 
 return function()
 	client.connect_signal("request::titlebars", function(c)
-		local titlebar = awful.titlebar(c, { position = misc.titlebar_position, size = beautiful.spacing_xl + beautiful.spacing_m })
+		local titlebar = awful.titlebar(c, {
+			position = user.titlebar_position,
+			size = beautiful.spacing_xl + beautiful.spacing_m,
+			bg_normal = beautiful.subtle
+		})
 		titlebar.widget = {
 			{
 

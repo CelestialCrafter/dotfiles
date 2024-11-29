@@ -1,6 +1,5 @@
 local awful = require("awful")
 local popup = require("awful.hotkeys_popup")
-local titlebar = require("client.titlebar")
 
 local user = require("user")
 local misc = require("misc")
@@ -216,7 +215,7 @@ local function clientkeys()
 		end, { description = "move to master", group = "layout" }),
 
 		awful.key({ modkey }, "t", function(c)
-			awful.titlebar.toggle(c, misc.titlebar_position)
+			awful.titlebar.toggle(c, user.titlebar_position)
 		end, { description = "toggle titlebar", group = "client" })
 	})
 end

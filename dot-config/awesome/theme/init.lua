@@ -42,7 +42,7 @@ theme.accent = user.accent
 theme.text = user.text
 
 -- awesome
-theme.bg_normal = theme.subtle
+theme.bg_normal = theme.base
 theme.bg_focus = theme.surface
 theme.bg_urgent = theme.accent
 theme.bg_minimize = theme.surface

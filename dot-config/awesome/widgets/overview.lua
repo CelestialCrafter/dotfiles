@@ -11,7 +11,6 @@ return function(s)
 		},
 		placement = function(d) awful.placement.left(d, { margins = beautiful.useless_gap * 2 }) end,
 		shape = beautiful.rounded,
-		bg = beautiful.base,
 		ontop = true,
 		visible = false
 	}
