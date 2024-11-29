@@ -3,6 +3,7 @@ local popup = require("awful.hotkeys_popup")
 
 local user = require("user")
 local misc = require("misc")
+local playerctl = require("playerctl")
 
 local modkey = "Mod4"
 local function s() return awful.screen.focused() end
@@ -39,13 +40,16 @@ awful.keyboard.append_global_keybindings({
 	end),
 
 	awful.key({}, "XF86AudioPlay", function()
-		awful.spawn("playerctl play-pause")
+		playerctl.player.play_pause()
 	end),
 	awful.key({}, "XF86AudioNext", function()
-		awful.spawn("playerctl next")
+		playerctl.player.next()
 	end),
 	awful.key({}, "XF86AudioPrev", function()
-		awful.spawn("playerctl previous")
+		playerctl.player.previous()
+	end),
+	awful.key({}, "XF86AudioStop", function()
+		playerctl.cycle()
 	end),
 
 	-- layout

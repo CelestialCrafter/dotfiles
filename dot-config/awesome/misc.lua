@@ -7,5 +7,6 @@ end
 return {
 	setup = setup,
 	tags = { "1", "2", "3", "4", "5", "6", "S" },
-	visual_update_delay = 0.05
+	visual_update_delay = 0.05,
+	media_position_update_interval = 0.5
 }
