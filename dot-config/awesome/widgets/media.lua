@@ -6,6 +6,17 @@ local bar_element = require("widgets.bar_element")
 
 local player = require("playerctl").player
 
+local function hex(str)
+    return (str:gsub('.', function (c)
+        return string.format('%02x', string.byte(c))
+    end))
+end
+
+local function file_exists(name)
+   local f = io.open(name, "r")
+   return f ~= nil and io.close(f)
+end
+
 local function media()
 	local height = beautiful.spacing_xl * 5
 	local width = height * 1.5
@@ -115,15 +126,22 @@ local function media()
 			return
 		end
 
-		-- @TODO use cached art
-		local path = os.tmpname()
-		local cmd = string.format("curl -L -s %s -o %s", metadata.art_url, path)
-		awful.spawn.with_line_callback(cmd, { exit = function ()
-			-- make sure song is still the same after download finished
-			if player.metadata().id == metadata.id then
-				image.image = gears.surface.load_uncached(path)
-			end
-		end })
+		local path = '/tmp/media-art-' .. hex(metadata.id)
+		local function set() image.image = gears.surface.load(path) end
+
+		if not file_exists(path) then
+			local cmd = string.format("curl -L -s %s -o %s", metadata.art_url, path)
+			awful.spawn.with_line_callback(cmd, {
+				exit = function ()
+					-- make sure song is still the same after download finished
+					if player.metadata().id == metadata.id then
+						set()
+					end
+				end
+			})
+		else
+			set()
+		end
 
 		title.markup = "<big>" .. metadata.title .. "</big>"
 		artist.text = metadata.artist
