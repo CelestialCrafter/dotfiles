@@ -3,13 +3,13 @@ local user = {}
 user.terminal = "alacritty"
 user.wallpaper = "~/Pictures/Wallpapers/normal.png"
 user.font = "sans 11"
-user.preview_update_interval = 1
+user.preview_update_interval = 0.5
 user.titlebar_position = "left"
 user.bar_position = "top"
 
 user.base_spacing = 4
-user.roundness = 2
-user.spacing_multiplier = 2
+user.roundness = 1
+user.spacing_multiplier = 4
 
 user.base = "#0B1221"
 user.surface = "#0D1933"

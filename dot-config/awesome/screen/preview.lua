@@ -16,10 +16,6 @@ return function(s)
 		timeout = user.preview_update_interval,
 		autostart = true,
 		callback = function()
-			if s.overview.visible then
-				return
-			end
-
 			local tags = s.selected_tags
 			local full = screenshot(nil, s)
 

@@ -2,9 +2,11 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local taglist = require("widgets.taglist")
+local expose  = require("popups.expose")
 
 return function(s)
-	s.overview = awful.popup {
+	local expose_popup = expose(s)
+	local popup = awful.popup {
 		widget = {
 			taglist(s),
 			layout = wibox.layout.fixed.horizontal
@@ -15,7 +17,12 @@ return function(s)
 		visible = false
 	}
 
-	s.overview:struts {
-		left = s.overview.widget.taglist.forced_width
+	popup:struts {
+		left = popup.widget.taglist.forced_width
 	}
+
+	popup:connect_signal("property::visible", function() expose_popup.visible = popup.visible end)
+	s:connect_signal("tag::history::update", function() popup.visible = false end)
+
+	return popup
 end

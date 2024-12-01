@@ -2,7 +2,6 @@ local awful = require("awful")
 local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-local bar_element = require("widgets.bar_element")
 
 local player = require("playerctl").player
 
@@ -17,27 +16,30 @@ local function file_exists(name)
    return f ~= nil and io.close(f)
 end
 
-local function full()
+return function()
+	local font_height = beautiful.get_font_height(beautiful.font)
 	local height = beautiful.spacing_xl * 5
-	local width = height * 1.5
+	local width = height * 2
 
 	local info = {
-
 		{
 			widget = wibox.widget.textbox,
+			forced_height = font_height,
 			halign = "center",
 			id = "title"
 		},
 		{
 			{
 				widget = wibox.widget.textbox,
+				forced_height = font_height,
 				halign = "center",
 				id = "artist"
 			},
 			fg = beautiful.text_subtle,
 			widget = wibox.container.background
 		},
-		layout = wibox.layout.fixed.vertical
+		layout = wibox.layout.fixed.vertical,
+		forced_width = width
 	}
 
 	local controls = {
@@ -192,36 +194,3 @@ local function full()
 		visible = false
 	}
 end
-
-local function short()
-	local function format(metadata)
-		return metadata.title .. ' - ' .. metadata.artist
-	end
-
-	local widget = bar_element({
-		widget = wibox.widget.textbox,
-		id = "song"
-	})
-
-	local s = widget:get_children_by_id("song")[1]
-	local function handle_metadata(_, metadata)
-		if metadata == nil then
-			s.text = ""
-			widget.visible = false
-			return
-		end
-
-		s.text = format(metadata)
-		widget.visible = true
-	end
-
-	player:connect_signal("metadata", handle_metadata)
-	handle_metadata(nil, player.metadata())
-
-	return widget
-end
-
-return {
-	short = short,
-	full = full
-}

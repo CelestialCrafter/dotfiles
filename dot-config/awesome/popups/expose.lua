@@ -48,10 +48,10 @@ local function undo_tag_expose(s)
 end
 
 local function label(c)
-		local margin = {
-			v = beautiful.spacing_s,
-			h = beautiful.spacing_xl
-		}
+	local margin = {
+		v = beautiful.spacing_s,
+		h = beautiful.spacing_xl
+	}
 
 	return {
 		{
@@ -88,83 +88,67 @@ local function icon(c)
 end
 
 return function(s)
-	-- @PERF use a single popup + manual layout, instead of a popup for every client
-	local popups = {}
+	local popup = awful.popup {
+		widget = wibox.widget {
+			layout = wibox.layout.manual
+		},
+		bg = "#00000000",
+		ontop = true,
+		visible = false,
+		input_passthrough = true
+	}
 
-	local function destroy_popups()
-		for _, p in ipairs(popups) do
-			p.visible = false
-		end
-
-		popups = {}
-	end
-
-	local function create_popups()
-		destroy_popups()
-
+	-- @TODO update overlays instead of completely resetting them every update
+	local function create_overlays()
+		local overlays = {}
 		for _, c in ipairs(s.clients) do
 			-- @FIX re-arranging clients while expose is active does not re-arrange labels
-			table.insert(popups, awful.popup {
-				widget = {
-					{
-						icon(c),
-						widget = wibox.container.place,
-						halign = "left",
-						valign = "top",
-					},
-					{
-						label(c),
-						widget = wibox.container.place,
-						valign = "bottom",
-					},
-					forced_width = c.width,
-					forced_height = c.height + (beautiful.spacing_xl / 2),
-					fill_space = true,
-					layout = wibox.layout.fixed.vertical
+			table.insert(overlays, {
+				{
+					icon(c),
+					widget = wibox.container.place,
+					halign = "left",
+					valign = "top",
 				},
-				bg = "#00000000",
-				x = c.x,
-				y = c.y,
-				ontop = true
+				{
+					label(c),
+					widget = wibox.container.place,
+					valign = "bottom",
+				},
+				forced_width = c.width,
+				forced_height = c.height + (beautiful.spacing_xl / 2),
+				fill_space = true,
+				layout = wibox.layout.fixed.vertical,
+				point = {
+					x = c.x,
+					y = c.y,
+				}
 			})
 		end
+
+		popup.widget:reset()
+		popup.widget:add(table.unpack(overlays))
 	end
 
 	local timer = gears.timer {
 		timeout = misc.visual_update_delay,
 		single_shot = true,
-		callback = create_popups
+		callback = create_overlays
 	}
 
-	local function hide()
-		destroy_popups()
-		undo_tag_expose(s)
-	end
-
-	local function show()
-		tag_expose(s)
-		timer:start()
-	end
-
-	local function reshow()
-		if s.overview.visible then
-			show()
-		end
-	end
-
-	s.overview:connect_signal("property::visible", function ()
-		if s.overview.visible then
-			show()
+	local function start() timer:again() end
+	popup:connect_signal("property::visible", function()
+		if popup.visible then
+			tag_expose(s)
+			start()
+			client.connect_signal("request::manage", start)
+			client.connect_signal("request::unmanage", start)
 		else
-			hide()
+			undo_tag_expose(s)
+			client.disconnect_signal("request::manage", start)
+			client.disconnect_signal("request::unmanage", start)
 		end
 	end)
-	s:connect_signal("tag::history::update", function()
-		if s.overview.visible then
-			s.overview.visible = false
-			hide()
-		end
-	end)
-	client.connect_signal("request::manage", reshow)
-	client.connect_signal("request::unmanage", reshow)
+
+	return popup
 end
