@@ -68,7 +68,6 @@ local function media()
 				},
 				{
 					id = "play_pause",
-					text = "+",
 					widget = wibox.widget.textbox
 				},
 				{
@@ -120,6 +119,9 @@ local function media()
 	prev:add_button(awful.button({}, 1, nil, player.previous))
 	play_pause:add_button(awful.button({}, 1, nil, player.play_pause))
 	next:add_button(awful.button({}, 1, nil, player.next))
+	progress:connect_signal("button::press", function(self, x)
+		player.seek(1 / (self.forced_width / x))
+	end)
 
 	local function handle_metadata(_, metadata)
 		if metadata == nil then
@@ -160,10 +162,16 @@ local function media()
 		progress.value = 1 / (pos.length / pos.current)
 	end
 
+	local function handle_status(_, playing)
+		play_pause.text = playing and "+" or "-"
+	end
+
 	player:connect_signal("metadata", handle_metadata)
 	player:connect_signal("position", handle_position)
+	player:connect_signal("status", handle_status)
 	handle_metadata(nil, player.metadata())
 	handle_position(nil, player.position())
+	handle_status(nil, player.status())
 
 	awful.popup {
 		widget = widget,

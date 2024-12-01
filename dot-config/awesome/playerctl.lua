@@ -9,6 +9,7 @@ local function c()
 	return manager.players[1]
 end
 
+-- actions
 function player.next()
 	local p = c()
 	if p ~= nil then
@@ -30,6 +31,15 @@ function player.play_pause()
 	end
 end
 
+function player.seek(percentage)
+	local p = c()
+	if p ~= nil then
+		local length = p.metadata.value["mpris:length"] or 0
+		p:set_position(length * percentage)
+	end
+end
+
+-- info
 function player.position()
 	local p = c()
 	if p ~= nil then
@@ -80,6 +90,7 @@ function player.status()
 	end
 end
 
+-- other
 local function move(p)
 	manager:move_player_to_top(p)
 end
