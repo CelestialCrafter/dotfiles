@@ -4,24 +4,26 @@ local gears = require("gears")
 local beautiful = require("beautiful")
 
 local user = require("user")
-local media = require("widgets.media")
+local media = require("popups.media")
+local song = require("widgets.song")
 local bar_element = require("widgets.bar_element")
 
 return function(s)
-	local clock = bar_element(wibox.widget.textclock("%I:%M%P"))
-	s.prompt = awful.widget.prompt()
 	local overview = bar_element(wibox.widget.textbox("Overview"))
 	overview:add_button(awful.button(
 		{}, 1, nil,
 		function() s.overview.visible = not s.overview.visible end
 	))
 
-	local full_media = media.full()
-	local short_media = media.short()
+	local full_media = media()
+	local short_media = wibox.container.constraint(song(), "max", nil, beautiful.spacing_xl * 10)
 	short_media:add_button(awful.button(
 		{}, 1, nil,
 		function() full_media.visible = not full_media.visible end
 	))
+
+	s.prompt = awful.widget.prompt()
+	local clock = bar_element(wibox.widget.textclock("%I:%M%P"))
 
 	local bar = awful.wibar({
 		height = beautiful.spacing_xl + beautiful.spacing_m,
