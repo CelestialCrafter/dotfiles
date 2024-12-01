@@ -17,7 +17,7 @@ local function file_exists(name)
    return f ~= nil and io.close(f)
 end
 
-local function media()
+local function full()
 	local height = beautiful.spacing_xl * 5
 	local width = height * 1.5
 
@@ -183,19 +183,17 @@ local function media()
 	handle_position(nil, player.position())
 	handle_status(nil, player.status())
 
-	awful.popup {
+	return awful.popup {
 		widget = widget,
 		ontop = true,
-		placement = awful.placement.bottom_right,
+		placement = awful.placement.top_right + awful.placement.no_offscreen,
 		shape = beautiful.rounded,
 		bg = beautiful.surface,
-		visible = true
+		visible = false
 	}
-
-	return widget
 end
 
-local function song()
+local function short()
 	local function format(metadata)
 		return metadata.title .. ' - ' .. metadata.artist
 	end
@@ -224,6 +222,6 @@ local function song()
 end
 
 return {
-	song = song,
-	media = media
+	short = short,
+	full = full
 }
