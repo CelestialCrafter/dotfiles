@@ -53,6 +53,8 @@ function player.position()
 			length = length
 		}
 	end
+
+	return nil
 end
 
 local function format_metadata(metadata)
@@ -77,6 +79,8 @@ function player.metadata()
 	if p ~= nil then
 		return format_metadata(p.metadata)
 	end
+
+	return nil
 end
 
 local function is_playing(status)
@@ -88,6 +92,8 @@ function player.status()
 	if p ~= nil then
 		return is_playing(p.playback_status)
 	end
+
+	return nil
 end
 
 -- other
@@ -118,7 +124,6 @@ local function init_player(name)
 end
 
 local function setup()
-	-- @FIX player-vanished signal isnt getting sent for some reason
 	for _, name in ipairs(manager.player_names) do
 		init_player(name)
 	end
@@ -127,6 +132,7 @@ local function setup()
 		init_player(name)
 	end
 
+	local prev = true
 	gears.timer {
 		timeout = misc.media_position_update_interval,
 		autostart = true,
@@ -134,6 +140,11 @@ local function setup()
 			local pos = player.position()
 			if pos ~= nil then
 				player:emit_signal("position", pos)
+				prev = true
+			elseif prev == true then
+				-- workaround because player-vanished signal wont get sent
+				prev = false
+				emit()
 			end
 		end
 	}
