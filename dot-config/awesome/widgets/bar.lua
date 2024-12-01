@@ -16,6 +16,13 @@ return function(s)
 		function() s.overview.visible = not s.overview.visible end
 	))
 
+	local full_media = media.full()
+	local short_media = media.short()
+	short_media:add_button(awful.button(
+		{}, 1, nil,
+		function() full_media.visible = not full_media.visible end
+	))
+
 	local bar = awful.wibar({
 		height = beautiful.spacing_xl + beautiful.spacing_m,
 		position = user.bar_position,
@@ -42,7 +49,7 @@ return function(s)
 			},
 			nil,
 			{
-				media.song(),
+				short_media,
 				clock,
 				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal,
