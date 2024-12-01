@@ -125,6 +125,9 @@ local function media()
 
 	local function handle_metadata(_, metadata)
 		if metadata == nil then
+			image.image = nil
+			title.markup = ""
+			artist.text = ""
 			return
 		end
 
@@ -151,6 +154,8 @@ local function media()
 
 	local function handle_position(_, pos)
 		if pos == nil then
+			position.text = ""
+			progress.value = 0
 			return
 		end
 
@@ -163,6 +168,11 @@ local function media()
 	end
 
 	local function handle_status(_, playing)
+		if playing == nil then
+			play_pause.text = ""
+			return
+		end
+
 		play_pause.text = playing and "+" or "-"
 	end
 
@@ -190,19 +200,25 @@ local function song()
 		return metadata.title .. ' - ' .. metadata.artist
 	end
 
-	local m = player.metadata()
 	local widget = bar_element({
-		text = m and format(m),
 		widget = wibox.widget.textbox,
 		id = "song"
 	})
-	widget.visible = m ~= nil
 
-	song = widget:get_children_by_id("song")[1]
-	player:connect_signal("metadata", function(_, metadata)
-		song.text = format(metadata)
-		widget.visible = metadata ~= nil
-	end)
+	local s = widget:get_children_by_id("song")[1]
+	local function handle_metadata(_, metadata)
+		if metadata == nil then
+			s.text = ""
+			widget.visible = false
+			return
+		end
+
+		s.text = format(metadata)
+		widget.visible = true
+	end
+
+	player:connect_signal("metadata", handle_metadata)
+	handle_metadata(nil, player.metadata())
 
 	return widget
 end
