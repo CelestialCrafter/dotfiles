@@ -8,8 +8,8 @@ user.titlebar_position = "left"
 user.bar_position = "top"
 
 user.base_spacing = 4
-user.roundness = 1
-user.spacing_multiplier = 4
+user.roundness = 2
+user.spacing_multiplier = 2
 
 user.base = "#0B1221"
 user.surface = "#0D1933"
