@@ -6,6 +6,7 @@ local beautiful = require("beautiful")
 local user = require("user")
 local media = require("popups.media")
 local song = require("popups.bar.song")
+local current_client = require("popups.bar.current_client")
 local element = require("popups.bar.element")
 
 return function(s)
@@ -49,14 +50,15 @@ return function(s)
 				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal
 			},
-			nil,
+			current_client(s),
 			{
 				short_media,
 				clock,
 				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal,
 			},
-			layout = wibox.layout.align.horizontal,
+			expand = "none",
+			layout = wibox.layout.align.horizontal
 		},
 		margins = beautiful.spacing_s,
 		layout = wibox.container.margin
