@@ -5,11 +5,11 @@ local beautiful = require("beautiful")
 
 local user = require("user")
 local media = require("popups.media")
-local song = require("widgets.song")
-local bar_element = require("widgets.bar_element")
+local song = require("popups.bar.song")
+local element = require("popups.bar.element")
 
 return function(s)
-	local overview = bar_element(wibox.widget.textbox("Overview"))
+	local overview = element(wibox.widget.textbox("Overview"))
 	overview:add_button(awful.button(
 		{}, 1, nil,
 		function() s.overview.visible = not s.overview.visible end
@@ -23,7 +23,7 @@ return function(s)
 	))
 
 	s.prompt = awful.widget.prompt()
-	local clock = bar_element(wibox.widget.textclock("%I:%M%P"))
+	local clock = element(wibox.widget.textclock("%I:%M%P"))
 
 	local bar = awful.wibar({
 		height = beautiful.spacing_xl + beautiful.spacing_m,

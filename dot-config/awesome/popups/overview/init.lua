@@ -1,8 +1,8 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-local taglist = require("widgets.taglist")
-local expose  = require("popups.expose")
+local taglist = require("popups.overview.taglist")
+local expose  = require("popups.overview.expose")
 
 return function(s)
 	local expose_popup = expose(s)
