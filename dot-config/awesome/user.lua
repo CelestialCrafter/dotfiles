@@ -6,6 +6,7 @@ user.font = "sans 11"
 user.preview_update_interval = 0.5
 user.titlebar_position = "left"
 user.bar_position = "top"
+user.max_launcher_entries = 8
 
 user.base_spacing = 4
 user.roundness = 2

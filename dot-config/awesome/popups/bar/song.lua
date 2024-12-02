@@ -1,4 +1,5 @@
 local wibox = require("wibox")
+local beautiful = require("beautiful")
 
 local player = require("playerctl").player
 local bar_element = require("popups.bar.element")
@@ -9,8 +10,12 @@ return function()
 	end
 
 	local widget = bar_element({
-		widget = wibox.widget.textbox,
-		id = "song"
+		{
+			widget = wibox.widget.textbox,
+			id = "song"
+		},
+		widget = wibox.container.constraint,
+		width = beautiful.spacing_xl * 10
 	})
 
 	local s = widget:get_children_by_id("song")[1]
