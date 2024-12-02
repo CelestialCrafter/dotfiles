@@ -6,85 +6,85 @@ local beautiful = require("beautiful")
 local player = require("playerctl").player
 
 local function hex(str)
-    return (str:gsub('.', function (c)
-        return string.format('%02x', string.byte(c))
-    end))
+	return (str:gsub('.', function (c)
+		return string.format('%02x', string.byte(c))
+	end))
 end
 
 local function file_exists(name)
-   local f = io.open(name, "r")
-   return f ~= nil and io.close(f)
+	local f = io.open(name, "r")
+	return f ~= nil and io.close(f)
 end
 
-return function()
-	local font_height = beautiful.get_font_height(beautiful.font)
-	local height = beautiful.spacing_xl * 5
-	local width = height * 2
+local font_height = beautiful.get_font_height(beautiful.font)
+local height = beautiful.spacing_xl * 5
+local width = height * 2
 
-	local info = {
+local info = {
+	{
+		widget = wibox.widget.textbox,
+		forced_height = font_height,
+		halign = "center",
+		id = "title"
+	},
+	{
 		{
 			widget = wibox.widget.textbox,
 			forced_height = font_height,
 			halign = "center",
-			id = "title"
+			id = "artist"
 		},
-		{
-			{
-				widget = wibox.widget.textbox,
-				forced_height = font_height,
-				halign = "center",
-				id = "artist"
-			},
-			fg = beautiful.text_subtle,
-			widget = wibox.container.background
-		},
-		layout = wibox.layout.fixed.vertical,
-		forced_width = width
-	}
+		fg = beautiful.text_subtle,
+		widget = wibox.container.background
+	},
+	layout = wibox.layout.fixed.vertical,
+	forced_width = width
+}
 
-	local controls = {
+local controls = {
+	{
 		{
-			{
-				halign = "center",
-				widget = wibox.widget.textbox,
-				id = "position"
-			},
-			bottom = beautiful.spacing_s,
-			widget = wibox.container.margin
-		},
-		{
-			forced_width = width,
-			forced_height = beautiful.spacing_l,
-			widget = wibox.widget.progressbar,
-			color = beautiful.accent,
-			background_color = beautiful.subtle,
-			shape = beautiful.rounded,
-			id = "progress"
-		},
-		{
-			{
-				{
-					id = "prev",
-					text = "<",
-					widget = wibox.widget.textbox
-				},
-				{
-					id = "play_pause",
-					widget = wibox.widget.textbox
-				},
-				{
-					id = "next",
-					text = ">",
-					widget = wibox.widget.textbox
-				},
-				layout = wibox.layout.fixed.horizontal,
-			},
 			halign = "center",
-			widget = wibox.container.place
+			widget = wibox.widget.textbox,
+			id = "position"
 		},
-		layout = wibox.layout.fixed.vertical
-	}
+		bottom = beautiful.spacing_s,
+		widget = wibox.container.margin
+	},
+	{
+		forced_width = width,
+		forced_height = beautiful.spacing_l,
+		widget = wibox.widget.progressbar,
+		color = beautiful.accent,
+		background_color = beautiful.subtle,
+		shape = beautiful.rounded,
+		id = "progress"
+	},
+	{
+		{
+			{
+				id = "prev",
+				text = "<",
+				widget = wibox.widget.textbox
+			},
+			{
+				id = "play_pause",
+				widget = wibox.widget.textbox
+			},
+			{
+				id = "next",
+				text = ">",
+				widget = wibox.widget.textbox
+			},
+			layout = wibox.layout.fixed.horizontal,
+		},
+		halign = "center",
+		widget = wibox.container.place
+	},
+	layout = wibox.layout.fixed.vertical
+}
 
+return function()
 	local widget = wibox.widget {
 		{
 			resize = true,
@@ -125,6 +125,9 @@ return function()
 		player.seek(1 / (self.forced_width / x))
 	end)
 
+	local cache_path = gears.filesystem.get_cache_dir() .. '/media-art/'
+	gears.filesystem.make_directories(cache_path)
+
 	local function handle_metadata(_, metadata)
 		if metadata == nil then
 			image.image = nil
@@ -133,7 +136,7 @@ return function()
 			return
 		end
 
-		local path = '/tmp/media-art-' .. hex(metadata.id)
+		local path = cache_path .. hex(metadata.art_url)
 		local function set() image.image = gears.surface.load(path) end
 
 		if not file_exists(path) then

@@ -10,9 +10,9 @@ local theme = {}
 
 -- spacing
 theme.spacing_s = dpi(user.base_spacing)
-theme.spacing_m = theme.spacing_s * 2
-theme.spacing_l = theme.spacing_m * 2
-theme.spacing_xl = theme.spacing_l * 2
+theme.spacing_m = theme.spacing_s * user.spacing_multiplier
+theme.spacing_l = theme.spacing_m * user.spacing_multiplier
+theme.spacing_xl = theme.spacing_l * user.spacing_multiplier
 
 -- misc
 theme.useless_gap = theme.spacing_s
