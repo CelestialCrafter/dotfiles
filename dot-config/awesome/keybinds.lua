@@ -23,10 +23,6 @@ awful.keyboard.append_global_keybindings({
 		})
 	end, { description = "run lua", group = "awesome" }),
 
-	awful.key({}, "Print", function()
-		awful.spawn.with_shell("maim -u -s | xclip -selection clipboard -t image/png")
-	end, { description = "screenshot", group = "awesome" }),
-
 	-- media
 	awful.key({}, "XF86AudioMute", function()
 		awful.spawn("pamixer -t")
@@ -97,7 +93,16 @@ awful.keyboard.append_global_keybindings({
 	awful.key({ modkey }, "o", function()
 		local o = s().overview
 		o.visible = not o.visible
-	end, { description = "show app runner", group = "launcher" })
+	end, { description = "show app runner", group = "launcher" }),
+
+	-- screenshot
+	awful.key({}, "Print", function()
+		s().screenshot:emit_signal("screenshot", false)
+	end, { description = "screenshot", group = "awesome" }),
+	awful.key({ "Shift" }, "Print", function()
+		s().screenshot:emit_signal("screenshot", true)
+	end, { description = "screenshot", group = "awesome" })
+
 })
 
 -- tags

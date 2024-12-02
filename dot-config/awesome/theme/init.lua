@@ -15,6 +15,7 @@ theme.spacing_l = theme.spacing_m * user.spacing_multiplier
 theme.spacing_xl = theme.spacing_l * user.spacing_multiplier
 
 -- misc
+theme.tasklist_plain_task_name = true
 theme.useless_gap = theme.spacing_s
 theme.wallpaper_path = user.wallpaper
 theme.wallpaper = function(s)
