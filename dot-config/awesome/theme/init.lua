@@ -54,6 +54,7 @@ theme.fg_normal = theme.text
 theme.fg_focus = theme.text
 theme.fg_urgent = theme.text
 theme.fg_minimize = theme.text
+theme.prompt_bg_cursor = theme.text
 
 local p = themes_path .. "primary.png"
 local s = themes_path .. "secondary.png"

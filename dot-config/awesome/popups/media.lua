@@ -191,7 +191,10 @@ return function()
 	return awful.popup {
 		widget = widget,
 		ontop = true,
-		placement = awful.placement.top_right + awful.placement.no_offscreen,
+		placement = function(d) awful.placement.top_right(d, {
+			margins = beautiful.useless_gap * 2,
+			honor_workarea = true
+		}) end,
 		shape = beautiful.rounded,
 		bg = beautiful.surface,
 		visible = false
