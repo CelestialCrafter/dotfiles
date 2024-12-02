@@ -1,7 +1,7 @@
 local wibox = require("wibox")
 
 local player = require("playerctl").player
-local bar_element = require("widgets.bar_element")
+local bar_element = require("popups.bar.element")
 
 return function()
 	local function format(metadata)

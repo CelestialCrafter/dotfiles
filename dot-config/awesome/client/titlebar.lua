@@ -6,12 +6,7 @@ local user = require("user")
 
 return function()
 	client.connect_signal("request::titlebars", function(c)
-		local titlebar = awful.titlebar(c, {
-			position = user.titlebar_position,
-			size = beautiful.spacing_xl + beautiful.spacing_m,
-			bg_normal = beautiful.subtle
-		})
-		titlebar.widget = {
+		local widget = {
 			{
 
 				awful.titlebar.widget.iconwidget(c),
@@ -32,5 +27,12 @@ return function()
 			layout = wibox.container.margin,
 			margins = beautiful.spacing_m
 		}
+
+		awful.titlebar(c, {
+			position = user.titlebar_position,
+			size = beautiful.spacing_xl + beautiful.spacing_m,
+			bg_normal = beautiful.subtle,
+			widget = widget
+		}):setup(widget)
 	end)
 end
