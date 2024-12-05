@@ -156,7 +156,7 @@ local function generate_entries()
 	end
 end
 
-return function(s)
+return function()
 	generate_entries()
 
 	local widget = wibox.widget {
@@ -189,7 +189,7 @@ return function(s)
 		margins = beautiful.spacing_m
 	}
 
-	s.launcher = awful.popup {
+	local launcher = awful.popup {
 		widget = widget,
 		bg = beautiful.surface,
 		shape = beautiful.rounded,
@@ -206,9 +206,9 @@ return function(s)
 		widget:get_children_by_id("entries")[1]:set_children(handle_search(query))
 	end
 
-	s.launcher:connect_signal("property::visible", function()
-		if not s.launcher.visible then
-			s.launcher.placement = nil
+	launcher:connect_signal("property::visible", function()
+		if not launcher.visible then
+			launcher.placement = nil
 			return
 		end
 
@@ -226,9 +226,11 @@ return function(s)
 			end,
 			done_callback = function()
 				search.markup = current_text
-				s.launcher.visible = false
+				launcher.visible = false
 			end
 		}
 	end)
+
+	return launcher
 end
 
