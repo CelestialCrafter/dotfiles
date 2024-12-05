@@ -3,6 +3,7 @@ local popup = require("awful.hotkeys_popup")
 
 local user = require("user")
 local misc = require("misc")
+local screenshot = require("misc.screenshot")
 local playerctl = require("playerctl")
 
 local modkey = "Mod4"
@@ -22,6 +23,7 @@ awful.keyboard.append_global_keybindings({
 			history_path = awful.util.get_cache_dir() .. "/history_eval",
 		})
 	end, { description = "run lua", group = "awesome" }),
+	awful.key({}, "Print", screenshot, { description = "screenshot", group = "awesome" }),
 
 	-- media
 	awful.key({}, "XF86AudioMute", function()
@@ -93,16 +95,7 @@ awful.keyboard.append_global_keybindings({
 	awful.key({ modkey }, "o", function()
 		local o = s().overview
 		o.visible = not o.visible
-	end, { description = "show app runner", group = "launcher" }),
-
-	-- screenshot
-	awful.key({}, "Print", function()
-		s().screenshot:emit_signal("screenshot", false)
-	end, { description = "screenshot", group = "awesome" }),
-	awful.key({ "Shift" }, "Print", function()
-		s().screenshot:emit_signal("screenshot", true)
-	end, { description = "screenshot", group = "awesome" })
-
+	end, { description = "show app runner", group = "launcher" })
 })
 
 -- tags
