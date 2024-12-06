@@ -2,14 +2,14 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local bar_element = require("popups.bar.element")
+local element = require("widgets.element")
 
 return function(s)
 	return awful.widget.tasklist {
 		screen = s,
 		filter = awful.widget.tasklist.filter.focused,
 		base_layout = wibox.layout.fixed.horizontal,
-		widget_template = bar_element({
+		widget_template = element({
 			{
 				id     = "icon_role",
 				widget = wibox.widget.imagebox,

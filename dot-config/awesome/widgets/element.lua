@@ -1,14 +1,18 @@
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-return function(w)
+return function(w, bg)
+	if bg == nil then
+		bg = beautiful.overlay
+	end
+
 	return wibox.widget {
 		{
 			w,
 			margins = beautiful.spacing_m,
 			widget = wibox.container.margin
 		},
-		bg = beautiful.overlay,
+		bg = bg,
 		shape = beautiful.rounded,
 		widget = wibox.container.background
 	}

@@ -7,7 +7,7 @@ local user = require("user")
 local media = require("popups.media")
 local song = require("popups.bar.song")
 local current_client = require("popups.bar.current_client")
-local element = require("popups.bar.element")
+local element = require("widgets.element")
 
 return function(s)
 	local overview = element(wibox.widget.textbox("Overview"))
