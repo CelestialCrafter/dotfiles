@@ -28,7 +28,8 @@ local function generate_widget(entry)
 		image,
 		{
 			text = entry.name,
-			align  = 'center',
+			halign = "center",
+			valign = "center",
 			widget = wibox.widget.textbox
 		},
 		spacing = beautiful.spacing_s,

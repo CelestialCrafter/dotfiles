@@ -48,7 +48,6 @@ local controls = {
 			widget = wibox.widget.textbox,
 			id = "position"
 		},
-		bottom = beautiful.spacing_s,
 		widget = wibox.container.margin
 	},
 	{
@@ -81,6 +80,7 @@ local controls = {
 		halign = "center",
 		widget = wibox.container.place
 	},
+	spacing = beautiful.spacing_s,
 	layout = wibox.layout.fixed.vertical
 }
 
@@ -101,7 +101,7 @@ return function()
 				layout = wibox.layout.align.vertical
 			},
 			margins = beautiful.spacing_l,
-			widget = wibox.container.margin,
+			widget = wibox.container.margin
 		},
 		layout = wibox.layout.fixed.horizontal,
 	}
@@ -196,7 +196,6 @@ return function()
 			honor_workarea = true
 		}) end,
 		shape = beautiful.rounded,
-		bg = beautiful.surface,
 		visible = false
 	}
 end

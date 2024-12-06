@@ -2,14 +2,14 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 
 local player = require("playerctl").player
-local bar_element = require("popups.bar.element")
+local element = require("widgets.element")
 
 return function()
 	local function format(metadata)
 		return metadata.title .. ' - ' .. metadata.artist
 	end
 
-	local widget = bar_element({
+	local widget = element({
 		{
 			widget = wibox.widget.textbox,
 			id = "song"
