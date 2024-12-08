@@ -11,6 +11,7 @@
           cargo
           pkg-config
           dbus
+          lua52Packages.lua
         ];
       };
     };
