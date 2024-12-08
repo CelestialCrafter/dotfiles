@@ -2,6 +2,7 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local awful = require("awful")
 local lgi = require("lgi")
+local element = require("widgets.element")
 local gio = lgi.Gio
 local gtk = lgi.require("Gtk", "3.0")
 local user = require("user")
@@ -14,11 +15,11 @@ local current = nil
 local function generate_widget(entry)
 	local image = {
 		{
-		image = entry.icon,
-		resize = true,
-		forced_height = size,
-		forced_width = size,
-		widget = wibox.widget.imagebox
+			image = entry.icon,
+			resize = true,
+			forced_height = size,
+			forced_width = size,
+			widget = wibox.widget.imagebox
 		},
 		margins = beautiful.spacing_s,
 		widget = wibox.container.margin
@@ -38,10 +39,14 @@ local function generate_widget(entry)
 
 	if entry.focused then
 		widget = {
-			widget,
-			bg = beautiful.accent,
-			shape = beautiful.rounded,
-			widget = wibox.container.background
+			{
+				widget,
+				bg = beautiful.accent,
+				shape = beautiful.rounded,
+				widget = wibox.container.background
+			},
+			top = beautiful.spacing_m,
+			widget = wibox.container.margin
 		}
 	end
 
@@ -160,30 +165,17 @@ end
 return function()
 	generate_entries()
 
+	local search = wibox.widget.textbox("Search: ")
 	local widget = wibox.widget {
 		{
+			element(search),
 			{
-				{
-					{
-						markup = "Search: ",
-						id = "search",
-						widget = wibox.widget.textbox
-					},
-					margins = beautiful.spacing_m,
-					widget = wibox.container.margin
-				},
-				bg = beautiful.overlay,
-				shape = beautiful.rounded,
-				widget = wibox.container.background
-			},
-			{
-				forced_width = beautiful.spacing_xl * 8,
-				spacing = beautiful.spacing_s,
-				layout = wibox.layout.fixed.vertical,
-				id = "entries",
+					forced_width = beautiful.spacing_xl * 8,
+					spacing = beautiful.spacing_s,
+					layout = wibox.layout.fixed.vertical,
+					id = "entries",
 			},
 			fill_space = true,
-			spacing = beautiful.spacing_m,
 			layout = wibox.layout.fixed.vertical
 		},
 		widget = wibox.container.margin,
@@ -192,7 +184,7 @@ return function()
 
 	local launcher = awful.popup {
 		widget = widget,
-		bg = beautiful.surface,
+		bg = beautiful.base,
 		shape = beautiful.rounded,
 		placement = function(d) awful.placement.top_left(d, {
 			margins = beautiful.useless_gap * 2,
@@ -202,7 +194,6 @@ return function()
 		visible = false
 	}
 
-	local search = widget:get_children_by_id("search")[1]
 	local function set_entries(query)
 		widget:get_children_by_id("entries")[1]:set_children(handle_search(query))
 	end
@@ -215,7 +206,7 @@ return function()
 
 		set_entries("")
 
-		local current_text = search.markup
+		local current_text = search.text
 		awful.prompt.run {
 			prompt = current_text,
 			textbox = search,
@@ -226,7 +217,7 @@ return function()
 				end
 			end,
 			done_callback = function()
-				search.markup = current_text
+				search.text = current_text
 				launcher.visible = false
 			end
 		}
