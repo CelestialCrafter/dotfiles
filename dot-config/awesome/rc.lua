@@ -4,6 +4,7 @@ pcall(require, "luarocks.loader")
 -- keep errors at the top, just incase
 require("errors")
 require("awful.autofocus")
+require("connect")
 require("playerctl").setup()
 require("misc").setup()
 require("theme")
