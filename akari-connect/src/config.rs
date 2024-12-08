@@ -1,0 +1,36 @@
+use std::{fs, sync::LazyLock};
+
+use mlua::{Lua, LuaSerdeExt};
+use serde::Deserialize;
+
+#[derive(Debug, Deserialize)]
+pub struct User {
+    pub base: String,
+    pub surface: String,
+    pub overlay: String,
+    pub subtle: String,
+
+    pub primary: String,
+    pub secondary: String,
+    pub accent: String,
+
+    pub text: String,
+    pub text_subtle: String
+}
+
+pub static USER_CONFIG: LazyLock<User> = LazyLock::new(|| {
+    let user_config_path = dirs::config_dir()
+        .expect("config dir should exist")
+        .join("awesome/user.lua");
+
+    let lua = Lua::new();
+    let user = lua.load(fs::read_to_string(user_config_path).expect("could not read user.lua"))
+            .eval()
+            .expect("could not evaluate user.lua");
+
+    let user: User = lua
+            .from_value(user)
+            .expect("could not convert user config");
+
+    user
+});

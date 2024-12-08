@@ -2,6 +2,7 @@ local user = {}
 
 user.terminal = "alacritty"
 user.wallpaper = "~/Pictures/Wallpapers/normal.png"
+user.profile = "~/Pictures/user.png"
 user.font = "sans-serif 11"
 user.preview_update_interval = 0.5
 user.titlebar_position = "left"

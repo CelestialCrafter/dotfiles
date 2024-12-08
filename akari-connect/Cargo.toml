@@ -5,4 +5,7 @@ edition = "2021"
 
 [dependencies]
 dbus = "0.9.7"
+dirs = "5.0.1"
 eyre = "0.6.12"
+mlua = { version = "0.10.2", features = ["lua52", "serialize"] }
+serde = { version = "1.0.215", features = ["serde_derive"] }
