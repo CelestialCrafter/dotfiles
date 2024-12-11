@@ -2,8 +2,7 @@ local awful = require("awful")
 local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-
-local player = require("playerctl").player
+local mpris = require("connect.mpris")
 
 local function hex(str)
 	return (str:gsub('.', function (c)
@@ -118,36 +117,25 @@ return function()
 	local play_pause = c("play_pause")
 	local next = c("next")
 
-	prev:add_button(awful.button({}, 1, nil, player.previous))
-	play_pause:add_button(awful.button({}, 1, nil, player.play_pause))
-	next:add_button(awful.button({}, 1, nil, player.next))
+	play_pause:add_button(awful.button({}, 1, nil, mpris.play_pause))
+	next:add_button(awful.button({}, 1, nil, mpris.next))
+	prev:add_button(awful.button({}, 1, nil, mpris.previous))
 	progress:connect_signal("button::press", function(self, x)
-		player.seek(1 / (self.forced_width / x))
+		mpris.seek(20 or (1 / (self.forced_width / x)))
 	end)
 
 	local cache_path = gears.filesystem.get_cache_dir() .. '/media-art/'
 	gears.filesystem.make_directories(cache_path)
 
+	local length = 0
 	local function handle_metadata(_, metadata)
-		if metadata == nil then
-			image.image = nil
-			title.markup = ""
-			artist.text = ""
-			return
-		end
-
-		local path = cache_path .. hex(metadata.art_url)
+		local path = cache_path .. hex(metadata.art)
 		local function set() image.image = gears.surface.load(path) end
 
 		if not file_exists(path) then
-			local cmd = string.format("curl -L -s %s -o %s", metadata.art_url, path)
+			local cmd = string.format("curl -L -s %s -o %s", metadata.art, path)
 			awful.spawn.with_line_callback(cmd, {
-				exit = function ()
-					-- make sure song is still the same after download finished
-					if player.metadata().id == metadata.id then
-						set()
-					end
-				end
+				exit = set
 			})
 		else
 			set()
@@ -155,38 +143,25 @@ return function()
 
 		title.markup = "<big>" .. metadata.title .. "</big>"
 		artist.text = metadata.artist
+		length = metadata.length / 1e+6
 	end
 
 	local function handle_position(_, pos)
-		if pos == nil then
-			position.text = ""
-			progress.value = 0
-			return
-		end
-
 		local function sm(s) return math.floor(s / 60), s % 60 end
-		local cm, cs = sm(pos.current)
-		local lm, ls = sm(pos.length)
+		local cm, cs = sm(pos)
+		local lm, ls = sm(length)
 
 		position.text = string.format("%02d:%02d/%02d:%02d", cm, cs, lm, ls)
-		progress.value = 1 / (pos.length / pos.current)
+		progress.value = 1 / (length / pos)
 	end
 
-	local function handle_status(_, playing)
-		if playing == nil then
-			play_pause.text = ""
-			return
-		end
-
-		play_pause.text = playing and "+" or "-"
+	local function handle_status(_, status)
+		play_pause.text = status == "playing" and "+" or "-"
 	end
 
-	player:connect_signal("metadata", handle_metadata)
-	player:connect_signal("position", handle_position)
-	player:connect_signal("status", handle_status)
-	handle_metadata(nil, player.metadata())
-	handle_position(nil, player.position())
-	handle_status(nil, player.status())
+	mpris:connect_signal("metadata", handle_metadata)
+	mpris:connect_signal("position", handle_position)
+	mpris:connect_signal("status", handle_status)
 
 	return awful.popup {
 		widget = widget,

@@ -5,17 +5,7 @@ use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 pub struct User {
-    pub base: String,
-    pub surface: String,
-    pub overlay: String,
-    pub subtle: String,
-
-    pub primary: String,
-    pub secondary: String,
-    pub accent: String,
-
-    pub text: String,
-    pub text_subtle: String
+    pub base_media_update_interval: f32,
 }
 
 pub static USER_CONFIG: LazyLock<User> = LazyLock::new(|| {
