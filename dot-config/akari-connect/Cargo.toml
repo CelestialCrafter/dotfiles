@@ -8,4 +8,5 @@ dbus = "0.9.7"
 dirs = "5.0.1"
 eyre = "0.6.12"
 mlua = { version = "0.10.2", features = ["lua52", "serialize"] }
+mpris = "2.0.1"
 serde = { version = "1.0.215", features = ["serde_derive"] }
