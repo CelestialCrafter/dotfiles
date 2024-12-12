@@ -1,4 +1,4 @@
-use std::{sync::mpsc, thread, time::Duration};
+use std::{thread, time::Duration, sync::mpsc};
 
 use config::USER_CONFIG;
 use mpris::Manager;
@@ -17,31 +17,39 @@ fn main() {
         let bus = AWMBus::new().expect("could not start dbus");
         let mut manager = Manager::new().expect("could not start manager");
 
-        for i in 0.. {
+        for _i in 0.. {
             thread::sleep(Duration::from_secs_f32(USER_CONFIG.base_media_update_interval));
 
-            match manager.position() {
-                Ok(p) => if let Err(err) = bus.proxy.position(p.as_micros() as u64) {
-                    eprintln!("could not send position to bus: {}", err);
+            let position_success = match manager.position() {
+                Ok(p) => {
+                    if let Err(err) = bus.proxy.position(p.as_micros() as u64) {
+                        eprintln!("could not send position to bus: {}", err);
+                    }
+                    true
                 },
-                Err(err) => eprintln!("could not get position: {}", err)
+                Err(err) => {
+                    eprintln!("could not get position: {}", err);
+                    false
+                }
             };
 
-            match manager.status() {
-                Ok(s) => if let Err(err) = bus.proxy.status(match s {
-                    PlaybackStatus::Playing => "playing",
-                    _ => "paused",
-                }) {
-                    eprintln!("could not send status to bus: {}", err);
+            let status_success = match manager.status() {
+                Ok(s) => {
+                    if let Err(err) = bus.proxy.status(match s {
+                        PlaybackStatus::Playing => "playing",
+                        _ => "paused",
+                    }) {
+                        eprintln!("could not send status to bus: {}", err);
+                    }
+                    true
                 },
-                Err(err) => eprintln!("could not get status: {}", err)
-            }
+                Err(err) => {
+                    eprintln!("could not get status: {}", err);
+                    false
+                }
+            };
 
-            if i % 2 == 0 {
-                continue;
-            }
-
-            match manager.metadata() {
+            let metadata_success = match manager.metadata() {
                 Ok(m) => {
                     let art = m.art_url().unwrap_or_default();
                     let album = m.album_name().unwrap_or_default();
@@ -58,9 +66,20 @@ fn main() {
                     ) {
                         eprintln!("could not send metadata to bus: {}", err);
                     };
+
+                    true
                 },
-                Err(err) => eprintln!("could not get metadata: {}", err)
+                Err(err) => {
+                    eprintln!("could not get metadata: {}", err);
+                    false
+                }
             };
+
+            if !(position_success && status_success && metadata_success) {
+                if let Err(err) = bus.proxy.empty() {
+                    eprintln!("could not send empty to bus: {}", err);
+                };
+            }
         }
     });
 

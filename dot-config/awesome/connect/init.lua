@@ -26,6 +26,11 @@ function methods.Status(_, _, _, _, parameters, invocation)
     invocation:return_value(glib.Variant("()"))
 end
 
+function methods.Empty(_, _, _, _, _, invocation)
+    mpris.empty()
+    invocation:return_value(glib.Variant("()"))
+end
+
 local function method_call(_, sender, object_path, interface, method, parameters, invocation)
     methods[method](sender, object_path, interface, method, parameters, invocation)
 end
