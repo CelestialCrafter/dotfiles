@@ -159,9 +159,20 @@ return function()
 		play_pause.text = status == "playing" and "+" or "-"
 	end
 
+	local function handle_empty()
+		image.image = nil
+		title.markup = ""
+		artist.text = ""
+		position.text = ""
+		progress.value = 0
+		play_pause.text = ""
+	end
+
+	handle_empty()
 	mpris:connect_signal("metadata", handle_metadata)
 	mpris:connect_signal("position", handle_position)
 	mpris:connect_signal("status", handle_status)
+	mpris:connect_signal("empty", handle_empty)
 
 	return awful.popup {
 		widget = widget,

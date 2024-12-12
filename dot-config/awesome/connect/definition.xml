@@ -10,6 +10,7 @@
 			<arg name="by" type="n" />
 		</signal>
 
+		<method name="Empty" />
 		<method name="Status">
 			<arg name="status" type="s" />
 		</method>

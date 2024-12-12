@@ -24,7 +24,13 @@ return function()
 		widget.visible = true
 	end
 
+	local function handle_empty()
+		widget.visible = false
+	end
+
+	handle_empty()
 	mpris:connect_signal("metadata", handle_metadata)
+	mpris:connect_signal("empty", handle_empty)
 
 	return widget
 end

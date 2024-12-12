@@ -46,4 +46,8 @@ function M.metadata(title, album, artist, length, art)
     })
 end
 
+function M.empty()
+    M:emit_signal("empty")
+end
+
 return M

@@ -5,6 +5,7 @@ use dbus::arg;
 use dbus::blocking;
 
 pub trait OrgAwesomewmAkariconnect {
+    fn empty(&self) -> Result<(), dbus::Error>;
     fn status(&self, status: &str) -> Result<(), dbus::Error>;
     fn position(&self, position: u64) -> Result<(), dbus::Error>;
     fn metadata(&self, title: &str, album: &str, artist: &str, length: u64, art: &str) -> Result<(), dbus::Error>;
@@ -122,6 +123,10 @@ impl dbus::message::SignalArgs for OrgAwesomewmAkariconnectShift {
 }
 
 impl<'a, T: blocking::BlockingSender, C: ::std::ops::Deref<Target=T>> OrgAwesomewmAkariconnect for blocking::Proxy<'a, C> {
+
+    fn empty(&self) -> Result<(), dbus::Error> {
+        self.method_call("org.awesomewm.akariconnect", "Empty", ())
+    }
 
     fn status(&self, status: &str) -> Result<(), dbus::Error> {
         self.method_call("org.awesomewm.akariconnect", "Status", (status, ))
