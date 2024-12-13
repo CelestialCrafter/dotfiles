@@ -3,7 +3,6 @@ pub mod definition;
 use std::{rc::Rc, sync::mpsc::Sender, time::Duration};
 
 use dbus::{blocking::{Connection, Proxy}, Message};
-use definition::{OrgAwesomewmAkariconnectNext, OrgAwesomewmAkariconnectPlayPause, OrgAwesomewmAkariconnectPrevious, OrgAwesomewmAkariconnectSeek, OrgAwesomewmAkariconnectShift};
 use eyre::Result;
 
 use crate::mpris::Action;
@@ -22,14 +21,14 @@ impl AWMBus<'_> {
         Ok(Self { proxy })
     }
 
-    pub fn listen(manager: Sender<Action>) -> Result<()> {
+    pub fn send(manager: Sender<Action>) -> Result<()> {
         let conn = Rc::new(Connection::new_session()?);
         let proxy = Proxy::new(BUS_NAME, "/", TIMEOUT, conn);
 
         // ew
         {
             let m = manager.clone();
-            let _ = proxy.match_signal(move |_: OrgAwesomewmAkariconnectPlayPause, _: &Connection, _: &Message| {
+            let _ = proxy.match_signal(move |_: definition::OrgAwesomewmAkariconnectPlayPause, _: &Connection, _: &Message| {
                 eprintln!("received signal: play/pause");
                 m.send(Action::PlayPause).unwrap();
                 true
@@ -38,7 +37,7 @@ impl AWMBus<'_> {
 
         {
             let m = manager.clone();
-            let _ = proxy.match_signal(move |_: OrgAwesomewmAkariconnectNext, _: &Connection, _: &Message| {
+            let _ = proxy.match_signal(move |_: definition::OrgAwesomewmAkariconnectNext, _: &Connection, _: &Message| {
                 eprintln!("received signal: next");
                 m.send(Action::Next).unwrap();
                 true
@@ -47,7 +46,7 @@ impl AWMBus<'_> {
 
         {
             let m = manager.clone();
-            let _ = proxy.match_signal(move |_: OrgAwesomewmAkariconnectPrevious, _: &Connection, _: &Message| {
+            let _ = proxy.match_signal(move |_: definition::OrgAwesomewmAkariconnectPrevious, _: &Connection, _: &Message| {
                 eprintln!("received signal: previous");
                 m.send(Action::Previous).unwrap();
                 true
@@ -56,7 +55,7 @@ impl AWMBus<'_> {
 
         {
             let m = manager.clone();
-            let _ = proxy.match_signal(move |h: OrgAwesomewmAkariconnectSeek, _: &Connection, _: &Message| {
+            let _ = proxy.match_signal(move |h: definition::OrgAwesomewmAkariconnectSeek, _: &Connection, _: &Message| {
                 eprintln!("received signal: seek");
                 m.send(Action::Seek(h.time)).unwrap();
                 true
@@ -65,7 +64,7 @@ impl AWMBus<'_> {
 
         {
             let m = manager.clone();
-            let _ = proxy.match_signal(move |h: OrgAwesomewmAkariconnectShift, _: &Connection, _: &Message| {
+            let _ = proxy.match_signal(move |h: definition::OrgAwesomewmAkariconnectShift, _: &Connection, _: &Message| {
                 eprintln!("received signal: shift");
                 m.send(Action::Shift(h.by.into())).unwrap();
                 true
