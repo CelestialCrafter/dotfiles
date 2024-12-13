@@ -21,20 +21,21 @@ fn main() {
             thread::sleep(Duration::from_secs_f32(USER_CONFIG.base_media_update_interval));
 
             let position_success = match manager.position() {
-                Ok(p) => {
+                Some(Ok(p)) => {
                     if let Err(err) = bus.proxy.position(p.as_micros() as u64) {
                         eprintln!("could not send position to bus: {}", err);
                     }
                     true
                 },
-                Err(err) => {
+                Some(Err(err)) => {
                     eprintln!("could not get position: {}", err);
                     false
-                }
+                },
+                _ => false
             };
 
             let status_success = match manager.status() {
-                Ok(s) => {
+                Some(Ok(s)) => {
                     if let Err(err) = bus.proxy.status(match s {
                         PlaybackStatus::Playing => "playing",
                         _ => "paused",
@@ -43,14 +44,15 @@ fn main() {
                     }
                     true
                 },
-                Err(err) => {
+                Some(Err(err)) => {
                     eprintln!("could not get status: {}", err);
                     false
-                }
+                },
+                _ => false
             };
 
             let metadata_success = match manager.metadata() {
-                Ok(m) => {
+                Some(Ok(m)) => {
                     let art = m.art_url().unwrap_or_default();
                     let album = m.album_name().unwrap_or_default();
                     let artist = m.artists().unwrap_or_default().join(", ");
@@ -69,10 +71,11 @@ fn main() {
 
                     true
                 },
-                Err(err) => {
+                Some(Err(err)) => {
                     eprintln!("could not get metadata: {}", err);
                     false
-                }
+                },
+                _ => false
             };
 
             if !(position_success && status_success && metadata_success) {

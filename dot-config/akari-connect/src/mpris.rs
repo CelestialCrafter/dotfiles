@@ -1,7 +1,7 @@
 use std::{sync::{mpsc::Receiver, RwLock}, time::Duration};
 
-use eyre::{OptionExt, Result};
-use mpris::{DBusError, PlaybackStatus, Player, PlayerFinder};
+use eyre::Result;
+use mpris::{DBusError, Metadata, PlaybackStatus, Player, PlayerFinder};
 
 static ACTIVE_INDEX: RwLock<usize> = RwLock::new(0);
 
@@ -56,16 +56,16 @@ impl Manager {
         Ok(manager)
     }
 
-    pub fn position(&mut self) -> Result<Duration> {
-        Ok(self.active().ok_or_eyre("no active player")?.get_position()?)
+    pub fn position(&mut self) -> Option<Result<Duration, DBusError>> {
+        self.active().map(|p| p.get_position())
     }
 
-    pub fn metadata(&mut self) -> Result<::mpris::Metadata> {
-        Ok(self.active().ok_or_eyre("no active player")?.get_metadata()?)
+    pub fn metadata(&mut self) -> Option<Result<Metadata, DBusError>> {
+        self.active().map(|p| p.get_metadata())
     }
 
-    pub fn status(&mut self) -> Result<PlaybackStatus> {
-        Ok(self.active().ok_or_eyre("no active player")?.get_playback_status()?)
+    pub fn status(&mut self) -> Option<Result<PlaybackStatus, DBusError>> {
+        self.active().map(|p| p.get_playback_status())
     }
 
     fn active(&mut self) -> Option<Player> {
