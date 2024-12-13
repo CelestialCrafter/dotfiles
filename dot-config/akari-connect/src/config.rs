@@ -5,7 +5,7 @@ use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 pub struct User {
-    pub base_media_update_interval: f32,
+    pub connect_update_interval: f32,
 }
 
 pub static USER_CONFIG: LazyLock<User> = LazyLock::new(|| {

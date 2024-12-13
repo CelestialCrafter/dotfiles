@@ -2,37 +2,32 @@
 
 local gears = require("gears")
 local lgi = require("lgi")
-local mpris = require("connect.mpris")
 local gio = lgi.Gio
 local glib = lgi.GLib
 local gobject = lgi.GObject
 
 local connection
 local bus_name = "org.awesomewm.akariconnect"
-local methods = {}
 
-function methods.Position(_, _, _, _, parameters, invocation)
-    mpris.position(table.unpack(parameters.value))
-    invocation:return_value(glib.Variant("()"))
-end
+local cmp = require("connect.mpris")
+local cnm = require("connect.networkmanager")
+local methods = {
+    Position = cmp,
+    Metadata = cmp,
+    Status = cmp,
+    Empty = cmp,
 
-function methods.Metadata(_, _, _, _, parameters, invocation)
-    mpris.metadata(table.unpack(parameters.value))
-    invocation:return_value(glib.Variant("()"))
-end
-
-function methods.Status(_, _, _, _, parameters, invocation)
-    mpris.status(table.unpack(parameters.value))
-    invocation:return_value(glib.Variant("()"))
-end
-
-function methods.Empty(_, _, _, _, _, invocation)
-    mpris.empty()
-    invocation:return_value(glib.Variant("()"))
-end
+    Networks = cnm
+}
 
 local function method_call(_, sender, object_path, interface, method, parameters, invocation)
-    methods[method](sender, object_path, interface, method, parameters, invocation)
+    local dest = methods[method]
+    if type(dest) == "function" then
+        dest(sender, object_path, interface, method, parameters, invocation)
+    else
+        dest[method:lower()](table.unpack(parameters.value))
+        invocation:return_value(glib.Variant("()"))
+    end
 end
 
 local function on_bus_acquire(conn, _)
