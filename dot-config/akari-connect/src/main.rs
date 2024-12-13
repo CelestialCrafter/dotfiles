@@ -3,8 +3,6 @@ use std::{thread, time::Duration, sync::mpsc};
 use config::USER_CONFIG;
 use mpris::Manager;
 use dbus::AWMBus;
-use crate::dbus::definition::OrgAwesomewmAkariconnect;
-use ::mpris::PlaybackStatus;
 
 pub mod config;
 pub mod dbus;
@@ -15,83 +13,21 @@ fn main() {
 
     let t1 = thread::spawn(|| {
         let bus = AWMBus::new().expect("could not start dbus");
-        let mut manager = Manager::new().expect("could not start manager");
-
-        for _i in 0.. {
-            thread::sleep(Duration::from_secs_f32(USER_CONFIG.base_media_update_interval));
-
-            let position_success = match manager.position() {
-                Some(Ok(p)) => {
-                    if let Err(err) = bus.proxy.position(p.as_micros() as u64) {
-                        eprintln!("could not send position to bus: {}", err);
-                    }
-                    true
-                },
-                Some(Err(err)) => {
-                    eprintln!("could not get position: {}", err);
-                    false
-                },
-                _ => false
-            };
-
-            let status_success = match manager.status() {
-                Some(Ok(s)) => {
-                    if let Err(err) = bus.proxy.status(match s {
-                        PlaybackStatus::Playing => "playing",
-                        _ => "paused",
-                    }) {
-                        eprintln!("could not send status to bus: {}", err);
-                    }
-                    true
-                },
-                Some(Err(err)) => {
-                    eprintln!("could not get status: {}", err);
-                    false
-                },
-                _ => false
-            };
-
-            let metadata_success = match manager.metadata() {
-                Some(Ok(m)) => {
-                    let art = m.art_url().unwrap_or_default();
-                    let album = m.album_name().unwrap_or_default();
-                    let artist = m.artists().unwrap_or_default().join(", ");
-                    let title = m.title().unwrap_or_default();
-                    let length = m.length().unwrap_or_default();
-
-                    if let Err(err) = bus.proxy.metadata(
-                        title,
-                        album,
-                        artist.as_str(),
-                        length.as_micros() as u64,
-                        art
-                    ) {
-                        eprintln!("could not send metadata to bus: {}", err);
-                    };
-
-                    true
-                },
-                Some(Err(err)) => {
-                    eprintln!("could not get metadata: {}", err);
-                    false
-                },
-                _ => false
-            };
-
-            if !(position_success && status_success && metadata_success) {
-                if let Err(err) = bus.proxy.empty() {
-                    eprintln!("could not send empty to bus: {}", err);
-                };
-            }
-        }
+        Manager::new()
+            .expect("could not create manager")
+            .send(bus, Duration::from_secs_f32(USER_CONFIG.base_media_update_interval))
+            .expect("could not start manager");
     });
 
     let t2 = thread::spawn(|| {
-        AWMBus::listen(manager_tx).expect("could not listen for signals");
+        AWMBus::send(manager_tx).expect("could not listen for signals");
     });
 
     let t3 = thread::spawn(|| {
-        Manager::start(manager_rx).expect("could not start manager");
+        Manager::new()
+            .expect("could not create manager")
+            .receive(manager_rx)
+            .expect("could not start manager");
     });
 
     t1.join().unwrap();

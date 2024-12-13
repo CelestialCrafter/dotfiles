@@ -1,7 +1,9 @@
-use std::{sync::{mpsc::Receiver, RwLock}, time::Duration};
+use std::{sync::{mpsc::Receiver, RwLock}, thread, time::Duration};
 
 use eyre::Result;
 use mpris::{DBusError, Metadata, PlaybackStatus, Player, PlayerFinder};
+
+use crate::dbus::{definition::OrgAwesomewmAkariconnect, AWMBus};
 
 static ACTIVE_INDEX: RwLock<usize> = RwLock::new(0);
 
@@ -26,11 +28,79 @@ impl Manager {
         })
     }
 
-    pub fn start(rx: Receiver<Action>) -> Result<Self> {
-        let mut manager = Self::new()?;
+    pub fn send(mut self, bus: AWMBus, interval: Duration) -> Result<Self> {
+        loop {
+            thread::sleep(interval);
 
+            let position_success = match self.position() {
+                Some(Ok(p)) => {
+                    if let Err(err) = bus.proxy.position(p.as_micros() as u64) {
+                        eprintln!("could not send position to bus: {}", err);
+                    }
+                    true
+                },
+                Some(Err(err)) => {
+                    eprintln!("could not get position: {}", err);
+                    false
+                },
+                _ => false
+            };
+
+            let status_success = match self.status() {
+                Some(Ok(s)) => {
+                    if let Err(err) = bus.proxy.status(match s {
+                        PlaybackStatus::Playing => "playing",
+                        _ => "paused",
+                    }) {
+                        eprintln!("could not send status to bus: {}", err);
+                    }
+                    true
+                },
+                Some(Err(err)) => {
+                    eprintln!("could not get status: {}", err);
+                    false
+                },
+                _ => false
+            };
+
+            let metadata_success = match self.metadata() {
+                Some(Ok(m)) => {
+                    let art = m.art_url().unwrap_or_default();
+                    let album = m.album_name().unwrap_or_default();
+                    let artist = m.artists().unwrap_or_default().join(", ");
+                    let title = m.title().unwrap_or_default();
+                    let length = m.length().unwrap_or_default();
+
+                    if let Err(err) = bus.proxy.metadata(
+                        title,
+                        album,
+                        artist.as_str(),
+                        length.as_micros() as u64,
+                        art
+                    ) {
+                        eprintln!("could not send metadata to bus: {}", err);
+                    };
+
+                    true
+                },
+                Some(Err(err)) => {
+                    eprintln!("could not get metadata: {}", err);
+                    false
+                },
+                _ => false
+            };
+
+            if !(position_success && status_success && metadata_success) {
+                if let Err(err) = bus.proxy.empty() {
+                    eprintln!("could not send empty to bus: {}", err);
+                };
+            }
+        }
+    }
+
+    pub fn receive(mut self, rx: Receiver<Action>) -> Result<Self> {
         while let Ok(action) = rx.recv() {
-            let player = if let Some(p) = manager.active() { p } else {
+            let player = if let Some(p) = self.active() { p } else {
                 continue;
             };
 
@@ -45,7 +115,7 @@ impl Manager {
                         player.set_position(track_id, &Duration::from_micros(time))
                     })()
                 }
-                Action::Shift(by) => Ok(manager.shift(by))
+                Action::Shift(by) => Ok(self.shift(by))
             };
 
             if let Err(err) = result {
@@ -53,7 +123,7 @@ impl Manager {
             }
         }
 
-        Ok(manager)
+        Ok(self)
     }
 
     pub fn position(&mut self) -> Option<Result<Duration, DBusError>> {
