@@ -1,5 +1,6 @@
 <node>
 	<interface name="org.awesomewm.akariconnect">
+		<!-- mpris -->
 		<signal name="PlayPause" />
 		<signal name="Next" />
 		<signal name="Previous" />
@@ -24,5 +25,16 @@
 			<arg direction="in" name="length" type="t" />
 			<arg direction="in" name="art" type="s" />
 		</method>
+
+		<!-- networkmanager -->
+		<method name="Networks">
+			<arg direction="in" name="networks" type="a(nss)" />
+		</method>
+		<signal name="Connect">
+			<arg name="ssid" type="s" />
+		</signal>
+		<signal name="Disconnect">
+			<arg name="ssid" type="s" />
+		</signal>
 	</interface>
 </node>

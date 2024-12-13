@@ -9,6 +9,7 @@ pub trait OrgAwesomewmAkariconnect {
     fn status(&self, status: &str) -> Result<(), dbus::Error>;
     fn position(&self, position: u64) -> Result<(), dbus::Error>;
     fn metadata(&self, title: &str, album: &str, artist: &str, length: u64, art: &str) -> Result<(), dbus::Error>;
+    fn networks(&self, networks: Vec<(i16, &str, &str,)>) -> Result<(), dbus::Error>;
 }
 
 #[derive(Debug)]
@@ -122,6 +123,54 @@ impl dbus::message::SignalArgs for OrgAwesomewmAkariconnectShift {
     const INTERFACE: &'static str = "org.awesomewm.akariconnect";
 }
 
+#[derive(Debug)]
+pub struct OrgAwesomewmAkariconnectConnect {
+    pub ssid: String,
+}
+
+impl arg::AppendAll for OrgAwesomewmAkariconnectConnect {
+    fn append(&self, i: &mut arg::IterAppend) {
+        arg::RefArg::append(&self.ssid, i);
+    }
+}
+
+impl arg::ReadAll for OrgAwesomewmAkariconnectConnect {
+    fn read(i: &mut arg::Iter) -> Result<Self, arg::TypeMismatchError> {
+        Ok(OrgAwesomewmAkariconnectConnect {
+            ssid: i.read()?,
+        })
+    }
+}
+
+impl dbus::message::SignalArgs for OrgAwesomewmAkariconnectConnect {
+    const NAME: &'static str = "Connect";
+    const INTERFACE: &'static str = "org.awesomewm.akariconnect";
+}
+
+#[derive(Debug)]
+pub struct OrgAwesomewmAkariconnectDisconnect {
+    pub ssid: String,
+}
+
+impl arg::AppendAll for OrgAwesomewmAkariconnectDisconnect {
+    fn append(&self, i: &mut arg::IterAppend) {
+        arg::RefArg::append(&self.ssid, i);
+    }
+}
+
+impl arg::ReadAll for OrgAwesomewmAkariconnectDisconnect {
+    fn read(i: &mut arg::Iter) -> Result<Self, arg::TypeMismatchError> {
+        Ok(OrgAwesomewmAkariconnectDisconnect {
+            ssid: i.read()?,
+        })
+    }
+}
+
+impl dbus::message::SignalArgs for OrgAwesomewmAkariconnectDisconnect {
+    const NAME: &'static str = "Disconnect";
+    const INTERFACE: &'static str = "org.awesomewm.akariconnect";
+}
+
 impl<'a, T: blocking::BlockingSender, C: ::std::ops::Deref<Target=T>> OrgAwesomewmAkariconnect for blocking::Proxy<'a, C> {
 
     fn empty(&self) -> Result<(), dbus::Error> {
@@ -138,5 +187,9 @@ impl<'a, T: blocking::BlockingSender, C: ::std::ops::Deref<Target=T>> OrgAwesome
 
     fn metadata(&self, title: &str, album: &str, artist: &str, length: u64, art: &str) -> Result<(), dbus::Error> {
         self.method_call("org.awesomewm.akariconnect", "Metadata", (title, album, artist, length, art, ))
+    }
+
+    fn networks(&self, networks: Vec<(i16, &str, &str,)>) -> Result<(), dbus::Error> {
+        self.method_call("org.awesomewm.akariconnect", "Networks", (networks, ))
     }
 }
