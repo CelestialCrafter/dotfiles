@@ -1,9 +1,23 @@
-local M = {}
+local gears = require("gears")
+local glib = require("lgi").GLib
+
+-- avoid circular dependence
+local c = function()
+    return require("connect")
+end
+
+local M = gears.object {}
 
 function M.networks(networks)
-    for _, network in networks:ipairs() do
-        require("naughty").notify({text = tostring(network[2])})
-    end
+    M:emit_signal("networks", networks)
+end
+
+function M.connect(ssid)
+    c().signal("Connect", glib.Variant("(s)", { ssid }))
+end
+
+function M.disconnect(ssid)
+    c().signal("Disconnect", glib.Variant("(s)", { ssid }))
 end
 
 return M
