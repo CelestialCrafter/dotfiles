@@ -87,7 +87,7 @@ impl Manager {
             _ => false
         };
 
-        if !(position_success && status_success && metadata_success) {
+        if !(position_success || status_success || metadata_success) {
             if let Err(err) = bus.proxy.empty() {
                 eprintln!("could not send empty to bus: {}", err);
             };

@@ -1,6 +1,6 @@
 local gears = require ("gears")
 local glib = require("lgi").GLib
---
+
 -- avoid circular dependence
 local c = function()
     return require("connect")

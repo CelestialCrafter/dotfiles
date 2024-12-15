@@ -1,7 +1,7 @@
 use std::sync::mpsc::Receiver;
 
 use eyre::{eyre, OptionExt, Result};
-use network_manager::{Connection, NetworkManager};
+use network_manager::{Connection, ConnectionState, NetworkManager};
 
 use crate::dbus::{definition::OrgAwesomewmAkariconnect, Bus};
 
@@ -21,7 +21,7 @@ impl Manager {
 
     fn get_network(&self, ssid: String) -> Result<Connection> {
         let connections = self.nm.get_connections().map_err(|_| eyre!("could not get connections"))?;
-        let selected = connections.into_iter().find(|c| c.settings().ssid.as_str().expect("could not get ssid") == ssid);
+        let selected = connections.into_iter().find(|c| c.settings().id == ssid);
         Ok(selected.ok_or_eyre("could not find network")?)
     }
 
@@ -45,24 +45,27 @@ impl Manager {
     }
 
     pub fn send(&self, bus: &Bus) -> Result<()> {
-        let connections = self.nm.get_connections().map_err(|_| eyre!("could not get connections"))?;
-        let networks: Vec<(i16, &str, &str)> = connections
-            .iter()
-            .map(|c| {
+        let formatted: Vec<(i16, String, String)> = self.nm.get_connections()
+            .map_err(|_| eyre!("could not get connections"))?
+            .into_iter()
+            .filter_map(|c| {
                 let settings = c.settings();
-                let state = c.get_state().map_err(|_| eyre!("could not get state"))?;
-                let values = (
+                let state = c.get_state().unwrap_or(ConnectionState::Unknown);
+
+                Some((
                     state as i16,
-                    settings.ssid.as_str().map_err(|_| eyre!("could not get ssid"))?,
-                    settings.uuid.as_str()
-                );
-
-                Ok::<_, eyre::ErrReport>(values)
+                    settings.id.clone(),
+                    settings.uuid.clone()
+                ))
             })
-        .filter_map(|d| d.ok())
-        .collect();
+            .collect();
 
-        bus.proxy.networks(networks)?;
+        let refs = formatted
+            .iter()
+            .map(|(state, ssid, uuid)| (*state, ssid.as_str(), uuid.as_str()))
+            .collect();
+
+        bus.proxy.networks(refs)?;
 
         Ok(())
     }

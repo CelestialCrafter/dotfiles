@@ -1,5 +1,3 @@
--- ref: https://github.com/awesomeWM/awesome/blob/master/lib/naughty/dbus.lua
-
 local gears = require("gears")
 local lgi = require("lgi")
 local gio = lgi.Gio
@@ -9,15 +7,15 @@ local gobject = lgi.GObject
 local connection
 local bus_name = "org.awesomewm.akariconnect"
 
-local cmp = require("connect.mpris")
-local cnm = require("connect.networkmanager")
+local mpris = require("connect.mpris")
+local nm = require("connect.networkmanager")
 local methods = {
-    Position = cmp,
-    Metadata = cmp,
-    Status = cmp,
-    Empty = cmp,
+    Position = mpris,
+    Metadata = mpris,
+    Status = mpris,
+    Empty = mpris,
 
-    Networks = cnm
+    Networks = nm
 }
 
 local function method_call(_, sender, object_path, interface, method, parameters, invocation)
