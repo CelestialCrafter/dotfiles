@@ -118,16 +118,20 @@ return function()
 		}
 	}
 	-- not using a keyed table to preserve order
-	for _, v in pairs(page_data) do
+	for i, v in pairs(page_data) do
 		local w = require("popups.control_center." .. v.id)()
 
 		local function set_page()
+			for j, p in ipairs(pages.children) do
+				p.bg = i == j and beautiful.primary or beautiful.overlay
+			end
 			content:set(3, w)
 		end
-		set_page()
 
 		v.widget:add_button(awful.button({}, 1, nil, set_page))
 		pages:add(v.widget)
+
+		set_page()
 	end
 
 	local popup = awful.popup {
