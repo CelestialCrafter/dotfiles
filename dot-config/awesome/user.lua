@@ -14,16 +14,16 @@ user.base_spacing = 4
 user.roundness = 2
 user.spacing_multiplier = 2
 
-user.base = "#0B1221"
-user.surface = "#0D1933"
-user.overlay = "#131F3B"
-user.subtle = "#3B4457"
+user.base = "#110E1A"
+user.surface = "#1A1429"
+user.overlay = "#19122E"
+user.subtle = "#3A3547"
 
-user.primary = "#87373D"
-user.secondary = "#BD6F33"
-user.accent = "#CCA66A"
+user.primary = "#9568A8"
+user.secondary = "#876074"
+user.accent = "#BD7C6F"
 
-user.text = "#D2DFFC"
-user.text_subtle = "#949EB3"
+user.text = "#F2DCDA"
+user.text_subtle = "#847D99"
 
 return user
