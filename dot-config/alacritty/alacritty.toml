@@ -3,14 +3,14 @@ program = "hilbish"
 args = ["-l", "-S"]
 
 [colors.primary]
-foreground = "#D2DFFC"
-background = "#0B1221"
+foreground = "#F2DCDA"
+background = "#0F0B1A"
 
 [colors.normal]
-black = "#0B1221"
-red = "#87373D"
-green = "#BD6F33"
-yellow = "#CCA66A"
+black = "#0F0B1A"
+red = "#4B3791"
+green = "#694182"
+yellow = "#B37669"
 
 [window]
 padding = { x = 12, y = 12 }
