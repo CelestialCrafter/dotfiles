@@ -24,7 +24,6 @@ local function volume(name)
 end
 
 return function()
-	-- @TODO finish audio widget
 	return wibox.widget {
 		element({
 			wibox.widget.textbox("Built-in Audio Analog Stereo (#191)"),
