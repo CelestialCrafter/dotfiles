@@ -56,22 +56,32 @@ theme.fg_urgent = theme.text
 theme.fg_minimize = theme.text
 theme.prompt_bg_cursor = theme.text
 
-local p = themes_path .. "primary.png"
-local s = themes_path .. "secondary.png"
-local a = themes_path .. "accent.png"
+local function colored_circle(color)
+	local size = 64
+	local surface = gears.surface.load_from_shape(
+		size, size,
+		gears.shape.circle,
+		color
+	)
 
-theme.titlebar_close_button_normal = p
-theme.titlebar_close_button_focus = p
+	return surface
+end
+theme.primary_circle = colored_circle(theme.primary)
+theme.secondary_circle = colored_circle(theme.secondary)
+theme.accent_circle = colored_circle(theme.accent)
 
-theme.titlebar_sticky_button_normal_inactive = s
-theme.titlebar_sticky_button_focus_inactive = s
-theme.titlebar_sticky_button_normal_active = s
-theme.titlebar_sticky_button_focus_active = s
+theme.titlebar_close_button_normal = theme.primary_circle
+theme.titlebar_close_button_focus = theme.primary_circle
 
-theme.titlebar_floating_button_normal_inactive = a
-theme.titlebar_floating_button_focus_inactive = a
-theme.titlebar_floating_button_normal_active = a
-theme.titlebar_floating_button_focus_active = a
+theme.titlebar_sticky_button_normal_inactive = theme.secondary_circle
+theme.titlebar_sticky_button_focus_inactive = theme.secondary_circle
+theme.titlebar_sticky_button_normal_active = theme.secondary_circle
+theme.titlebar_sticky_button_focus_active = theme.secondary_circle
+
+theme.titlebar_floating_button_normal_inactive = theme.accent_circle
+theme.titlebar_floating_button_focus_inactive = theme.accent_circle
+theme.titlebar_floating_button_normal_active = theme.accent_circle
+theme.titlebar_floating_button_focus_active = theme.accent_circle
 
 beautiful.init(theme)
 
