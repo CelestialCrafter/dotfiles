@@ -5,9 +5,10 @@ edition = "2021"
 
 [dependencies]
 dbus = "0.9.7"
-dirs = "5.0.1"
+dirs-next = "2.0.0"
 eyre = "0.6.12"
 mlua = { version = "0.10.2", features = ["lua52", "serialize"] }
 mpris = "2.0.1"
 network-manager = "0.11.0"
+notify-rust = { version = "4.11.3", default-features = false, features = ["d"] }
 serde = { version = "1.0.215", features = ["serde_derive"] }
