@@ -18,7 +18,7 @@ local function generate_widget(network)
 			{
 				{
 					wibox.widget.textbox("^"),
-					fg = network[1] == 2 and beautiful.accent or nil,
+					fg = (network[1] == 1 or network[1] == 2) and beautiful.accent or nil,
 					widget = wibox.container.background
 				},
 				{

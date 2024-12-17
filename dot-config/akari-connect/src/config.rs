@@ -9,7 +9,7 @@ pub struct User {
 }
 
 pub static USER_CONFIG: LazyLock<User> = LazyLock::new(|| {
-    let user_config_path = dirs::config_dir()
+    let user_config_path = dirs_next::config_dir()
         .expect("config dir should exist")
         .join("awesome/user.lua");
 

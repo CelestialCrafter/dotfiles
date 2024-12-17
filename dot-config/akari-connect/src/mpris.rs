@@ -3,7 +3,7 @@ use std::{sync::{mpsc::Receiver, RwLock}, time::Duration};
 use eyre::Result;
 use mpris::{DBusError, Metadata, PlaybackStatus, Player, PlayerFinder};
 
-use crate::dbus::{definition::OrgAwesomewmAkariconnect, Bus};
+use crate::{dbus::{definition::OrgAwesomewmAkariconnect, Bus}, log};
 
 static ACTIVE_INDEX: RwLock<usize> = RwLock::new(0);
 
@@ -96,10 +96,11 @@ impl Manager {
         Ok(())
     }
 
-    pub fn receive(mut self, rx: Receiver<Action>) -> Result<()> {
+    pub fn receive(&mut self, rx: Receiver<Action>) {
         while let Ok(action) = rx.recv() {
-            let player = if let Some(p) = self.active() { p } else {
-                continue;
+            let player = match self.active() {
+                Some(p) => p,
+                _ => continue
             };
 
             let result = match action {
@@ -117,11 +118,9 @@ impl Manager {
             };
 
             if let Err(err) = result {
-                eprintln!("mpris action error: {}", err);
+                log::error("could not run mpris action", err);
             }
         }
-
-        Ok(())
     }
 
     pub fn position(&mut self) -> Option<Result<Duration, DBusError>> {
@@ -143,7 +142,7 @@ impl Manager {
         let active_index = ACTIVE_INDEX.read().unwrap();
         let mut new_active = *active_index;
 
-        let map = players
+        let player = players
             .iter()
             .enumerate()
             .position(|(i, p)| {
@@ -153,14 +152,14 @@ impl Manager {
 
                 i == new_active 
             })
-        .map(|i| players.remove(i));
+            .map(|i| players.remove(i));
 
         if *active_index != new_active {
             drop(active_index);
             *ACTIVE_INDEX.write().unwrap() = new_active;
         }
 
-        map
+        player
     }
 
     fn shift(&mut self, by: isize) {

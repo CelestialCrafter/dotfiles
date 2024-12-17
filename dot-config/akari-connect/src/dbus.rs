@@ -5,7 +5,7 @@ use std::{rc::Rc, sync::mpsc::Sender, time::Duration};
 use dbus::{blocking::{Connection, Proxy}, Message};
 use eyre::Result;
 
-use crate::{mpris, networkmanager};
+use crate::{log, mpris, networkmanager};
 
 const BUS_NAME: &str = "org.awesomewm.akariconnect";
 const TIMEOUT: Duration = Duration::from_millis(5000);
@@ -21,7 +21,7 @@ impl Bus<'_> {
         Ok(Self { proxy })
     }
 
-    pub fn receive(self, mpris: Sender<mpris::Action>, nm: Sender<networkmanager::Action>) -> Result<()> {
+    pub fn receive(self, mpris: Sender<mpris::Action>, nm: Sender<networkmanager::Action>) {
         // ew
         {
             let tx = mpris.clone();
@@ -87,7 +87,10 @@ impl Bus<'_> {
         }
 
         loop {
-            self.proxy.connection.process(Duration::from_millis(1000))?;
+            let result = self.proxy.connection.process(Duration::from_millis(1000));
+            if let Err(err) = result {
+                log::error("bus process error", err);
+            }
         }
     }
 }
