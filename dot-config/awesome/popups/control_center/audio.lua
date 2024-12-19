@@ -37,9 +37,9 @@ return function()
 		}),
 		{
 			element({
-					volume("Main"),
-					volume("Media"),
-					spacing = beautiful.spacing_s,
+				volume("Main"),
+				volume("Media"),
+				spacing = beautiful.spacing_m,
 				layout = wibox.layout.fixed.vertical,
 			}),
 			fg = beautiful.text_subtle,

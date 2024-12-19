@@ -56,7 +56,7 @@ theme.fg_urgent = theme.text
 theme.fg_minimize = theme.text
 theme.prompt_bg_cursor = theme.text
 
-local function colored_circle(color)
+function theme.colored_circle(color)
 	local size = 64
 	local surface = gears.surface.load_from_shape(
 		size, size,
@@ -66,9 +66,9 @@ local function colored_circle(color)
 
 	return surface
 end
-theme.primary_circle = colored_circle(theme.primary)
-theme.secondary_circle = colored_circle(theme.secondary)
-theme.accent_circle = colored_circle(theme.accent)
+theme.primary_circle = theme.colored_circle(theme.primary)
+theme.secondary_circle = theme.colored_circle(theme.secondary)
+theme.accent_circle = theme.colored_circle(theme.accent)
 
 theme.titlebar_close_button_normal = theme.primary_circle
 theme.titlebar_close_button_focus = theme.primary_circle

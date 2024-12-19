@@ -38,49 +38,22 @@ local function user()
 	return w
 end
 
-local function power()
-	local function fg(w, color)
-		return {
-			w,
-			fg = color,
-			widget = wibox.container.background
-		}
+return function(s)
+	if true then
+		return
 	end
-
-	return {
-		element(wibox.widget.textbox("() 76%")),
-		element({
-			fg(wibox.widget.textbox("-"), beautiful.primary),
-			fg(wibox.widget.textbox("()"), beautiful.secondary),
-			fg(wibox.widget.textbox("{"), beautiful.accent),
-			spacing = beautiful.spacing_s,
-			layout = wibox.layout.fixed.horizontal
-		}),
-		spacing = beautiful.spacing_s,
-		layout = wibox.layout.fixed.horizontal
-	}
-end
-
-return function()
 	local widget = wibox.widget {
 		{
 			{
-				{
-					user(),
-					nil,
-					{
-						{
-							power(),
-							left = beautiful.spacing_xl,
-							widget = wibox.container.margin
-						},
-						valign = "center",
-						widget = wibox.container.place
-					},
-					layout = wibox.layout.align.horizontal
-				},
+				user(),
 				bottom = beautiful.spacing_s,
 				widget = wibox.container.margin
+			},
+			{
+				wibox.widget {},
+				margins = beautiful.spacing_s,
+				widget = wibox.container.margin,
+				id = "content"
 			},
 			{
 				{
@@ -89,13 +62,15 @@ return function()
 					id = "pages"
 				},
 				halign = "center",
+				valign = "bottom",
 				widget = wibox.container.place
 			},
-			wibox.widget {},
+			fill_space = true,
 			spacing = beautiful.spacing_s,
 			layout = wibox.layout.fixed.vertical,
-			id = "content"
 		},
+		forced_height = s.workarea.height - beautiful.useless_gap * 4,
+		forced_width = beautiful.spacing_xl * 12,
 		margins = beautiful.spacing_m,
 		widget = wibox.container.margin
 	}
@@ -103,41 +78,47 @@ return function()
 	local content = widget:get_children_by_id("content")[1]
 	local pages = widget:get_children_by_id("pages")[1]
 
-	local page_data = {
-		{
-			widget = element(wibox.widget.textbox("^ My Network")),
-			id = "network"
-		},
-		{
-			widget = element(wibox.widget.textbox("$ Wireless Headphones")),
-			id = "bluetooth"
-		},
-		{
-			widget = element(wibox.widget.textbox("< Audio", true)),
-			id = "audio"
-		}
+	local page_ids = {
+		"main",
+		"network",
+		"audio"
 	}
-	-- not using a keyed table to preserve order
-	for i, v in pairs(page_data) do
-		local w = require("popups.control_center." .. v.id)()
+	local page_colors = {
+		beautiful.primary,
+		beautiful.secondary,
+		beautiful.accent
+	}
 
+	local default = beautiful.colored_circle(beautiful.subtle)
+	for i, id in pairs(page_ids) do
+		local w = require("popups.control_center." .. id)()
+
+		local selected = beautiful.colored_circle(page_colors[i])
 		local function set_page()
 			for j, p in ipairs(pages.children) do
-				p.bg = i == j and beautiful.primary or beautiful.overlay
+				p.image = i == j and selected or default
 			end
-			content:set(3, w)
+			content.widget = w
 		end
 
-		v.widget:add_button(awful.button({}, 1, nil, set_page))
-		pages:add(v.widget)
+		local pw = wibox.widget {
+			image = default,
+			forced_width = 32,
+			forced_height = 32,
+			widget = wibox.widget.imagebox
+		}
+		pw:add_button(awful.button({}, 1, nil, set_page))
+		pages:add(pw)
 
-		set_page()
+		if i == 1 then
+			set_page()
+		end
 	end
 
 	local popup = awful.popup {
 		widget = widget,
 		ontop = true,
-		placement = function(d) awful.placement.top_left(d, {
+		placement = function(d) awful.placement.left(d, {
 			margins = beautiful.useless_gap * 2,
 			honor_workarea = true
 		}) end,
