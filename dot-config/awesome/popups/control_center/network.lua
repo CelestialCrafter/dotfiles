@@ -2,6 +2,7 @@ local wibox = require("wibox")
 local awful = require("awful")
 local beautiful = require("beautiful")
 local nm = require("connect.networkmanager")
+local element = require("widgets.element")
 
 local function generate_widget(network)
 	local state = ""
@@ -52,16 +53,20 @@ end
 
 return function()
 	local widget = wibox.widget {
-		{
-			id = "networks",
-			spacing = beautiful.spacing_l,
-			layout = wibox.layout.fixed.vertical
-		},
-		margins = beautiful.spacing_m,
-		widget = wibox.container.margin
+		element(),
+		element({
+			{
+				id = "networks",
+				spacing = beautiful.spacing_l,
+				layout = wibox.layout.fixed.vertical
+			},
+			margins = beautiful.spacing_s,
+			widget = wibox.container.margin
+		}),
+		layout = wibox.layout.fixed.vertical
 	}
 
-	local networks_widget = widget:get_children_by_id("networks")[1]
+	local networks_widget = widget.children[1]:get_children_by_id("networks")[1]
 	nm:connect_signal("networks", function(_, lgi_networks)
 		if #lgi_networks == 0 then
 			return
