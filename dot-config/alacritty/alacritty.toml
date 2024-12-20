@@ -3,14 +3,20 @@ program = "hilbish"
 args = ["-l", "-S"]
 
 [colors.primary]
+background = "#110E1A"
 foreground = "#F2DCDA"
-background = "#0F0B1A"
+dim_foreground = "#847D99"
 
 [colors.normal]
-black = "#0F0B1A"
-red = "#4B3791"
-green = "#694182"
-yellow = "#B37669"
+black = "#110E1A"
+red = "#9568A8"
+green = "#876074"
+yellow = "#BD7C6F"
+white = "#847D99"
+
+[colors.bright]
+black = "#3A3547"
+white = "#F2DCDA"
 
 [window]
 padding = { x = 12, y = 12 }
