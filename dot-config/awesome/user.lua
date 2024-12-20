@@ -19,8 +19,10 @@ user.surface = "#1A1429"
 user.overlay = "#19122E"
 user.subtle = "#3A3547"
 
-user.primary = "#9568A8"
-user.secondary = "#876074"
+user.primary = "#7D5972"
+user.secondary = "#A87D90"
+user.tertiary = "#B33752"
+user.quaternary = "#C9594F"
 user.accent = "#BD7C6F"
 
 user.text = "#F2DCDA"

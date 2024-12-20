@@ -2,6 +2,9 @@
 program = "hilbish"
 args = ["-l", "-S"]
 
+[env]
+EDITOR = "nvim --server $XDG_RUNTIME_DIR/nvim.0.0.pipe"
+
 [colors.primary]
 background = "#110E1A"
 foreground = "#F2DCDA"

@@ -1,3 +1,8 @@
 assets*
-
+.git
+.gitmodules
+.gitignore
+.jj
+README.md
+LICENSE
 stow_setup.sh
