@@ -1,0 +1,7 @@
+require("config.profile")
+require("config.opts")
+require("config.lazy")
+require("config.keymaps")
+require("config.statusline")
+require("config.yank_highlight")
+require("config.distractions")

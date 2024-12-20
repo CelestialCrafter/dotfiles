@@ -1,7 +1,6 @@
-local awful = require("awful")
 local gears = require("gears")
 local beautiful = require("beautiful")
-local keybinds  = require("keybinds")
+local keybinds = require("keybinds")
 
 return function()
 	client.connect_signal("request::manage", function(c)
