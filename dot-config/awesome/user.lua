@@ -14,18 +14,9 @@ user.base_spacing = 4
 user.roundness = 2
 user.spacing_multiplier = 2
 
-user.base = "#110E1A"
-user.surface = "#1A1429"
-user.overlay = "#19122E"
-user.subtle = "#3A3547"
-
-user.primary = "#7D5972"
-user.secondary = "#A87D90"
-user.tertiary = "#B33752"
-user.quaternary = "#C9594F"
-user.accent = "#BD7C6F"
-
-user.text = "#F2DCDA"
-user.text_subtle = "#847D99"
+local colors = dofile(os.getenv("HOME") .. "/.config/akari-settings/user.lua").colors
+for k, v in pairs(colors) do
+	user[k] = v
+end
 
 return user
