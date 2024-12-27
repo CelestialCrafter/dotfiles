@@ -13,30 +13,23 @@ return {
 			TelescopeBorder = { bg = "base" },
 			StatusLine = { bg = "base" },
 		},
-		palette = function()
-			local path = os.getenv("HOME") .. "/.config/awesome/user.lua"
-			local ok, user = pcall(dofile, path)
-			if not ok then
-				return
-			end
-
-			return {
-				main = {
-					base = user.base,
-					surface = user.surface,
-					overlay = user.overlay,
-					muted = user.subtle,
-					subtle = user.text_subtle,
-					text = user.text,
-					highlight_med = user.overlay,
-				},
-			}
-		end,
 	},
 	config = function(_, opts)
-		if type(opts.palette) == "function" then
-			opts.palette = opts.palette()
+		local ok, settings = pcall(dofile, os.getenv("HOME") .. "/.config/akari-settings/user.lua")
+		if ok then
+			opts["palette"] = {
+				main = {
+					base = settings.colors.base,
+					surface = settings.colors.surface,
+					overlay = settings.colors.overlay,
+					muted = settings.colors.subtle,
+					subtle = settings.colors.text_subtle,
+					text = settings.colors.text,
+					highlight_med = settings.colors.overlay,
+				},
+			}
 		end
+
 		require("rose-pine").setup(opts)
 		vim.cmd("colorscheme rose-pine")
 	end,

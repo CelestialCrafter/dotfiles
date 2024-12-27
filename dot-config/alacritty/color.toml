@@ -1,0 +1,45 @@
+[colors]
+indexed_colors = [
+	{ index = 229, color = "#7d5972" },
+	{ index = 230, color = "#a87d90"},
+	{ index = 231, color = "#bd7c6f" },
+]
+
+[colors.primary]
+foreground = "#f2dcda"
+background = "#110e1a"
+dim_foreground = "#847d99"
+
+[colors.selection]
+text = "CellForeground"
+background = "#19122e"
+
+[colors.normal]
+black = "#19122e"
+red = "#eb6f92"
+green = "#31748f"
+yellow = "#f6c177"
+blue = "#9ccfd8"
+magenta = "#c4a7e7"
+cyan = "#ebbcba"
+white = "#f2dcda"
+
+[colors.bright]
+black = "#3a3547"
+red = "#eb6f92"
+green = "#31748f"
+yellow = "#f6c177"
+blue = "#9ccfd8"
+magenta = "#c4a7e7"
+cyan = "#ebbcba"
+white = "#f2dcda"
+
+[colors.dim]
+black = "#3a3547"
+red = "#eb6f92"
+green = "#31748f"
+yellow = "#f6c177"
+blue = "#9ccfd8"
+magenta = "#c4a7e7"
+cyan = "#ebbcba"
+white = "#f2dcda"

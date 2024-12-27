@@ -1,3 +1,6 @@
+[general]
+import = ["color.toml"]
+
 [terminal.shell]
 program = "hilbish"
 args = ["-l", "-S"]
@@ -5,22 +8,11 @@ args = ["-l", "-S"]
 [env]
 EDITOR = "nvim --listen ~/.cache/nvim/server.pipe"
 
-[colors.primary]
-background = "#110E1A"
-foreground = "#F2DCDA"
-dim_foreground = "#847D99"
-
-[colors.normal]
-black = "#110E1A"
-red = "#9568A8"
-green = "#876074"
-yellow = "#BD7C6F"
-white = "#847D99"
-
-[colors.bright]
-black = "#3A3547"
-white = "#F2DCDA"
-
 [window]
 padding = { x = 12, y = 12 }
 dynamic_padding = true
+
+[[keyboard.bindings]]
+chars = "\u001B[13;2u"
+key = "Return"
+mods = "Shift"
