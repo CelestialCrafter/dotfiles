@@ -1,12 +1,11 @@
-local gears = require("gears")
 local awful = require("awful")
-local wibox = require("wibox")
 local beautiful = require("beautiful")
+local gears = require("gears")
+local wibox = require("wibox")
 
 local indicator = {
 	{
 		{
-
 			{
 				id = "text_role",
 				align = "center",
@@ -18,17 +17,16 @@ local indicator = {
 			forced_height = beautiful.spacing_xl,
 		},
 		margins = beautiful.spacing_s,
-		widget = wibox.container.margin
+		widget = wibox.container.margin,
 	},
 	valign = "top",
 	halign = "left",
-	widget = wibox.container.place
+	widget = wibox.container.place,
 }
 
 return function(s)
 	local width = beautiful.spacing_xl * 8
-	-- @FIX add a limit for rendered tags OR resize previews if height exceeds limit
-	local taglist = awful.widget.taglist({
+	local widget = awful.widget.taglist({
 		screen = s,
 		filter = awful.widget.taglist.filter.noempty,
 		layout = wibox.layout.fixed.vertical,
@@ -36,14 +34,14 @@ return function(s)
 			spacing = beautiful.spacing_m,
 			shape = beautiful.rounded,
 			bg_focus = beautiful.accent,
-			bg_occupied = beautiful.overlay
+			bg_occupied = beautiful.overlay,
 		},
 		widget_template = {
 			{
 				id = "preview",
 				resize = true,
 				clip_shape = beautiful.rounded,
-				widget = wibox.widget.imagebox
+				widget = wibox.widget.imagebox,
 			},
 			indicator,
 			layout = wibox.layout.stack,
@@ -57,24 +55,27 @@ return function(s)
 				local r = width / w
 				self.preview.forced_height = h * r
 				self.preview.image = wallpaper
-			end
+			end,
 		},
-		buttons = gears.table.join(awful.button({}, 1, function(t) t:view_only() end))
+		buttons = gears.table.join(awful.button({}, 1, function(t)
+			t:view_only()
+		end)),
 	})
 
 	local margin = beautiful.spacing_m
-	taglist = {
+	widget = {
 		{
 
-			taglist,
+			widget,
 			margins = margin,
-			widget = wibox.container.margin
+			widget = wibox.container.margin,
 		},
 		bg = beautiful.surface,
 		forced_width = width + (margin * 2),
+		shape = beautiful.rounded,
 		widget = wibox.container.background,
-		id = "taglist"
+		id = "taglist",
 	}
 
-	return taglist
+	return widget
 end

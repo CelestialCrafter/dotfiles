@@ -10,18 +10,16 @@ local current_client = require("popups.bar.current_client")
 local element = require("widgets.element")
 
 return function(s)
-	local overview = element(wibox.widget.textbox("Overview"))
-	overview:add_button(awful.button(
-		{}, 1, nil,
-		function() s.overview.visible = not s.overview.visible end
-	))
+	local apps = element(wibox.widget.textbox("Applications"))
+	apps:add_button(awful.button({}, 1, nil, function()
+		s.launcher.visible = not s.launcher.visible
+	end))
 
 	local full_media = media()
 	local short_media = wibox.container.constraint(song(), "max", nil, beautiful.spacing_xl * 10)
-	short_media:add_button(awful.button(
-		{}, 1, nil,
-		function() full_media.visible = not full_media.visible end
-	))
+	short_media:add_button(awful.button({}, 1, nil, function()
+		full_media.visible = not full_media.visible
+	end))
 
 	s.prompt = awful.widget.prompt()
 	local clock = element(wibox.widget.textclock("%I:%M%P"))
@@ -39,16 +37,16 @@ return function(s)
 			end
 
 			gears.shape.partially_rounded_rect(cr, w, h, tl, tr, bl, br, beautiful.spacing_m)
-		end
+		end,
 	})
 
 	bar:setup({
 		{
 			{
-				overview,
+				apps,
 				s.prompt,
 				spacing = beautiful.spacing_s,
-				layout = wibox.layout.fixed.horizontal
+				layout = wibox.layout.fixed.horizontal,
 			},
 			current_client(s),
 			{
@@ -58,10 +56,9 @@ return function(s)
 				layout = wibox.layout.fixed.horizontal,
 			},
 			expand = "none",
-			layout = wibox.layout.align.horizontal
+			layout = wibox.layout.align.horizontal,
 		},
 		margins = beautiful.spacing_s,
-		layout = wibox.container.margin
+		layout = wibox.container.margin,
 	})
 end
-

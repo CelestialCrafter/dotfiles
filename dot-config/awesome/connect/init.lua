@@ -32,7 +32,7 @@ local function on_bus_acquire(conn, _)
     local path = gears.filesystem.get_configuration_dir() .. "connect/definition.xml"
 
     local file = io.open(path, "r")
-    if file == nil then
+    if not file then
         return
     end
 
@@ -63,7 +63,7 @@ return {
         return connection
     end,
     signal = function(method, params)
-        if connection == nil then
+        if not connection then
             return
         end
 

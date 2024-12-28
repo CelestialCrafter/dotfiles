@@ -7,10 +7,10 @@ local popups = require("popups")
 local preview = require("screen.preview")
 
 screen.connect_signal("request::wallpaper", function(s)
-	awful.wallpaper {
+	awful.wallpaper({
 		screen = s,
 		widget = wibox.widget.imagebox(beautiful.wallpaper(s)),
-	}
+	})
 end)
 
 screen.connect_signal("request::desktop_decoration", function(s)

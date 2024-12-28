@@ -6,8 +6,12 @@ local user = require("user")
 local misc = require("misc")
 local screenshot = require("misc.screenshot")
 
+local M = {}
+
 local modkey = "Mod4"
-local function s() return awful.screen.focused() end
+local function s()
+	return awful.screen.focused()
+end
 
 awful.keyboard.append_global_keybindings({
 	-- awesome
@@ -90,12 +94,9 @@ awful.keyboard.append_global_keybindings({
 	end, { description = "open terminal", group = "launcher" }),
 
 	awful.key({ modkey }, "r", function()
-		awful.screen.focused().launcher.visible = true
-	end, { description = "show app runner", group = "launcher" }),
-	awful.key({ modkey }, "o", function()
-		local o = s().overview
-		o.visible = not o.visible
-	end, { description = "show app runner", group = "launcher" })
+		local l = s().launcher
+		l.visible = not l.visible
+	end, { description = "show launcher", group = "launcher" }),
 })
 
 -- tags
@@ -109,60 +110,60 @@ local function tag_code(name)
 end
 
 awful.keyboard.append_global_keybindings({
-    awful.key {
-        modifiers   = { modkey },
-        keygroup    = "numrow",
-        description = "view tag",
-        group       = "tag",
-        on_press    = function (index)
-            local screen = awful.screen.focused()
-            local tag = screen.tags[index]
-            if tag then
-                tag:view_only()
-            end
-        end,
-    },
-    awful.key {
-        modifiers   = { modkey, "Control" },
-        keygroup    = "numrow",
-        description = "toggle tag",
-        group       = "tag",
-        on_press    = function (index)
-            local screen = awful.screen.focused()
-            local tag = screen.tags[index]
-            if tag then
-                awful.tag.viewtoggle(tag)
-            end
-        end,
-    },
-    awful.key {
-        modifiers = { modkey, "Shift" },
-        keygroup    = "numrow",
-        description = "move client to tag",
-        group       = "tag",
-        on_press    = function (index)
-            if client.focus then
-                local tag = client.focus.screen.tags[index]
-                if tag then
-                    client.focus:move_to_tag(tag)
-                end
-            end
-        end,
-    },
-    awful.key {
-        modifiers   = { modkey, "Control", "Shift" },
-        keygroup    = "numrow",
-        description = "toggle client on tag",
-        group       = "tag",
-        on_press    = function (index)
-            if client.focus then
-                local tag = client.focus.screen.tags[index]
-                if tag then
-                    client.focus:toggle_tag(tag)
-                end
-            end
-        end,
-    }
+	awful.key({
+		modifiers = { modkey },
+		keygroup = "numrow",
+		description = "view tag",
+		group = "tag",
+		on_press = function(index)
+			local screen = awful.screen.focused()
+			local tag = screen.tags[index]
+			if tag then
+				tag:view_only()
+			end
+		end,
+	}),
+	awful.key({
+		modifiers = { modkey, "Control" },
+		keygroup = "numrow",
+		description = "toggle tag",
+		group = "tag",
+		on_press = function(index)
+			local screen = awful.screen.focused()
+			local tag = screen.tags[index]
+			if tag then
+				awful.tag.viewtoggle(tag)
+			end
+		end,
+	}),
+	awful.key({
+		modifiers = { modkey, "Shift" },
+		keygroup = "numrow",
+		description = "move client to tag",
+		group = "tag",
+		on_press = function(index)
+			if client.focus then
+				local tag = client.focus.screen.tags[index]
+				if tag then
+					client.focus:move_to_tag(tag)
+				end
+			end
+		end,
+	}),
+	awful.key({
+		modifiers = { modkey, "Control", "Shift" },
+		keygroup = "numrow",
+		description = "toggle client on tag",
+		group = "tag",
+		on_press = function(index)
+			if client.focus then
+				local tag = client.focus.screen.tags[index]
+				if tag then
+					client.focus:toggle_tag(tag)
+				end
+			end
+		end,
+	}),
 })
 
 for i, name in ipairs(misc.tags) do
@@ -201,12 +202,12 @@ for i, name in ipairs(misc.tags) do
 					client.focus:toggle_tag(tag)
 				end
 			end
-		end, { description = "toggle client on tag #" .. name, group = "tag" })
+		end, { description = "toggle client on tag #" .. name, group = "tag" }),
 	})
 end
 
 -- client
-local function clientkeys()
+function M.clientkeys()
 	awful.keyboard.append_client_keybindings({
 		awful.key({ modkey }, "q", function(c)
 			c:kill()
@@ -218,22 +219,19 @@ local function clientkeys()
 
 		awful.key({ modkey }, "t", function(c)
 			awful.titlebar.toggle(c, user.titlebar_position)
-		end, { description = "toggle titlebar", group = "client" })
+		end, { description = "toggle titlebar", group = "client" }),
 	})
 end
 
-local function clientbuttons()
+function M.clientbuttons()
 	awful.mouse.append_client_mousebindings({
 		awful.button({ modkey }, 1, function(c)
-			c:activate { context = "mouse_click", action = "mouse_move" }
+			c:activate({ context = "mouse_click", action = "mouse_move" })
 		end),
 		awful.button({ modkey }, 3, function(c)
-			c:activate { context = "mouse_click", action = "mouse_resize" }
-		end)
+			c:activate({ context = "mouse_click", action = "mouse_resize" })
+		end),
 	})
 end
 
-return {
-	clientbuttons = clientbuttons,
-	clientkeys = clientkeys
-}
+return M
