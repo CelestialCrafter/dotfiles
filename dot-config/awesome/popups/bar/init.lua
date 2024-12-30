@@ -15,10 +15,10 @@ return function(s)
 		s.launcher.visible = not s.launcher.visible
 	end))
 
-	local full_media = media()
-	local short_media = wibox.container.constraint(song(), "max", nil, beautiful.spacing_xl * 10)
-	short_media:add_button(awful.button({}, 1, nil, function()
-		full_media.visible = not full_media.visible
+	local media_widget = media()
+	local song_widget = wibox.container.constraint(song(), "max", nil, beautiful.spacing_xl * 10)
+	song_widget:add_button(awful.button({}, 1, nil, function()
+		media_widget.visible = not media_widget.visible
 	end))
 
 	s.prompt = awful.widget.prompt()
@@ -50,9 +50,12 @@ return function(s)
 			},
 			current_client(s),
 			{
-				short_media,
-				clock,
-				spacing = beautiful.spacing_s,
+				song_widget,
+				{
+					clock,
+					left = beautiful.spacing_s,
+					widget = wibox.container.margin,
+				},
 				layout = wibox.layout.fixed.horizontal,
 			},
 			expand = "none",

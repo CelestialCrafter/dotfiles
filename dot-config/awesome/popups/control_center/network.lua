@@ -4,7 +4,7 @@ local beautiful = require("beautiful")
 local nm = require("connect.networkmanager")
 local element = require("widgets.element")
 
-local function generate_widget(network)
+local function network_widget(network)
 	local state = ""
 	if network[1] == 2 then
 		state = "Connected"
@@ -14,57 +14,54 @@ local function generate_widget(network)
 		state = "Disconnecting"
 	end
 
-	local widget = wibox.widget {
+	local widget = wibox.widget({
 		{
 			{
 				{
 					wibox.widget.textbox("^"),
 					fg = (network[1] == 1 or network[1] == 2) and beautiful.accent or nil,
-					widget = wibox.container.background
+					widget = wibox.container.background,
 				},
 				{
 					text = network[2],
-					widget = wibox.widget.textbox
+					widget = wibox.widget.textbox,
 				},
 				spacing = beautiful.spacing_m,
-				layout = wibox.layout.fixed.horizontal
+				layout = wibox.layout.fixed.horizontal,
 			},
 			nil,
 			wibox.widget.textbox(state),
-			layout = wibox.layout.align.horizontal
+			layout = wibox.layout.align.horizontal,
 		},
 		fg = network[1] == 0 and beautiful.text_subtle or nil,
-		widget = wibox.container.background
-	}
+		widget = wibox.container.background,
+	})
 
 	if network[1] ~= 0 then
-		widget:add_button(awful.button(
-			{}, 1, nil,
-			function ()
-				local connected = network[1] == 1 or network[1] == 2
-				local fn = connected and nm.disconnect or nm.connect
-				fn(network[3])
-			end
-		))
+		widget:add_button(awful.button({}, 1, nil, function()
+			local connected = network[1] == 1 or network[1] == 2
+			local fn = connected and nm.disconnect or nm.connect
+			fn(network[3])
+		end))
 	end
 
 	return widget
 end
 
 return function()
-	local widget = wibox.widget {
+	local widget = wibox.widget({
 		element(),
 		element({
 			{
 				id = "networks",
 				spacing = beautiful.spacing_l,
-				layout = wibox.layout.fixed.vertical
+				layout = wibox.layout.fixed.vertical,
 			},
 			margins = beautiful.spacing_s,
-			widget = wibox.container.margin
+			widget = wibox.container.margin,
 		}),
-		layout = wibox.layout.fixed.vertical
-	}
+		layout = wibox.layout.fixed.vertical,
+	})
 
 	local networks_widget = widget.children[1]:get_children_by_id("networks")[1]
 	nm:connect_signal("networks", function(_, lgi_networks)
@@ -77,18 +74,17 @@ return function()
 			networks[i] = n
 		end
 
-		table.sort(networks, function (a, b)
+		table.sort(networks, function(a, b)
 			return a[1] < b[1]
 		end)
 
-
-		local widgets = {}
+		local network_widgets = {}
 		for _, n in ipairs(networks) do
-			table.insert(widgets, generate_widget(n))
+			table.insert(network_widgets, network_widget(n))
 		end
 
 		networks_widget:reset()
-		networks_widget:add(table.unpack(widgets))
+		networks_widget:add(table.unpack(network_widgets))
 	end)
 
 	return widget

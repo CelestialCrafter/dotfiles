@@ -26,7 +26,7 @@ local indicator = {
 
 return function(s)
 	local width = beautiful.spacing_xl * 8
-	local widget = awful.widget.taglist({
+	local taglist = awful.widget.taglist({
 		screen = s,
 		filter = awful.widget.taglist.filter.noempty,
 		layout = wibox.layout.fixed.vertical,
@@ -63,10 +63,10 @@ return function(s)
 	})
 
 	local margin = beautiful.spacing_m
-	widget = {
+	taglist = {
 		{
 
-			widget,
+			taglist,
 			margins = margin,
 			widget = wibox.container.margin,
 		},
@@ -77,5 +77,5 @@ return function(s)
 		id = "taglist",
 	}
 
-	return widget
+	return taglist
 end

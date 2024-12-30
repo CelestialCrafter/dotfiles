@@ -42,7 +42,7 @@ return function(s)
 	if true then
 		return
 	end
-	local widget = wibox.widget({
+	local control_center_widget = wibox.widget({
 		{
 			{
 				user(),
@@ -75,8 +75,8 @@ return function(s)
 		widget = wibox.container.margin,
 	})
 
-	local content = widget:get_children_by_id("content")[1]
-	local pages = widget:get_children_by_id("pages")[1]
+	local content = control_center_widget:get_children_by_id("content")[1]
+	local pages = control_center_widget:get_children_by_id("pages")[1]
 
 	local page_ids = {
 		"main",
@@ -116,7 +116,7 @@ return function(s)
 	end
 
 	s.control_center = awful.popup({
-		widget = widget,
+		widget = control_center_widget,
 		ontop = true,
 		placement = function(d)
 			awful.placement.left(d, {
