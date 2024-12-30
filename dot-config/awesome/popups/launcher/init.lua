@@ -5,9 +5,11 @@ local beautiful = require("beautiful")
 
 local taglist = require("popups.launcher.taglist")
 local menu = require("popups.launcher.menu")
+local dock = require("popups.launcher.dock")
 
 return function(s)
 	local menu_widget, run_search = menu(s)
+	local dock_widget = dock(s)
 
 	local wallpaper = beautiful.wallpaper(s)
 	local _, height = gears.surface.get_size(wallpaper)
@@ -28,7 +30,7 @@ return function(s)
 				layout = wibox.layout.align.horizontal,
 			},
 			wibox.container.place({
-				s.dock_widget,
+				dock_widget,
 				bottom = beautiful.useless_gap * 2,
 				widget = wibox.container.margin,
 			}, "center", "bottom"),
@@ -43,6 +45,10 @@ return function(s)
 	})
 
 	s:connect_signal("tag::history::update", function()
+		s.launcher:emit_signal("hide")
+	end)
+
+	s.launcher:connect_signal("hide", function()
 		if s.launcher.visible then
 			s.launcher.visible = false
 			awful.key.execute({}, "Escape")
