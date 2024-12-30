@@ -1,45 +1,45 @@
 [colors]
 indexed_colors = [
-	{ index = 229, color = "#7d5972" },
-	{ index = 230, color = "#a87d90"},
-	{ index = 231, color = "#bd7c6f" },
+	{ index = 229, color = "#C981BD" },
+	{ index = 230, color = "#77A4D4"},
+	{ index = 231, color = "#987BAD" },
 ]
 
 [colors.primary]
-foreground = "#f2dcda"
-background = "#110e1a"
-dim_foreground = "#847d99"
+foreground = "#E1E4F7"
+background = "#14151C"
+dim_foreground = "#ACA8BF"
 
 [colors.selection]
 text = "CellForeground"
-background = "#19122e"
+background = "#232636"
 
 [colors.normal]
-black = "#19122e"
+black = "#232636"
 red = "#eb6f92"
 green = "#31748f"
 yellow = "#f6c177"
 blue = "#9ccfd8"
 magenta = "#c4a7e7"
 cyan = "#ebbcba"
-white = "#f2dcda"
+white = "#E1E4F7"
 
 [colors.bright]
-black = "#3a3547"
+black = "#585663"
 red = "#eb6f92"
 green = "#31748f"
 yellow = "#f6c177"
 blue = "#9ccfd8"
 magenta = "#c4a7e7"
 cyan = "#ebbcba"
-white = "#f2dcda"
+white = "#E1E4F7"
 
 [colors.dim]
-black = "#3a3547"
+black = "#585663"
 red = "#eb6f92"
 green = "#31748f"
 yellow = "#f6c177"
 blue = "#9ccfd8"
 magenta = "#c4a7e7"
 cyan = "#ebbcba"
-white = "#f2dcda"
+white = "#E1E4F7"

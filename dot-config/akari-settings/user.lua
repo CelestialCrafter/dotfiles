@@ -1,16 +1,17 @@
 local user = { colors = {} }
 
-user.colors.text = "#f2dcda"
-user.colors.base = "#110e1a"
-user.colors.surface = "#1a1429"
-user.colors.overlay = "#19122e"
-user.colors.subtle = "#3a3547"
-user.colors.text_subtle = "#847d99"
+user.colors.text = "#E1E4F7"
+user.colors.base = "#14151C"
+user.colors.surface = "#1B1D29"
+user.colors.overlay = "#232636"
+user.colors.subtle = "#585663"
+user.colors.text_subtle = "#ACA8BF"
 
-user.colors.primary = "#7d5972"
-user.colors.secondary = "#a87d90"
-user.colors.accent = "#bd7c6f"
+user.colors.primary = "#77A4D4"
+user.colors.secondary = "#C981BD"
+user.colors.accent = "#987BAD"
 
+-- rose pine
 user.colors.red = "#eb6f92"
 user.colors.yellow = "#f6c177"
 user.colors.orange = "#ebbcba"
