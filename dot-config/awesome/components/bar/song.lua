@@ -1,8 +1,8 @@
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-local mpris = require("connect.mpris")
 
-local element = require("widgets.element")
+local mpris = require("connect.mpris")
+local element = require("components.widgets.element")
 
 return function()
 	local function format(metadata)
@@ -21,11 +21,10 @@ return function()
 	local s = widget:get_children_by_id("song")[1]
 	local function handle_metadata(_, metadata)
 		s.text = format(metadata)
-		widget.visible = true
 	end
 
 	local function handle_empty()
-		widget.visible = false
+		s.text = "No Media"
 	end
 
 	handle_empty()

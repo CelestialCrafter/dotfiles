@@ -4,10 +4,11 @@ local gears = require("gears")
 local beautiful = require("beautiful")
 
 local user = require("user")
-local media = require("popups.media")
-local song = require("popups.bar.song")
-local current_client = require("popups.bar.current_client")
-local element = require("widgets.element")
+local media = require("components.media")
+local song = require("components.bar.song")
+local volume = require("components.bar.volume")
+local current_client = require("components.bar.current_client")
+local element = require("components.widgets.element")
 
 return function(s)
 	local apps = element(wibox.widget.textbox("Applications"))
@@ -51,11 +52,9 @@ return function(s)
 			current_client(s),
 			{
 				song_widget,
-				{
-					clock,
-					left = beautiful.spacing_s,
-					widget = wibox.container.margin,
-				},
+				volume(),
+				clock,
+				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal,
 			},
 			expand = "none",

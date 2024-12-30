@@ -1,7 +1,7 @@
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local element = require("widgets.element")
+local element = require("components.widgets.element")
 
 local function volume(name)
 	return {

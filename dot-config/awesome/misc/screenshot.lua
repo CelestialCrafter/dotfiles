@@ -1,7 +1,7 @@
 local awful = require("awful")
 local gears = require("gears")
-local gio = require("lgi").Gio
 local naughty = require("naughty")
+local gio = require("lgi").Gio
 
 return function()
 	local date = os.date("%Y-%m-%d-%H%M%S")
