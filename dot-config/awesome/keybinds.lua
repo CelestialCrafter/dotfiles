@@ -5,6 +5,7 @@ local mpris = require("connect.mpris")
 local user = require("user")
 local misc = require("misc")
 local screenshot = require("misc.screenshot")
+local apps = require("popups.launcher.apps")
 
 local M = {}
 
@@ -90,7 +91,7 @@ awful.keyboard.append_global_keybindings({
 	end, { description = "execute", group = "launcher" }),
 
 	awful.key({ modkey }, "Return", function()
-		awful.spawn(user.terminal)
+		awful.spawn(assert(apps.entries[user.terminal], ("app id %s does not exist"):format(user.terminal)).launch())
 	end, { description = "open terminal", group = "launcher" }),
 
 	awful.key({ modkey }, "r", function()
