@@ -13,7 +13,7 @@ local max_entries = rows * cols
 
 local current = nil
 
-local function generate_widget(entry)
+local function app_widget(entry)
 	local widget = {
 		{
 			{
@@ -120,33 +120,33 @@ local function handle_search(query)
 		})
 	end
 
-	local widgets = {}
+	local app_widgets = {}
 	for i, entry in ipairs(matched) do
 		if i > max_entries then
 			break
 		end
 
-		table.insert(widgets, generate_widget(entry))
+		table.insert(app_widgets, app_widget(entry))
 		entry.focused = false
 	end
 
-	return widgets
+	return app_widgets
 end
 
 return function(s)
-	local search = wibox.widget({
+	local search_box = wibox.widget({
 		text = "Search: ",
 		ellipsize = "start",
 		widget = wibox.widget.textbox,
 	})
 
-	local widget = wibox.widget({
+	local search = wibox.widget({
 		{
 			{
 				{
 					{
 						{
-							element(search),
+							element(search_box),
 							width = beautiful.spacing_xl * 24,
 							height = beautiful.spacing_xl * 4,
 							widget = wibox.container.constraint,
@@ -177,17 +177,17 @@ return function(s)
 	})
 
 	local function set_entries(query)
-		widget:get_children_by_id("entries")[1]:set_children(handle_search(query))
+		search:get_children_by_id("entries")[1]:set_children(handle_search(query))
 	end
 
 	set_entries("")
 	local function run_search()
 		set_entries("")
 
-		local original_text = search.text
+		local original_text = search_box.text
 		awful.prompt.run({
 			prompt = original_text,
-			textbox = search,
+			textbox = search_box,
 			changed_callback = set_entries,
 			exe_callback = function()
 				if current ~= nil then
@@ -195,11 +195,11 @@ return function(s)
 				end
 			end,
 			done_callback = function()
-				search.text = original_text
+				search_box.text = original_text
 				s.launcher.visible = false
 			end,
 		})
 	end
 
-	return widget, run_search
+	return search, run_search
 end

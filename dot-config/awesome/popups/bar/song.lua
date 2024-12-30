@@ -1,21 +1,21 @@
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-local mpris     = require("connect.mpris")
+local mpris = require("connect.mpris")
 
 local element = require("widgets.element")
 
 return function()
 	local function format(metadata)
-		return metadata.title .. ' - ' .. metadata.artist
+		return metadata.title .. " - " .. metadata.artist
 	end
 
 	local widget = element({
 		{
 			widget = wibox.widget.textbox,
-			id = "song"
+			id = "song",
 		},
 		widget = wibox.container.constraint,
-		width = beautiful.spacing_xl * 10
+		width = beautiful.spacing_xl * 10,
 	})
 
 	local s = widget:get_children_by_id("song")[1]
@@ -34,4 +34,3 @@ return function()
 
 	return widget
 end
-

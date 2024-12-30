@@ -9,7 +9,7 @@ local icon_margin = size * 0.25
 local bar_margin = beautiful.spacing_m
 local indicator_size = beautiful.spacing_s
 
-local function generate_widget(app)
+local function app_widget(app)
 	local indicator_margin = (bar_margin + icon_margin - indicator_size) / 2
 	local widget = wibox.widget({
 		{
@@ -52,7 +52,7 @@ return function(s)
 		layout = wibox.layout.fixed.horizontal,
 	})
 
-	local widget = wibox.widget({
+	local dock_widget = wibox.widget({
 		{
 			entries_widget,
 			left = bar_margin,
@@ -64,7 +64,7 @@ return function(s)
 		widget = wibox.container.background,
 	})
 
-	s.dock_widget = widget
+	s.dock_widget = dock_widget
 
 	local entries = {}
 
@@ -79,7 +79,7 @@ return function(s)
 	apps:connect_signal("loaded", function()
 		for class, id in pairs(user.pinned_apps) do
 			apps.class_to_id[class] = id
-			local entry_widget = generate_widget(assert(apps.entries[id], ("app does not exist with id %s"):format(id)))
+			local entry_widget = app_widget(assert(apps.entries[id], ("app does not exist with id %s"):format(id)))
 			entries_widget:add(entry_widget)
 			entries[id] = { entry_widget }
 		end
@@ -93,7 +93,7 @@ return function(s)
 
 		local entry = entries[app.id]
 		if not entry then
-			local entry_widget = generate_widget(app)
+			local entry_widget = app_widget(app)
 			entries_widget:add(entry_widget)
 			entries[app.id] = { entry_widget, windows = 1 }
 		elseif entry.windows then
@@ -123,7 +123,7 @@ return function(s)
 	client.connect_signal("focus", check_focus)
 
 	return awful.popup({
-		widget = widget,
+		widget = dock_widget,
 		shape = beautiful.rounded,
 		placement = function(d)
 			awful.placement.bottom(d, { margins = beautiful.useless_gap * 2 })

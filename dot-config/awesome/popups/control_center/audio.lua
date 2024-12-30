@@ -7,7 +7,7 @@ local function volume(name)
 	return {
 		{
 			text = name .. " Volume",
-			widget = wibox.widget.textbox
+			widget = wibox.widget.textbox,
 		},
 		{
 			forced_width = beautiful.spacing_xl * 4,
@@ -17,23 +17,23 @@ local function volume(name)
 			background_color = beautiful.subtle,
 			shape = beautiful.rounded,
 			value = 0.5,
-			id = "progress"
+			id = "progress",
 		},
 		layout = wibox.layout.fixed.vertical,
 	}
 end
 
 return function()
-	return wibox.widget {
+	return wibox.widget({
 		element({
 			wibox.widget.textbox("Built-in Audio Analog Stereo (#191)"),
 			nil,
 			{
 				wibox.widget.textbox("="),
 				fg = beautiful.text_subtle,
-				widget = wibox.container.background
+				widget = wibox.container.background,
 			},
-			layout = wibox.layout.align.horizontal
+			layout = wibox.layout.align.horizontal,
 		}),
 		{
 			element({
@@ -46,6 +46,6 @@ return function()
 			widget = wibox.container.background,
 		},
 		spacing = beautiful.spacing_s,
-		layout = wibox.layout.fixed.vertical
-	}
+		layout = wibox.layout.fixed.vertical,
+	})
 end

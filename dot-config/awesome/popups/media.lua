@@ -85,7 +85,7 @@ local controls = {
 }
 
 return function()
-	local widget = wibox.widget({
+	local media_widget = wibox.widget({
 		{
 			resize = true,
 			forced_height = height,
@@ -107,7 +107,7 @@ return function()
 	})
 
 	local function c(name)
-		return widget:get_children_by_id(name)[1]
+		return media_widget:get_children_by_id(name)[1]
 	end
 
 	local image = c("image")
@@ -182,7 +182,7 @@ return function()
 	mpris:connect_signal("empty", handle_empty)
 
 	return awful.popup({
-		widget = widget,
+		widget = media_widget,
 		ontop = true,
 		placement = function(d)
 			awful.placement.top_right(d, {
