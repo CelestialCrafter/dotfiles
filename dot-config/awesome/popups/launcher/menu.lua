@@ -13,7 +13,7 @@ local max_entries = rows * cols
 
 local current = nil
 
-local function app_widget(entry)
+local function app_widget(entry, s)
 	local widget = {
 		{
 			{
@@ -50,7 +50,13 @@ local function app_widget(entry)
 		}
 	end
 
-	return wibox.widget(widget)
+	widget = wibox.widget(widget)
+	widget:add_button(awful.button({}, 1, nil, function()
+		entry.launch()
+		s.launcher:emit_signal("hide")
+	end))
+
+	return widget
 end
 
 -- https://gist.github.com/Badgerati/3261142
@@ -94,7 +100,7 @@ local function levenshtein(str1, str2)
 	return matrix[len1][len2]
 end
 
-local function handle_search(query)
+local function handle_search(query, s)
 	local matched = {}
 
 	for _, entry in pairs(apps.entries) do
@@ -126,7 +132,7 @@ local function handle_search(query)
 			break
 		end
 
-		table.insert(app_widgets, app_widget(entry))
+		table.insert(app_widgets, app_widget(entry, s))
 		entry.focused = false
 	end
 
@@ -177,7 +183,7 @@ return function(s)
 	})
 
 	local function set_entries(query)
-		search:get_children_by_id("entries")[1]:set_children(handle_search(query))
+		search:get_children_by_id("entries")[1]:set_children(handle_search(query, s))
 	end
 
 	set_entries("")
@@ -193,10 +199,10 @@ return function(s)
 				if current ~= nil then
 					current.launch()
 				end
+				s.launcher:emit_signal("hide")
 			end,
 			done_callback = function()
 				search_box.text = original_text
-				s.launcher.visible = false
 			end,
 		})
 	end
