@@ -2,6 +2,7 @@ local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
+
 local misc = require("misc")
 
 local function user()
@@ -91,7 +92,7 @@ return function(s)
 
 	local default = beautiful.colored_circle(beautiful.subtle)
 	for i, id in pairs(page_ids) do
-		local w = require("popups.control_center." .. id)()
+		local w = require("components.control_center." .. id)()
 
 		local selected = beautiful.colored_circle(page_colors[i])
 		local function set_page()

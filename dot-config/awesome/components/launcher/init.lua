@@ -3,9 +3,9 @@ local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
 
-local taglist = require("popups.launcher.taglist")
-local menu = require("popups.launcher.menu")
-local dock = require("popups.launcher.dock")
+local taglist = require("components.launcher.taglist")
+local menu = require("components.launcher.menu")
+local dock = require("components.launcher.dock")
 
 return function(s)
 	local menu_widget, run_search = menu(s)

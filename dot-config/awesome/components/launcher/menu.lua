@@ -2,9 +2,10 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local awful = require("awful")
 local gears = require("gears")
+
 local misc = require("misc")
-local apps = require("popups.launcher.apps")
-local element = require("widgets.element")
+local apps = require("components.launcher.apps")
+local element = require("components.widgets.element")
 
 local size = beautiful.spacing_xl * 2
 local cols = 12
@@ -203,6 +204,7 @@ return function(s)
 			end,
 			done_callback = function()
 				search_box.text = original_text
+				s.launcher.visible = false
 			end,
 		})
 	end

@@ -1,8 +1,9 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
 local wibox = require("wibox")
+
 local user = require("user")
-local apps = require("popups.launcher.apps")
+local apps = require("components.launcher.apps")
 
 local icon_size = beautiful.spacing_xl * 1.25
 local icon_margin = icon_size * 0.25

@@ -1,8 +1,9 @@
 local wibox = require("wibox")
 local awful = require("awful")
 local beautiful = require("beautiful")
+
 local nm = require("connect.networkmanager")
-local element = require("widgets.element")
+local element = require("components.widgets.element")
 
 local function network_widget(network)
 	local state = ""

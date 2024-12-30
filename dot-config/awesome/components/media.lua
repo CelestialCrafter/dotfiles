@@ -1,9 +1,10 @@
 local awful = require("awful")
 local gears = require("gears")
 local wibox = require("wibox")
-local misc = require("misc")
 local beautiful = require("beautiful")
+
 local mpris = require("connect.mpris")
+local misc = require("misc")
 
 local function hex(str)
 	return (str:gsub(".", function(c)

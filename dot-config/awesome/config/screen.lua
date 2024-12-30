@@ -3,8 +3,8 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 
 local misc = require("misc")
-local popups = require("popups")
-local preview = require("screen.preview")
+local components = require("components")
+local preview = require("components.launcher.taglist.preview")
 
 screen.connect_signal("request::wallpaper", function(s)
 	awful.wallpaper({
@@ -16,6 +16,6 @@ end)
 screen.connect_signal("request::desktop_decoration", function(s)
 	awful.tag(misc.tags, s, awful.layout.layouts[1])
 
-	popups(s)
+	components(s)
 	preview(s)
 end)

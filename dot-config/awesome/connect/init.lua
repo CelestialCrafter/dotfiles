@@ -1,11 +1,9 @@
 local gears = require("gears")
+
 local lgi = require("lgi")
 local gio = lgi.Gio
 local glib = lgi.GLib
 local gobject = lgi.GObject
-
-local connection
-local bus_name = "org.awesomewm.akariconnect"
 
 local mpris = require("connect.mpris")
 local nm = require("connect.networkmanager")
@@ -17,6 +15,11 @@ local methods = {
 
 	Networks = nm,
 }
+
+local connection = nil
+local bus_name = "org.awesomewm.akariconnect"
+
+local M = {}
 
 local function method_call(_, sender, object_path, interface, method, parameters, invocation)
 	local dest = methods[method]
@@ -47,18 +50,16 @@ local function on_bus_acquire(conn, _)
 	connection = conn
 end
 
-gio.bus_own_name(gio.BusType.SESSION, bus_name, gio.BusNameOwnerFlags.NONE, gobject.Closure(on_bus_acquire))
+function M.signal(method, params)
+	if not connection then
+		return
+	end
 
-return {
-	conn = function()
-		return connection
-	end,
-	signal = function(method, params)
-		if not connection then
-			return
-		end
+	connection:emit_signal(nil, "/", bus_name, method, params)
+end
 
-		connection:emit_signal(nil, "/", bus_name, method, params)
-	end,
-	bus_name = bus_name,
-}
+function M.setup()
+	gio.bus_own_name(gio.BusType.SESSION, bus_name, gio.BusNameOwnerFlags.NONE, gobject.Closure(on_bus_acquire))
+end
+
+return M
