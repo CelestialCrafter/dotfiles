@@ -45,19 +45,14 @@ return function(s)
 	})
 
 	s:connect_signal("tag::history::update", function()
-		s.launcher:emit_signal("hide")
-	end)
-
-	s.launcher:connect_signal("hide", function()
-		if s.launcher.visible then
-			s.launcher.visible = false
-			awful.key.execute({}, "Escape")
-		end
+		s.launcher.visible = false
 	end)
 
 	s.launcher:connect_signal("property::visible", function()
 		if s.launcher.visible then
 			run_search()
+		else
+			awful.key.execute({}, "Escape")
 		end
 	end)
 

@@ -10,6 +10,10 @@ M.class_to_id = {}
 M.pending = nil
 
 function M.notify(class)
+	if not class then
+		return
+	end
+
 	local id = M.class_to_id[class]
 	if id then
 		return M.entries[id]
@@ -64,8 +68,6 @@ function M.setup()
 
 		::continue::
 	end
-
-	M:emit_signal("loaded")
 end
 
 return M

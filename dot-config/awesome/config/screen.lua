@@ -15,7 +15,6 @@ end)
 
 screen.connect_signal("request::desktop_decoration", function(s)
 	awful.tag(misc.tags, s, awful.layout.layouts[1])
-
 	components(s)
 	preview(s)
 end)
