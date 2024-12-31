@@ -4,6 +4,7 @@ local wibox = require("wibox")
 
 local user = require("user")
 local apps = require("misc.apps")
+local hover = require("components.widgets.hover")
 
 local icon_size = beautiful.spacing_xl * 1.25
 local icon_margin = icon_size * 0.25
@@ -46,7 +47,7 @@ local function app_widget(app, s)
 		s.launcher.visible = false
 	end))
 
-	return widget
+	return hover(widget)
 end
 
 return function(s)
