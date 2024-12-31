@@ -6,6 +6,7 @@ local gears = require("gears")
 local misc = require("misc")
 local apps = require("misc.apps")
 local element = require("components.widgets.element")
+local hover = require("components.widgets.hover")
 
 local size = beautiful.spacing_xl * 2
 local cols = 12
@@ -57,7 +58,7 @@ local function app_widget(entry, s)
 		s.launcher.visible = false
 	end))
 
-	return widget
+	return hover(widget)
 end
 
 -- https://gist.github.com/Badgerati/3261142

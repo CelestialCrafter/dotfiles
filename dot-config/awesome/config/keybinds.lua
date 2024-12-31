@@ -167,7 +167,7 @@ awful.keyboard.append_global_keybindings({
 	}),
 })
 
-for i, name in ipairs(misc.tags) do
+for i, name in ipairs(user.tags) do
 	local code = tag_code(name)
 
 	awful.keyboard.append_global_keybindings({

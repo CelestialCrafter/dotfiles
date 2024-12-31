@@ -9,6 +9,7 @@ local song = require("components.bar.song")
 local volume = require("components.bar.volume")
 local current_client = require("components.bar.current_client")
 local element = require("components.widgets.element")
+local hover = require("components.widgets.hover")
 
 return function(s)
 	local apps = element(wibox.widget.textbox("Applications"))
@@ -44,15 +45,15 @@ return function(s)
 	bar:setup({
 		{
 			{
-				apps,
+				hover(apps),
 				s.prompt,
 				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal,
 			},
 			current_client(s),
 			{
-				song_widget,
-				volume(),
+				hover(song_widget),
+				hover(volume()),
 				clock,
 				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal,

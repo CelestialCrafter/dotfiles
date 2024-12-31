@@ -3,6 +3,8 @@ local beautiful = require("beautiful")
 local gears = require("gears")
 local wibox = require("wibox")
 
+local hover = require("components.widgets.hover")
+
 local indicator = {
 	{
 		{
@@ -46,6 +48,7 @@ return function(s)
 			indicator,
 			layout = wibox.layout.stack,
 			create_callback = function(self, t)
+				hover(self)
 				t:connect_signal("preview", function()
 					self.preview.image = t.preview
 				end)

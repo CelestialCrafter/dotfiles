@@ -4,6 +4,7 @@ local beautiful = require("beautiful")
 
 local user = require("user")
 local apps = require("misc.apps")
+local hover = require("components.widgets.hover")
 
 local icon_size = beautiful.spacing_xl * 1.5
 local spacing = beautiful.spacing_l
@@ -20,7 +21,7 @@ local function app_widget(app)
 		app.launch()
 	end))
 
-	return widget
+	return hover(widget)
 end
 
 return function(s)
