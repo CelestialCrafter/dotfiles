@@ -1,5 +1,6 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
+local apps = require("misc.apps")
 
 local M = {
 	tags = { "1", "2", "3", "4", "5", "S" },
@@ -9,6 +10,7 @@ local M = {
 
 function M.setup()
 	awful.spawn("picom")
+	apps.setup()
 end
 
 function M.font_height()

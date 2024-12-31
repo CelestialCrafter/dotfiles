@@ -3,7 +3,7 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 
 local user = require("user")
-local apps = require("components.launcher.apps")
+local apps = require("misc.apps")
 
 local icon_size = beautiful.spacing_xl * 1.25
 local icon_margin = icon_size * 0.25
@@ -43,8 +43,9 @@ local function app_widget(app, s)
 
 	widget:add_button(awful.button({}, 1, nil, function()
 		app.launch()
-		s.launcher:emit_signal("hide")
+		s.launcher.visible = false
 	end))
+
 	return widget
 end
 
@@ -56,20 +57,18 @@ return function(s)
 
 	local entries = {}
 
+	for class, id in pairs(user.pinned_apps) do
+		apps.class_to_id[class] = id
+		local entry_widget = app_widget(assert(apps.entries[id], ("app id %s does not exist"):format(id)), s)
+		entries_widget:add(entry_widget)
+		entries[id] = { entry_widget }
+	end
+
 	client.connect_signal("focus", function(c)
 		for id, entry in pairs(entries) do
 			-- indicator.bg = beautiful.accent if focused else blank
 			entry[1]:get_children_by_id("icon")[1].children[1].bg = id == apps.class_to_id[c.class] and beautiful.accent
 				or "#00000000"
-		end
-	end)
-
-	apps:connect_signal("loaded", function()
-		for class, id in pairs(user.pinned_apps) do
-			apps.class_to_id[class] = id
-			local entry_widget = app_widget(assert(apps.entries[id], ("app id %s does not exist"):format(id)), s)
-			entries_widget:add(entry_widget)
-			entries[id] = { entry_widget }
 		end
 	end)
 

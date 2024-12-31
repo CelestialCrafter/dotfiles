@@ -5,7 +5,7 @@ local mpris = require("connect.mpris")
 local user = require("user")
 local misc = require("misc")
 local screenshot = require("misc.screenshot")
-local apps = require("components.launcher.apps")
+local apps = require("misc.apps")
 
 local M = {}
 

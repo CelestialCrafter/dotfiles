@@ -4,7 +4,7 @@ local awful = require("awful")
 local gears = require("gears")
 
 local misc = require("misc")
-local apps = require("components.launcher.apps")
+local apps = require("misc.apps")
 local element = require("components.widgets.element")
 
 local size = beautiful.spacing_xl * 2
@@ -54,7 +54,7 @@ local function app_widget(entry, s)
 	widget = wibox.widget(widget)
 	widget:add_button(awful.button({}, 1, nil, function()
 		entry.launch()
-		s.launcher:emit_signal("hide")
+		s.launcher.visible = false
 	end))
 
 	return widget
@@ -200,7 +200,7 @@ return function(s)
 				if current ~= nil then
 					current.launch()
 				end
-				s.launcher:emit_signal("hide")
+				s.launcher.visible = false
 			end,
 			done_callback = function()
 				search_box.text = original_text
