@@ -1,23 +1,20 @@
-local wibox = require("wibox")
-local beautiful = require("beautiful")
+return function(widget)
+	local prev_cursor, prev_wibox
 
-return function(w)
-	local oldcursor, oldwibox
-
-	w:connect_signal("mouse::enter", function()
-		local wb = mouse.current_wibox
-		if wb then
-			oldcursor, oldwibox = wb.cursor, wb
-			wb.cursor = "hand2"
+	widget:connect_signal("mouse::enter", function()
+		local wibox = mouse.current_wibox
+		if wibox then
+			prev_cursor, prev_wibox = wibox.cursor, wibox
+			wibox.cursor = "hand2"
 		end
 	end)
 
-	w:connect_signal("mouse::leave", function()
-		if oldwibox then
-			oldwibox.cursor = oldcursor
-			oldwibox = nil
+	widget:connect_signal("mouse::leave", function()
+		if prev_wibox then
+			prev_wibox.cursor = prev_cursor
+			prev_wibox = nil
 		end
 	end)
 
-	return w
+	return widget
 end

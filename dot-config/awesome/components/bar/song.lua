@@ -1,15 +1,12 @@
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
+local misc = require("misc")
 local mpris = require("connect.mpris")
 local element = require("components.widgets.element")
 
-return function()
-	local function format(metadata)
-		return metadata.title .. " - " .. metadata.artist
-	end
-
-	local widget = element({
+local function gen_widget()
+	return element({
 		{
 			widget = wibox.widget.textbox,
 			id = "song",
@@ -17,19 +14,35 @@ return function()
 		widget = wibox.container.constraint,
 		width = beautiful.spacing_xl * 10,
 	})
+end
 
-	local s = widget:get_children_by_id("song")[1]
+local function init()
+	local model = {}
+
+	local widget = gen_widget()
+	local song = misc.children("song", widget)
+
+	return model, widget, function()
+		song.text = model.song or "No Media"
+	end
+end
+
+return function()
+	local model, widget, view = init()
+
 	local function handle_metadata(_, metadata)
-		s.text = format(metadata)
+		model.song = metadata.title .. " - " .. metadata.artist
+		view()
 	end
 
 	local function handle_empty()
-		s.text = "No Media"
+		model.song = nil
+		view()
 	end
 
-	handle_empty()
 	mpris:connect_signal("metadata", handle_metadata)
 	mpris:connect_signal("empty", handle_empty)
+	view()
 
 	return widget
 end

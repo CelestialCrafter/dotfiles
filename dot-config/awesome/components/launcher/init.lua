@@ -13,27 +13,45 @@ return function(s)
 
 	local wallpaper = beautiful.wallpaper(s)
 	local _, height = gears.surface.get_size(wallpaper)
+	wallpaper = gears.surface.crop_surface({
+		surface = wallpaper,
+		top = s.workarea.y * (height / s.geometry.height),
+	})
+
 	s.launcher = wibox({
 		widget = {
-			wibox.widget.imagebox(gears.surface.crop_surface({
-				surface = wallpaper,
-				top = s.workarea.y * (height / s.geometry.height),
-			})),
 			{
-				wibox.container.place({
-					taglist(s),
-					left = beautiful.useless_gap * 2,
-					widget = wibox.container.margin,
-				}, nil, "center"),
-				wibox.container.place(menu_widget, nil, "center"),
+				image = wallpaper,
+				widget = wibox.widget.imagebox,
+			},
+			{
+				{
+					{
+						taglist(s),
+						left = beautiful.useless_gap * 2,
+						widget = wibox.container.margin,
+					},
+					valign = "center",
+					widget = wibox.container.place,
+				},
+				{
+					menu_widget,
+					valign = "center",
+					widget = wibox.container.place,
+				},
 				expand = "none",
 				layout = wibox.layout.align.horizontal,
 			},
-			wibox.container.place({
-				dock_widget,
-				bottom = beautiful.useless_gap * 2,
-				widget = wibox.container.margin,
-			}, "center", "bottom"),
+			{
+				{
+					dock_widget,
+					bottom = beautiful.useless_gap * 2,
+					widget = wibox.container.margin,
+				},
+				halign = "center",
+				valign = "bottom",
+				widget = wibox.container.place,
+			},
 			layout = wibox.layout.stack,
 		},
 		ontop = true,
@@ -43,10 +61,6 @@ return function(s)
 		y = s.workarea.y,
 		visible = false,
 	})
-
-	s:connect_signal("tag::history::update", function()
-		s.launcher.visible = false
-	end)
 
 	s.launcher:connect_signal("property::visible", function()
 		if s.launcher.visible then

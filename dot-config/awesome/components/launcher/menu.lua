@@ -11,55 +11,9 @@ local hover = require("components.widgets.hover")
 local size = beautiful.spacing_xl * 2
 local cols = 12
 local rows = 6
-local max_entries = rows * cols
+local max_matched = rows * cols
 
 local current = nil
-
-local function app_widget(entry, s)
-	local widget = {
-		{
-			{
-				{
-					image = entry.icon,
-					resize = true,
-					forced_height = size,
-					widget = wibox.widget.imagebox,
-				},
-				halign = "center",
-				widget = wibox.container.place,
-			},
-			top = beautiful.spacing_m,
-			right = beautiful.spacing_m,
-			left = beautiful.spacing_m,
-			widget = wibox.container.margin,
-		},
-		{
-			markup = entry.focused and "<b>" .. entry.name .. "</b>" or entry.name,
-			halign = "center",
-			widget = wibox.widget.textbox,
-		},
-		layout = wibox.layout.fixed.vertical,
-		forced_width = size + misc.font_height() * 1.5,
-	}
-
-	if entry.focused then
-		widget = {
-			widget,
-			bg = beautiful.primary,
-			fg = beautiful.base,
-			shape = beautiful.rounded,
-			widget = wibox.container.background,
-		}
-	end
-
-	widget = wibox.widget(widget)
-	widget:add_button(awful.button({}, 1, nil, function()
-		entry.launch()
-		s.launcher.visible = false
-	end))
-
-	return hover(widget)
-end
 
 -- https://gist.github.com/Badgerati/3261142
 local function levenshtein(str1, str2)
@@ -102,7 +56,47 @@ local function levenshtein(str1, str2)
 	return matrix[len1][len2]
 end
 
-local function handle_search(query, s)
+local function app_widget(app, focused)
+	local widget = {
+		{
+			{
+				{
+					image = app.icon,
+					resize = true,
+					forced_height = size,
+					widget = wibox.widget.imagebox,
+				},
+				halign = "center",
+				widget = wibox.container.place,
+			},
+			top = beautiful.spacing_m,
+			right = beautiful.spacing_m,
+			left = beautiful.spacing_m,
+			widget = wibox.container.margin,
+		},
+		{
+			markup = app.name,
+			halign = "center",
+			widget = wibox.widget.textbox,
+		},
+		layout = wibox.layout.fixed.vertical,
+		forced_width = size + misc.font_height() * 1.5,
+	}
+
+	if focused then
+		widget = {
+			widget,
+			bg = beautiful.primary,
+			fg = beautiful.base,
+			shape = beautiful.rounded,
+			widget = wibox.container.background,
+		}
+	end
+
+	return wibox.widget(widget)
+end
+
+local function search(query, s)
 	local matched = {}
 
 	for _, entry in pairs(apps.entries) do
@@ -117,10 +111,9 @@ local function handle_search(query, s)
 		return levenshtein(query, a.name) < levenshtein(query, b.name)
 	end)
 
-	current = matched[1]
-	if current ~= nil then
-		current.focused = true
-	else
+	local empty = false
+	if #matched == 0 then
+		empty = true
 		-- empty entry so theres no weird ui shift with when nothing matched
 		table.insert(matched, {
 			icon = gears.surface.load_from_shape(size, size, gears.shape.rounded_rect, "#00000000"),
@@ -130,25 +123,35 @@ local function handle_search(query, s)
 
 	local app_widgets = {}
 	for i, entry in ipairs(matched) do
-		if i > max_entries then
+		if i > max_matched then
 			break
 		end
 
-		table.insert(app_widgets, app_widget(entry, s))
-		entry.focused = false
+		local widget = app_widget(entry, i == 1 and not empty)
+
+		if not empty then
+			widget:add_button(awful.button({}, 1, nil, function()
+				matched.launch()
+				s.launcher.visible = false
+			end))
+
+			hover(widget)
+		end
+
+		table.insert(app_widgets, widget)
 	end
 
 	return app_widgets
 end
 
-return function(s)
+local function gen_widget()
 	local search_box = wibox.widget({
 		text = "Search: ",
 		ellipsize = "start",
 		widget = wibox.widget.textbox,
 	})
 
-	local search = wibox.widget({
+	return wibox.widget({
 		{
 			{
 				{
@@ -182,21 +185,36 @@ return function(s)
 		shape = beautiful.rounded,
 		bg = beautiful.surface,
 		widget = wibox.container.background,
-	})
+	}),
+		search_box
+end
 
-	local function set_entries(query)
-		search:get_children_by_id("entries")[1]:set_children(handle_search(query, s))
+local function init(s)
+	local model = {}
+	local widget, search_box = gen_widget()
+	local entries = misc.children("entries", widget)
+
+	return model, widget, search_box, function()
+		entries:set_children(search(model.query or "", s))
 	end
+end
 
-	set_entries("")
+return function(s)
+	local model, widget, search_box, view = init(s)
+
+	view()
 	local function run_search()
-		set_entries("")
+		model.query = ""
+		view()
 
 		local original_text = search_box.text
 		awful.prompt.run({
 			prompt = original_text,
 			textbox = search_box,
-			changed_callback = set_entries,
+			changed_callback = function(query)
+				model.query = query
+				view()
+			end,
 			exe_callback = function()
 				if current ~= nil then
 					current.launch()
@@ -210,5 +228,5 @@ return function(s)
 		})
 	end
 
-	return search, run_search
+	return widget, run_search
 end

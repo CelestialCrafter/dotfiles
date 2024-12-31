@@ -5,29 +5,30 @@ local wibox = require("wibox")
 
 local hover = require("components.widgets.hover")
 
-local indicator = {
-	{
-		{
-			{
-				id = "text_role",
-				align = "center",
-				widget = wibox.widget.textbox,
-			},
-			id = "background_role",
-			widget = wibox.container.background,
-			forced_width = beautiful.spacing_xl,
-			forced_height = beautiful.spacing_xl,
-		},
-		margins = beautiful.spacing_s,
-		widget = wibox.container.margin,
-	},
-	valign = "top",
-	halign = "left",
-	widget = wibox.container.place,
-}
-
 return function(s)
 	local width = beautiful.spacing_xl * 8
+
+	local indicator = {
+		{
+			{
+				{
+					id = "text_role",
+					align = "center",
+					widget = wibox.widget.textbox,
+				},
+				id = "background_role",
+				widget = wibox.container.background,
+				forced_width = beautiful.spacing_xl,
+				forced_height = beautiful.spacing_xl,
+			},
+			margins = beautiful.spacing_s,
+			widget = wibox.container.margin,
+		},
+		valign = "top",
+		halign = "left",
+		widget = wibox.container.place,
+	}
+
 	local taglist = awful.widget.taglist({
 		screen = s,
 		filter = awful.widget.taglist.filter.noempty,
@@ -62,6 +63,7 @@ return function(s)
 		},
 		buttons = gears.table.join(awful.button({}, 1, function(t)
 			t:view_only()
+			s.launcher.visible = false
 		end)),
 	})
 

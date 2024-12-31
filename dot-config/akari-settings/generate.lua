@@ -28,6 +28,12 @@ end
 local templates = utils.listdir("templates")
 for _, path in ipairs(templates) do
 	local template = dofile(path)
-	template.install(resolve(template.data, template.processor))
+
+	local data = template.data
+	if type(data) == "function" then
+		data = data()
+	end
+
+	template.install(resolve(data, template.processor))
 	print("installed " .. path)
 end
