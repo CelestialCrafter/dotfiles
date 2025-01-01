@@ -20,29 +20,31 @@ local function app_widget(app)
 		widget = wibox.container.background,
 	})
 
-	return wibox.widget({
-		{
+	return {
+		wibox.widget({
 			{
-				image = app.icon,
-				forced_width = icon_size,
-				forced_height = icon_size,
-				widget = wibox.widget.imagebox,
+				{
+					image = app.icon,
+					forced_width = icon_size,
+					forced_height = icon_size,
+					widget = wibox.widget.imagebox,
+				},
+				left = icon_margin,
+				top = bar_margin + icon_margin,
+				right = icon_margin,
+				widget = wibox.container.margin,
 			},
-			left = icon_margin,
-			top = bar_margin + icon_margin,
-			right = icon_margin,
-			widget = wibox.container.margin,
-		},
-		{
-			indicator,
-			-- i dont know why the +1 is needed but it is
-			bottom = indicator_margin + 1,
-			top = indicator_margin,
-			widget = wibox.container.margin,
-		},
-		layout = wibox.layout.fixed.vertical,
-	}),
-		indicator
+			{
+				indicator,
+				-- i dont know why the +1 is needed but it is
+				bottom = indicator_margin + 1,
+				top = indicator_margin,
+				widget = wibox.container.margin,
+			},
+			layout = wibox.layout.fixed.vertical,
+		}),
+		indicator = indicator,
+	}
 end
 
 local function gen_widget()
@@ -51,59 +53,60 @@ local function gen_widget()
 		layout = wibox.layout.fixed.horizontal,
 	})
 
-	return wibox.widget({
-		{
-			entries,
-			left = bar_margin,
-			right = bar_margin,
-			widget = wibox.container.margin,
-		},
-		bg = beautiful.surface,
-		shape = beautiful.rounded,
-		widget = wibox.container.background,
-	}),
-		entries
+	return {
+		wibox.widget({
+			{
+				entries,
+				left = bar_margin,
+				right = bar_margin,
+				widget = wibox.container.margin,
+			},
+			bg = beautiful.surface,
+			shape = beautiful.rounded,
+			widget = wibox.container.background,
+		}),
+		entries = entries,
+	}
 end
 
 local function init()
 	local model = { entries = {} }
-	local widget, entries = gen_widget()
+	local widgets = gen_widget()
 
 	return model,
-		widget,
-		entries,
+		widgets,
 		function()
 			if not client.focus then
 				return
 			end
 
-			for id, entry in pairs(model.entries) do
-				entry.indicator.bg = id == apps.class_to_id[client.focus.class] and beautiful.accent or "#00000000"
+			for id, app_widgets in pairs(model.entries) do
+				app_widgets.indicator.bg = id == apps.class_to_id[client.focus.class] and beautiful.accent
+					or "#00000000"
 			end
 		end
 end
 
 return function(s)
-	local model, widget, entries_widget, view = init()
+	local model, widgets, view = init()
 
 	local function prepare(app)
-		local w, i = app_widget(app)
+		local app_widgets = app_widget(app)
 
-		w:add_button(awful.button({}, 1, nil, function()
+		app_widgets[1]:add_button(awful.button({}, 1, nil, function()
 			app.launch()
 			s.launcher.visible = false
 		end))
 
-		hover(w)
-		entries_widget:add(w)
+		hover(app_widgets[1])
+		widgets.entries:add(app_widgets[1])
 
-		return w, i
+		return app_widgets
 	end
 
 	for class, id in pairs(user.pinned_apps) do
 		apps.class_to_id[class] = id
-		local w, i = prepare(assert(apps.entries[id], ("app id %s does not exist"):format(id)))
-		model.entries[id] = { widget = w, indicator = i }
+		model.entries[id] = prepare(assert(apps.entries[id], ("app id %s does not exist"):format(id)))
 	end
 
 	client.connect_signal("request::manage", function(c)
@@ -114,8 +117,8 @@ return function(s)
 
 		local entry = model.entries[app.id]
 		if not entry then
-			local w, i = prepare(app)
-			model.entries[app.id] = { widget = w, indicator = i, windows = 1 }
+			model.entries[app.id] = prepare(app)
+			model.entries[app.id].windows = 1
 		elseif entry.windows then
 			entry.windows = entry.windows + 1
 		end
@@ -133,7 +136,7 @@ return function(s)
 		end
 
 		if entry.windows == 1 then
-			entries_widget:remove_widgets(entry.widget)
+			widgets.entries:remove_widgets(entry[1])
 			model.entries[app.id] = nil
 		else
 			entry.windows = entry.windows - 1
@@ -142,5 +145,5 @@ return function(s)
 
 	client.connect_signal("focus", view)
 
-	return widget
+	return widgets[1]
 end

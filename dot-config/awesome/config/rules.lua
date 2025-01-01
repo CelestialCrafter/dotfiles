@@ -2,6 +2,8 @@ local awful = require("awful")
 local ruled = require("ruled")
 local naughty = require("naughty")
 
+local notification_template = require("components.widgets.notification")
+
 ruled.client.connect_signal("request::rules", function()
 	ruled.client.append_rules({
 		{
@@ -33,5 +35,5 @@ ruled.notification.connect_signal("request::rules", function()
 end)
 
 naughty.connect_signal("request::display", function(n)
-	naughty.layout.box({ notification = n })
+	naughty.layout.box({ notification = n, widget_template = notification_template.naughty })
 end)
