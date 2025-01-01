@@ -55,6 +55,12 @@ theme.fg_urgent = theme.text
 theme.fg_minimize = theme.text
 theme.prompt_bg_cursor = theme.text
 
+theme.notification_bg = theme.overlay
+theme.notification_border_color = "#00000000"
+theme.notification_shape = theme.rounded
+theme.notification_margin = theme.spacing_s
+theme.notification_spacing = theme.spacing_s
+
 function theme.colored_circle(color)
 	local size = 64
 	local surface = gears.surface.load_from_shape(size, size, gears.shape.circle, color)

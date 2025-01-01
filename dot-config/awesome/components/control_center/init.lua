@@ -4,9 +4,10 @@ local gears = require("gears")
 local beautiful = require("beautiful")
 
 local misc = require("misc")
+local notifications = require("components.control_center.notifications")
 
-local function user()
-	local w = wibox.widget({
+local function gen_widget()
+	local user = {
 		{
 			image = gears.surface.load(os.getenv("HOME") .. "/Pictures/user.png"),
 			forced_height = beautiful.spacing_xl * 1.5,
@@ -17,7 +18,7 @@ local function user()
 		{
 			{
 				{
-					id = "user-host",
+					id = "name",
 					widget = wibox.widget.textbox,
 				},
 				width = beautiful.spacing_xl * 6,
@@ -29,104 +30,39 @@ local function user()
 		},
 		spacing = beautiful.spacing_m,
 		layout = wibox.layout.fixed.horizontal,
-	})
+	}
 
-	awful.spawn.easy_async("hostname", function(output)
-		local textbox = w:get_children_by_id("user-host")[1]
-		textbox.markup = string.format("<big>%s@%s</big>", os.getenv("USER"), output)
-	end)
-
-	return w
-end
-
-return function(s)
-	if true then
-		return
-	end
-	local control_center_widget = wibox.widget({
+	return wibox.widget({
 		{
-			{
-				user(),
-				bottom = beautiful.spacing_s,
-				widget = wibox.container.margin,
-			},
-			{
-				wibox.widget({}),
-				margins = beautiful.spacing_s,
-				widget = wibox.container.margin,
-				id = "content",
-			},
-			{
-				{
-					spacing = beautiful.spacing_s,
-					layout = wibox.layout.fixed.horizontal,
-					id = "pages",
-				},
-				halign = "center",
-				valign = "bottom",
-				widget = wibox.container.place,
-			},
-			fill_space = true,
-			spacing = beautiful.spacing_s,
-			layout = wibox.layout.fixed.vertical,
+			user,
+			notifications(),
+			spacing = beautiful.spacing_m,
+			forced_width = beautiful.spacing_xl * 12,
+			widget = wibox.layout.fixed.vertical,
 		},
-		forced_height = s.workarea.height - beautiful.useless_gap * 4,
-		forced_width = beautiful.spacing_xl * 12,
 		margins = beautiful.spacing_m,
 		widget = wibox.container.margin,
 	})
+end
 
-	local content = control_center_widget:get_children_by_id("content")[1]
-	local pages = control_center_widget:get_children_by_id("pages")[1]
+return function(s)
+	local widget = gen_widget()
 
-	local page_ids = {
-		"main",
-		"network",
-		"audio",
-	}
-	local page_colors = {
-		beautiful.primary,
-		beautiful.secondary,
-		beautiful.accent,
-	}
-
-	local default = beautiful.colored_circle(beautiful.subtle)
-	for i, id in pairs(page_ids) do
-		local w = require("components.control_center." .. id)()
-
-		local selected = beautiful.colored_circle(page_colors[i])
-		local function set_page()
-			for j, p in ipairs(pages.children) do
-				p.image = i == j and selected or default
-			end
-			content.widget = w
-		end
-
-		local pw = wibox.widget({
-			image = default,
-			forced_width = 32,
-			forced_height = 32,
-			widget = wibox.widget.imagebox,
-		})
-		pw:add_button(awful.button({}, 1, nil, set_page))
-		pages:add(pw)
-
-		if i == 1 then
-			set_page()
-		end
-	end
+	local name = misc.children("name", widget)
+	awful.spawn.easy_async("hostname", function(output)
+		name.markup = ("<big>%s@%s</big>"):format(os.getenv("USER"), output)
+	end)
 
 	s.control_center = awful.popup({
-		widget = control_center_widget,
+		widget = widget,
+		bg = beautiful.surface,
+		shape = beautiful.rounded,
 		ontop = true,
 		placement = function(d)
-			awful.placement.left(d, {
+			awful.placement.top_left(d, {
 				margins = beautiful.useless_gap * 2,
 				honor_workarea = true,
 			})
 		end,
-		shape = beautiful.rounded,
 	})
-
-	return s.control_center
 end
