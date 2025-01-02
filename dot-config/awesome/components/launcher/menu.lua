@@ -91,7 +91,7 @@ local function app_widget(app, focused)
 			widget = wibox.container.margin,
 		},
 		{
-			markup = app.name,
+			markup = focused and "<b>" .. app.name .. "</b>" or app.name,
 			halign = "center",
 			widget = wibox.widget.textbox,
 		},
