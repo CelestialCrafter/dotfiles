@@ -17,6 +17,11 @@ return function(s)
 		s.launcher.visible = not s.launcher.visible
 	end))
 
+	local control_center = element(wibox.widget.textbox("O"))
+	control_center:add_button(awful.button({}, 1, nil, function()
+		s.control_center.visible = not s.control_center.visible
+	end))
+
 	local media_widget = media()
 	local song_widget = wibox.container.constraint(song(), "max", nil, beautiful.spacing_xl * 10)
 	song_widget:add_button(awful.button({}, 1, nil, function()
@@ -45,6 +50,7 @@ return function(s)
 	bar:setup({
 		{
 			{
+				hover(control_center),
 				hover(apps),
 				s.prompt,
 				spacing = beautiful.spacing_s,

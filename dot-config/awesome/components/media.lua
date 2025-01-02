@@ -221,7 +221,6 @@ return function()
 				honor_workarea = true,
 			})
 		end,
-		bg = beautiful.surface,
 		shape = beautiful.rounded,
 		visible = false,
 	})
