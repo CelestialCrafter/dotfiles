@@ -31,13 +31,29 @@ return function(s)
 
 	local taglist = awful.widget.taglist({
 		screen = s,
-		filter = awful.widget.taglist.filter.noempty,
+		filter = function(t)
+			local default_filter = awful.widget.taglist.filter.noempty
+			if default_filter(t) then
+				return true
+			end
+
+			-- show last non-empty tag + 1
+			for i = #s.tags, t.index - 1, -1 do
+				local tag = s.tags[i]
+				if default_filter(tag) then
+					return t.index == tag.index + 1
+				end
+			end
+
+			return false
+		end,
 		layout = wibox.layout.fixed.vertical,
 		style = {
 			spacing = beautiful.spacing_m,
 			shape = beautiful.rounded,
 			bg_focus = beautiful.accent,
 			bg_occupied = beautiful.overlay,
+			bg_empty = beautiful.overlay,
 		},
 		widget_template = {
 			{
