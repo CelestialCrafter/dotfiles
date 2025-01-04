@@ -82,7 +82,6 @@ local function app_widget(app, focused)
 					forced_height = size,
 					widget = wibox.widget.imagebox,
 				},
-				halign = "center",
 				widget = wibox.container.place,
 			},
 			top = beautiful.spacing_m,
@@ -135,7 +134,6 @@ local function gen_widget()
 							width = beautiful.spacing_xl * 12,
 							widget = wibox.container.constraint,
 						},
-						halign = "center",
 						widget = wibox.container.place,
 					},
 					{

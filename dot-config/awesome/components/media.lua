@@ -80,7 +80,6 @@ local function gen_widget()
 				},
 				layout = wibox.layout.fixed.horizontal,
 			},
-			halign = "center",
 			widget = wibox.container.place,
 		},
 		spacing = beautiful.spacing_s,

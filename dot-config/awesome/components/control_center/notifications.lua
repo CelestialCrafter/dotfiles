@@ -27,18 +27,25 @@ local function gen_widget()
 			fg = beautiful.text_subtle,
 			widget = wibox.container.background,
 		},
-		valign = "center",
-		halign = "center",
 		id = "empty",
 		widget = wibox.container.place,
 	}
 
 	return {
 		wibox.widget({
-			entries,
-			empty,
-			forced_height = height,
-			layout = wibox.layout.stack,
+			{
+				{
+					entries,
+					empty,
+					forced_height = height,
+					layout = wibox.layout.stack,
+				},
+				margins = beautiful.spacing_s,
+				widget = wibox.container.margin,
+			},
+			bg = beautiful.surface,
+			shape = beautiful.rounded,
+			widget = wibox.container.background,
 		}),
 		entries = entries,
 	}

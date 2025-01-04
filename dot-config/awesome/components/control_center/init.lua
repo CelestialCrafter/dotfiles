@@ -1,4 +1,5 @@
 local awful = require("awful")
+local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
@@ -7,9 +8,6 @@ local calendar = require("components.control_center.calendar")
 local general = require("components.control_center.general")
 
 local function gen_widget()
-	local notifications_widget = notifications()
-	notifications_widget.forced_width = beautiful.spacing_xl * 8
-
 	return wibox.widget({
 		{
 			{
@@ -17,13 +15,16 @@ local function gen_widget()
 				{
 					calendar(),
 					valign = "bottom",
+					halign = "left",
 					widget = wibox.container.place,
 				},
 				fill_space = true,
 				spacing = beautiful.spacing_m,
 				widget = wibox.layout.fixed.vertical,
 			},
-			notifications_widget,
+			gears.table.crush(notifications(), {
+				forced_width = beautiful.spacing_xl * 10,
+			}),
 			spacing = beautiful.spacing_m,
 			widget = wibox.layout.fixed.horizontal,
 		},
