@@ -3,7 +3,7 @@ local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local mpris = require("connect.mpris")
+local mpris = require("dbus.mpris")
 local hover = require("components.widgets.hover")
 local misc = require("misc")
 
@@ -92,7 +92,7 @@ local function gen_widget()
 			forced_height = height,
 			forced_width = height,
 			widget = wibox.widget.imagebox,
-			id = "image",
+			id = "art",
 		},
 		{
 			{
@@ -108,12 +108,19 @@ local function gen_widget()
 	})
 end
 
+local function format_sec(s)
+	s = math.floor(s)
+	return { m = math.floor(s / 60), s = s % 60 }
+end
+
 local function init()
-	local model = {}
+	local model = {
+		position = { length = 0, current = 0 },
+	}
 
 	local widget = gen_widget()
 	local children = misc.children({
-		"image",
+		"art",
 		"title",
 		"artist",
 
@@ -127,9 +134,9 @@ local function init()
 
 	children.play_pause:add_button(awful.button({}, 1, nil, mpris.play_pause))
 	children.next:add_button(awful.button({}, 1, nil, mpris.next))
-	children.prev:add_button(awful.button({}, 1, nil, mpris.previous))
+	children.prev:add_button(awful.button({}, 1, nil, mpris.prev))
 	children.progress:connect_signal("button::press", function(self, x)
-		mpris.seek(20 or (1 / (self.forced_width / x)))
+		mpris.seek(1 / (self.forced_width / x))
 	end)
 
 	hover(children.play_pause)
@@ -140,75 +147,81 @@ local function init()
 	return model,
 		widget,
 		function()
-			children.image.image = model.image
+			local l = format_sec(model.position.length or 0)
+			local c = format_sec(model.position.current or 0)
+
+			children.art.image = model.art
 			children.title.markup = model.title and "<big>" .. model.title .. "</big>" or "No Title"
 			children.artist.text = model.artist or "No Artist"
-			children.position.text = ("%02d:%02d/%02d:%02d"):format(table.unpack(model.position or { 0, 0, 0, 0 }))
+			children.position.text = ("%02d:%02d/%02d:%02d"):format(table.unpack({ c.m, c.s, l.m, l.s }))
 			children.progress.value = model.progress or 0
-			children.play_pause.text = model.status == "playing" and "+" or "-"
+			children.play_pause.text = model.playing and "+" or "-"
 		end
 end
 
 return function()
 	local model, widget, view = init()
 
-	local cache_path = gears.filesystem.get_cache_dir() .. "/media-art/"
+	local cache_path = gears.filesystem.get_cache_dir() .. "media-art/"
 	gears.filesystem.make_directories(cache_path)
 
 	local function handle_metadata(_, metadata)
-		local path = cache_path .. hex(metadata.art)
+		if not metadata then
+			model.art = nil
+			model.title = nil
+			model.artist = nil
+			model.position.length = nil
+			view()
+			return
+		end
+
+		local path, count = metadata.art:gsub("^file://", "")
+		if count == 0 then
+			path = cache_path .. hex(path)
+		end
+
 		local function set()
-			model.image = gears.surface.load(path)
+			model.art = gears.surface.load(path)
 		end
 
 		if not file_exists(path) then
 			local cmd = string.format("curl -L -s %s -o %s", metadata.art, path)
 			awful.spawn.with_line_callback(cmd, {
-				exit = set,
+				exit = function()
+					set()
+					view()
+				end,
 			})
 		else
 			set()
 		end
 
 		model.title = metadata.title
-		model.artist = metadata.artist
-		model.length = metadata.length / 1e+6
+		model.artist = table.concat(metadata.artists, ", ")
+		model.position.length = metadata.length
 		view()
 	end
 
 	local function handle_position(_, pos)
-		local length = model.length or 0
-
-		local function sm(s)
-			return math.floor(s / 60), s % 60
+		if pos then
+			model.position.current = pos
+			model.progress = 1 / (model.position.length / pos)
+		else
+			model.position.current = nil
+			model.progress = nil
 		end
-		local cm, cs = sm(pos)
-		local lm, ls = sm(length)
 
-		model.position = { cm, cs, lm, ls }
-		model.progress = 1 / (length / pos)
 		view()
 	end
 
-	local function handle_status(_, status)
-		model.status = status
-		view()
-	end
-
-	local function handle_empty()
-		model.image = nil
-		model.title = nil
-		model.artist = nil
-		model.position = nil
-		model.progress = nil
-		model.status = nil
+	local function handle_playing(_, playing)
+		model.playing = playing
 		view()
 	end
 
 	mpris:connect_signal("metadata", handle_metadata)
 	mpris:connect_signal("position", handle_position)
-	mpris:connect_signal("status", handle_status)
-	mpris:connect_signal("empty", handle_empty)
+	mpris:connect_signal("playing", handle_playing)
 	view()
 
 	return awful.popup({

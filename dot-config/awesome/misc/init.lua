@@ -4,6 +4,7 @@ local apps = require("misc.apps")
 
 local M = {
 	visual_update_delay = 0.05,
+	preview_update_interval = 0.5,
 	media_position_update_interval = 0.5,
 }
 

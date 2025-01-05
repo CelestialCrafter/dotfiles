@@ -1,9 +1,8 @@
 local awful = require("awful")
 local popup = require("awful.hotkeys_popup")
-local mpris = require("connect.mpris")
+local mpris = require("dbus.mpris")
 
 local user = require("user")
-local misc = require("misc")
 local screenshot = require("misc.screenshot")
 local apps = require("misc.apps")
 
@@ -49,10 +48,10 @@ awful.keyboard.append_global_keybindings({
 		mpris.next()
 	end),
 	awful.key({}, "XF86AudioPrev", function()
-		mpris.previous()
+		mpris.prev()
 	end),
 	awful.key({}, "XF86AudioStop", function()
-		mpris.shift(1)
+		mpris:shift(1)
 	end),
 
 	-- layout

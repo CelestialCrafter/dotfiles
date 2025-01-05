@@ -1,3 +1,5 @@
+pcall(require, "luarocks.loader")
+
 local naughty = require("naughty")
 
 naughty.connect_signal("request::display_error", function(message, startup)
@@ -8,8 +10,8 @@ naughty.connect_signal("request::display_error", function(message, startup)
 	})
 end)
 
-require("connect").setup()
 require("misc").setup()
+require("dbus.mpris"):setup()
 require("config.theme")
 require("config.layout")
 require("config.keybinds")

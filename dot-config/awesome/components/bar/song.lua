@@ -2,7 +2,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 
 local misc = require("misc")
-local mpris = require("connect.mpris")
+local mpris = require("dbus.mpris")
 local element = require("components.widgets.element")
 
 local function gen_widget()
@@ -31,17 +31,11 @@ return function()
 	local model, widget, view = init()
 
 	local function handle_metadata(_, metadata)
-		model.song = metadata.title .. " - " .. metadata.artist
-		view()
-	end
-
-	local function handle_empty()
-		model.song = nil
+		model.song = metadata and metadata.title .. " - " .. metadata.artists[1]
 		view()
 	end
 
 	mpris:connect_signal("metadata", handle_metadata)
-	mpris:connect_signal("empty", handle_empty)
 	view()
 
 	return widget

@@ -1,7 +1,6 @@
 local awful = require("awful")
 local gears = require("gears")
 
-local user = require("user")
 local misc = require("misc")
 
 local function screenshot(c, s)
@@ -13,7 +12,7 @@ end
 return function(s)
 	-- visual updates happen a bit after signal is sent
 	local updated_timer = gears.timer({
-		timeout = user.preview_update_interval,
+		timeout = misc.preview_update_interval,
 		autostart = true,
 		callback = function()
 			if s.launcher.visible then
