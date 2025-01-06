@@ -17,4 +17,3 @@ bait.catch("command.exit", function(_, cmd)
 		hilbish.run("zoxide add " .. hilbish.cwd(), false)
 	end
 end)
-

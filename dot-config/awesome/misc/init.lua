@@ -1,4 +1,5 @@
 local awful = require("awful")
+local gears = require("gears")
 local beautiful = require("beautiful")
 local apps = require("misc.apps")
 
@@ -15,6 +16,10 @@ end
 
 function M.font_height()
 	return beautiful.get_font_height(beautiful.font)
+end
+
+function M.wrap_tag(tag, text)
+	return ("<%s>%s</%s>"):format(tag, gears.string.xml_escape(text), tag)
 end
 
 function M.children(ids, widget)

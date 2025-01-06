@@ -1,6 +1,7 @@
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
+local misc = require("misc")
 local element = require("components.widgets.element")
 
 local styles = {}
@@ -9,7 +10,7 @@ styles.focus = {
 	fg = beautiful.primary,
 	bg = beautiful.overlay,
 	markup = function(t)
-		return "<b>" .. t .. "</b>"
+		return misc.wrap_tag("b", t)
 	end,
 }
 

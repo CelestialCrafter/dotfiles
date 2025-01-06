@@ -9,4 +9,3 @@ bait.catch("hilbish.vimMode", function(mode)
 		ansikit.cursorStyle(ansikit.lineCursor)
 	end
 end)
-

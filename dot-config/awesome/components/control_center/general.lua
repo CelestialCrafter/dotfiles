@@ -10,7 +10,7 @@ local hover = require("components.widgets.hover")
 return function()
 	local name = {
 		{
-			markup = "<big>" .. os.getenv("USER") .. "</big>",
+			markup = misc.wrap_tag("big", os.getenv("USER")),
 			forced_height = misc.font_height(),
 			widget = wibox.widget.textbox,
 		},

@@ -151,7 +151,7 @@ local function init()
 			local c = format_sec(model.position.current or 0)
 
 			children.art.image = model.art
-			children.title.markup = model.title and "<big>" .. model.title .. "</big>" or "No Title"
+			children.title.markup = model.title and misc.wrap_tag("big", model.title) or "No Title"
 			children.artist.text = model.artist or "No Artist"
 			children.position.text = ("%02d:%02d/%02d:%02d"):format(table.unpack({ c.m, c.s, l.m, l.s }))
 			children.progress.value = model.progress or 0
