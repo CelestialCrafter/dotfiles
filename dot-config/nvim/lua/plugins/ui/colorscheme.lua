@@ -15,7 +15,7 @@ return {
 		},
 	},
 	config = function(_, opts)
-		local ok, settings = pcall(dofile, os.getenv("HOME") .. "/.config/akari-settings/user.lua")
+		local ok, settings = pcall(dofile, os.getenv("HOME") .. "/.config/settings/user.lua")
 		if ok then
 			opts["palette"] = {
 				main = {

@@ -182,6 +182,7 @@ return function()
 
 		local function set()
 			model.art = gears.surface.load(path)
+			collectgarbage("collect")
 		end
 
 		if not file_exists(path) then
