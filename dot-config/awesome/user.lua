@@ -9,7 +9,6 @@ user.titlebar_position = "left"
 user.bar_position = "top"
 
 user.terminal = "Alacritty.desktop"
-user.desktop_apps = {}
 user.pinned_apps = {
 	Alacritty = "Alacritty.desktop",
 	floorp = "one.ablaze.floorp.desktop",

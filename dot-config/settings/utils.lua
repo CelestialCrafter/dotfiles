@@ -5,7 +5,7 @@ function M.listdir(directory)
 	local files = {}
 
 	-- this is recursive
-	local handle = assert(io.popen(("find '%s' -type f -print0"):format(directory)))
+	local handle = assert(io.popen(("find '%s' -type f,l -print0"):format(directory)))
 	for path in handle:read("*a"):gmatch("[^\0]+") do
 		table.insert(files, path)
 	end

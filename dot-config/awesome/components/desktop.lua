@@ -1,8 +1,8 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
+local gio = require("lgi").Gio
 
-local user = require("user")
 local apps = require("misc.apps")
 local hover = require("components.widgets.hover")
 
@@ -17,11 +17,24 @@ local function app_widget(app)
 		widget = wibox.widget.imagebox,
 	})
 
-	widget:add_button(awful.button({}, 1, nil, function()
-		app.launch()
-	end))
+	widget:add_button(awful.button({}, 1, nil, app.launch))
 
 	return hover(widget)
+end
+
+-- stolen from settings/utils.lua
+-- @HACK please dont use weird characters in your filename :3
+local function listdir(directory)
+	local files = {}
+
+	-- this is recursive
+	local handle = assert(io.popen(("find '%s' -type f,l -print0"):format(directory)))
+	for path in handle:read("*a"):gmatch("[^\0]+") do
+		table.insert(files, path)
+	end
+	handle:close()
+
+	return files
 end
 
 return function(s)
@@ -31,10 +44,11 @@ return function(s)
 		layout = wibox.layout.grid.vertical,
 	})
 
-	for class, id in pairs(user.desktop_apps) do
-		apps.class_to_id[class] = id
-		local entry_widget = app_widget(assert(apps.entries[id], ("app id %s does not exist"):format(id)))
-		entries_widget:add(entry_widget)
+	for _, filename in ipairs(listdir(os.getenv("HOME") .. "/Desktop")) do
+		local appinfo = gio.DesktopAppInfo.new_from_filename(filename)
+		if appinfo then
+			entries_widget:add(app_widget(apps.parse_appinfo(appinfo)))
+		end
 	end
 
 	return wibox({

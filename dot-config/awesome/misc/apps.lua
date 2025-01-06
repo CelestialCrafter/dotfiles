@@ -36,35 +36,39 @@ local function icon_path(icon)
 	return info and info:get_filename()
 end
 
+function M.parse_appinfo(app)
+	local icon = app:get_icon()
+	if icon then
+		icon = gears.surface(icon_path(icon))
+	end
+
+	local id = app:get_id()
+	-- the == true is required, dont know why
+	local terminal = app:get_string("Terminal") == true
+
+	return {
+		id = id,
+		name = app:get_name(),
+		temrinal = terminal,
+		launch = function()
+			app:launch()
+			if not terminal then
+				M.pending = id
+			end
+		end,
+		icon = icon,
+	}
+end
+
 function M.setup()
 	local info = gio.AppInfo
-	for _, app in ipairs(info.get_all()) do
-		if not app:should_show() then
+	for _, appinfo in ipairs(info.get_all()) do
+		if not appinfo:should_show() then
 			goto continue
 		end
 
-		local icon = app:get_icon()
-		if not icon then
-			icon = gears.surface()
-		else
-			icon = gears.surface(icon_path(icon))
-		end
-
-		local id = app:get_id()
-		-- dont ask, the == true is required.
-		local terminal = app:get_string("Terminal") == true
-		M.entries[id] = {
-			id = id,
-			name = app:get_name(),
-			temrinal = terminal,
-			launch = function()
-				app:launch()
-				if not terminal then
-					M.pending = id
-				end
-			end,
-			icon = icon,
-		}
+		local app = M.parse_appinfo(appinfo)
+		M.entries[app.id] = app
 
 		::continue::
 	end
