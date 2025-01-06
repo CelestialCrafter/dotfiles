@@ -6,14 +6,14 @@ local mpris = require("dbus.mpris")
 local element = require("components.widgets.element")
 
 local function gen_widget()
-	return element({
+	return wibox.widget(element({
 		{
 			widget = wibox.widget.textbox,
 			id = "song",
 		},
 		widget = wibox.container.constraint,
 		width = beautiful.spacing_xl * 10,
-	})
+	}))
 end
 
 local function init()

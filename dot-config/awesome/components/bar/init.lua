@@ -12,12 +12,12 @@ local element = require("components.widgets.element")
 local hover = require("components.widgets.hover")
 
 return function(s)
-	local apps = element(wibox.widget.textbox("Applications"))
+	local apps = wibox.widget(element(wibox.widget.textbox("Applications")))
 	apps:add_button(awful.button({}, 1, nil, function()
 		s.launcher.visible = not s.launcher.visible
 	end))
 
-	local control_center = element(wibox.widget.textbox("O"))
+	local control_center = wibox.widget(element(wibox.widget.textbox("O")))
 	control_center:add_button(awful.button({}, 1, nil, function()
 		s.control_center.visible = not s.control_center.visible
 	end))

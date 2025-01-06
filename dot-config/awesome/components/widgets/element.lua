@@ -6,7 +6,7 @@ return function(w, bg)
 		bg = beautiful.overlay
 	end
 
-	return wibox.widget({
+	return {
 		{
 			w,
 			margins = beautiful.spacing_m,
@@ -15,5 +15,5 @@ return function(w, bg)
 		bg = bg,
 		shape = beautiful.rounded,
 		widget = wibox.container.background,
-	})
+	}
 end

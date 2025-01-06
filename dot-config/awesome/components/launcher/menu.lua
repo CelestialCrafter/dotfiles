@@ -112,58 +112,54 @@ local function app_widget(app, focused)
 end
 
 local function gen_widget()
-	local search_box = wibox.widget({
-		text = "Search: ",
-		ellipsize = "start",
-		widget = wibox.widget.textbox,
-	})
-
-	return {
-		wibox.widget({
+	return wibox.widget({
+		{
 			{
 				{
 					{
 						{
-							{
-								element(search_box),
-								width = beautiful.spacing_xl * 24,
-								height = beautiful.spacing_xl * 4,
-								widget = wibox.container.constraint,
-							},
-							strategy = "min",
-							width = beautiful.spacing_xl * 12,
+							element({
+								text = "Search: ",
+								ellipsize = "start",
+								widget = wibox.widget.textbox,
+								id = "search",
+							}),
+							width = beautiful.spacing_xl * 24,
+							height = beautiful.spacing_xl * 4,
 							widget = wibox.container.constraint,
 						},
-						widget = wibox.container.place,
+						strategy = "min",
+						width = beautiful.spacing_xl * 12,
+						widget = wibox.container.constraint,
 					},
-					{
-						column_count = cols,
-						row_count = rows,
-						spacing = beautiful.spacing_m,
-						layout = wibox.layout.grid.vertical,
-						id = "entries",
-					},
-					spacing = beautiful.spacing_m,
-					layout = wibox.layout.fixed.vertical,
+					widget = wibox.container.place,
 				},
-				margins = beautiful.spacing_m,
-				widget = wibox.container.margin,
+				{
+					column_count = cols,
+					row_count = rows,
+					spacing = beautiful.spacing_m,
+					layout = wibox.layout.grid.vertical,
+					id = "entries",
+				},
+				spacing = beautiful.spacing_m,
+				layout = wibox.layout.fixed.vertical,
 			},
-			shape = beautiful.rounded,
-			bg = beautiful.surface,
-			widget = wibox.container.background,
-		}),
-		search_box = search_box,
-	}
+			margins = beautiful.spacing_m,
+			widget = wibox.container.margin,
+		},
+		shape = beautiful.rounded,
+		bg = beautiful.surface,
+		widget = wibox.container.background,
+	})
 end
 
 local function init()
 	local model = {}
-	local widgets = gen_widget()
-	local entries = misc.children("entries", widgets[1])
+	local widget = gen_widget()
+	local entries = misc.children("entries", widget)
 
 	return model,
-		widgets,
+		widget,
 		function()
 			local results = search(model.query or "")
 			local empty = #results == 0
@@ -201,16 +197,17 @@ local function init()
 end
 
 return function(s)
-	local model, widgets, view = init()
+	local model, widget, view = init()
 
+	local search_box = misc.children("search", widget)
 	local function run_search()
-		model.query = ""
+		model.query = nil
 		view()
 
-		local original_text = widgets.search_box.text
+		local original_text = search_box.text
 		awful.prompt.run({
 			prompt = original_text,
-			textbox = widgets.search_box,
+			textbox = search_box,
 			changed_callback = function(query)
 				model.query = query
 				view()
@@ -221,11 +218,11 @@ return function(s)
 				end
 			end,
 			done_callback = function()
-				widgets.search_box.text = original_text
+				search_box.text = original_text
 				s.launcher.visible = false
 			end,
 		})
 	end
 
-	return widgets[1], run_search
+	return widget, run_search
 end
