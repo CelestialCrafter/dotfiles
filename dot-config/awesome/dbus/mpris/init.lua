@@ -117,7 +117,7 @@ function M:setup()
 	})
 
 	gears.timer({
-		timeout = misc.media_position_update_interval,
+		timeout = misc.general_update_interval,
 		autostart = true,
 		callback = function()
 			self:emit({ "position" })

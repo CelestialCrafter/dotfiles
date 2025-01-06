@@ -6,7 +6,6 @@ local beautiful = require("beautiful")
 local user = require("user")
 local media = require("components.media")
 local song = require("components.bar.song")
-local volume = require("components.bar.volume")
 local current_client = require("components.bar.current_client")
 local element = require("components.widgets.element")
 local hover = require("components.widgets.hover")
@@ -23,7 +22,7 @@ return function(s)
 	end))
 
 	local media_widget = media()
-	local song_widget = wibox.container.constraint(song(), "max", nil, beautiful.spacing_xl * 10)
+	local song_widget = song()
 	song_widget:add_button(awful.button({}, 1, nil, function()
 		media_widget.visible = not media_widget.visible
 	end))
@@ -59,7 +58,6 @@ return function(s)
 			current_client(s),
 			{
 				hover(song_widget),
-				hover(volume()),
 				clock,
 				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal,

@@ -2,7 +2,7 @@ local user = {}
 
 user.wallpaper = "~/Pictures/Wallpapers/normal.jpg"
 user.profile = "~/Pictures/user.png"
-user.font = "sans-serif 11"
+user.font = { "sans-serif", "11" }
 user.tags = { "1", "2", "3", "4", "5", "S" }
 
 user.titlebar_position = "left"

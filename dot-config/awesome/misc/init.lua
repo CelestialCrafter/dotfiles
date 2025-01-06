@@ -1,12 +1,10 @@
 local awful = require("awful")
 local gears = require("gears")
-local beautiful = require("beautiful")
 local apps = require("misc.apps")
 
 local M = {
 	visual_update_delay = 0.05,
-	preview_update_interval = 0.5,
-	media_position_update_interval = 0.5,
+	general_update_interval = 0.5,
 }
 
 function M.setup()
@@ -14,12 +12,24 @@ function M.setup()
 	apps.setup()
 end
 
-function M.font_height()
-	return beautiful.get_font_height(beautiful.font)
+function M.truncate(text, chars)
+	if not chars then
+		chars = 32
+	end
+
+	if #text <= chars then
+		return text
+	end
+
+	return text:sub(1, chars - 3) .. "..."
 end
 
 function M.wrap_tag(tag, text)
 	return ("<%s>%s</%s>"):format(tag, gears.string.xml_escape(text), tag)
+end
+
+function M.debug(data, depth)
+	require("naughty").notify({ text = gears.debug.dump_return(data, depth or 3) })
 end
 
 function M.children(ids, widget)

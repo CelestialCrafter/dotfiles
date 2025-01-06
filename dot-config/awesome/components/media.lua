@@ -2,10 +2,12 @@ local awful = require("awful")
 local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
+local progress = require("components.widgets.progress")
 
 local mpris = require("dbus.mpris")
-local hover = require("components.widgets.hover")
 local misc = require("misc")
+local hover = require("components.widgets.hover")
+local element = require("components.widgets.element")
 
 local function hex(str)
 	return (str:gsub(".", function(c)
@@ -19,23 +21,25 @@ local function file_exists(name)
 end
 
 local function gen_widget()
-	local font_height = misc.font_height()
 	local height = beautiful.spacing_xl * 5
 	local width = height * 2
 
-	local info = {
-		{
-			widget = wibox.widget.textbox,
-			forced_height = font_height,
+	local tb = function(id, text)
+		return {
+			text = text,
 			halign = "center",
-			id = "title",
-		},
+			widget = wibox.widget.textbox,
+			id = id,
+		}
+	end
+
+	local info = {
+		tb("title"),
 		{
 			{
-				widget = wibox.widget.textbox,
-				forced_height = font_height,
-				halign = "center",
-				id = "artist",
+				tb("artist"),
+				tb("album"),
+				layout = wibox.layout.fixed.vertical,
 			},
 			fg = beautiful.text_subtle,
 			widget = wibox.container.background,
@@ -47,42 +51,24 @@ local function gen_widget()
 	local controls = {
 		{
 			{
-				halign = "center",
-				widget = wibox.widget.textbox,
-				id = "position",
-			},
-			widget = wibox.container.margin,
-		},
-		{
-			forced_width = width,
-			forced_height = beautiful.spacing_l,
-			widget = wibox.widget.progressbar,
-			color = beautiful.accent,
-			background_color = beautiful.subtle,
-			shape = beautiful.rounded,
-			id = "progress",
-		},
-		{
-			{
-				{
-					id = "prev",
-					text = "<",
+				element({
+					tb("prev", "<"),
+					tb("play_pause"),
+					tb("next", ">"),
+					forced_width = beautiful.spacing_xl * 2,
+					layout = wibox.layout.flex.horizontal,
+				}),
+				element({
 					widget = wibox.widget.textbox,
-				},
-				{
-					id = "play_pause",
-					widget = wibox.widget.textbox,
-				},
-				{
-					id = "next",
-					text = ">",
-					widget = wibox.widget.textbox,
-				},
+					id = "position",
+				}),
+				spacing = beautiful.spacing_m,
 				layout = wibox.layout.fixed.horizontal,
 			},
 			widget = wibox.container.place,
 		},
-		spacing = beautiful.spacing_s,
+		progress.widget(0),
+		spacing = beautiful.spacing_m,
 		layout = wibox.layout.fixed.vertical,
 	}
 
@@ -101,7 +87,7 @@ local function gen_widget()
 				controls,
 				layout = wibox.layout.align.vertical,
 			},
-			margins = beautiful.spacing_l,
+			margins = beautiful.spacing_m,
 			widget = wibox.container.margin,
 		},
 		layout = wibox.layout.fixed.horizontal,
@@ -123,9 +109,10 @@ local function init()
 		"art",
 		"title",
 		"artist",
+		"album",
 
-		"position",
 		"progress",
+		"position",
 
 		"prev",
 		"play_pause",
@@ -135,8 +122,9 @@ local function init()
 	children.play_pause:add_button(awful.button({}, 1, nil, mpris.play_pause))
 	children.next:add_button(awful.button({}, 1, nil, mpris.next))
 	children.prev:add_button(awful.button({}, 1, nil, mpris.prev))
-	children.progress:connect_signal("button::press", function(self, x)
-		mpris.seek(1 / (self.forced_width / x))
+
+	progress.connect(children.progress, function(_, p)
+		mpris.seek(p)
 	end)
 
 	hover(children.play_pause)
@@ -151,8 +139,9 @@ local function init()
 			local c = format_sec(model.position.current or 0)
 
 			children.art.image = model.art
-			children.title.markup = model.title and misc.wrap_tag("big", model.title) or "No Title"
-			children.artist.text = model.artist or "No Artist"
+			children.title.markup = misc.wrap_tag("big", misc.truncate(model.title or "No Title"))
+			children.artist.text = misc.truncate(model.artist or "No Artist")
+			children.album.text = misc.truncate(model.album or "", 42)
 			children.position.text = ("%02d:%02d/%02d:%02d"):format(table.unpack({ c.m, c.s, l.m, l.s }))
 			children.progress.value = model.progress or 0
 			children.play_pause.text = model.playing and "+" or "-"
@@ -170,35 +159,39 @@ return function()
 			model.art = nil
 			model.title = nil
 			model.artist = nil
+			model.album = nil
 			model.position.length = nil
 			view()
 			return
 		end
 
-		local path, count = metadata.art:gsub("^file://", "")
-		if count == 0 then
-			path = cache_path .. hex(path)
-		end
+		if metadata.art then
+			local path, count = metadata.art:gsub("^file://", "")
+			if count == 0 then
+				path = cache_path .. hex(path)
+			end
 
-		local function set()
-			model.art = gears.surface.load(path)
-			collectgarbage("collect")
-		end
+			local function set()
+				model.art = gears.surface.load(path)
+				collectgarbage("collect")
+			end
 
-		if not file_exists(path) then
-			local cmd = string.format("curl -L -s %s -o %s", metadata.art, path)
-			awful.spawn.with_line_callback(cmd, {
-				exit = function()
-					set()
-					view()
-				end,
-			})
-		else
-			set()
+			if not file_exists(path) then
+				local cmd = string.format("curl -L -s %s -o %s", metadata.art, path)
+				awful.spawn.with_line_callback(cmd, {
+					exit = function()
+						set()
+						view()
+					end,
+				})
+			else
+				set()
+			end
 		end
 
 		model.title = metadata.title
 		model.artist = table.concat(metadata.artists, ", ")
+		model.album = metadata.album ~= "" and metadata.album
 		model.position.length = metadata.length
 		view()
 	end

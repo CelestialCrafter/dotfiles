@@ -12,7 +12,7 @@ end
 return function(s)
 	-- visual updates happen a bit after signal is sent
 	local updated_timer = gears.timer({
-		timeout = misc.preview_update_interval,
+		timeout = misc.general_update_interval,
 		autostart = true,
 		callback = function()
 			if s.launcher.visible then

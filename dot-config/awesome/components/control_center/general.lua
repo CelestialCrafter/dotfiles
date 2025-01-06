@@ -5,20 +5,10 @@ local beautiful = require("beautiful")
 
 local misc = require("misc")
 local element = require("components.widgets.element")
+local progress = require("components.widgets.progress")
 local hover = require("components.widgets.hover")
 
-return function()
-	local name = {
-		{
-			markup = misc.wrap_tag("big", os.getenv("USER")),
-			forced_height = misc.font_height(),
-			widget = wibox.widget.textbox,
-		},
-		halign = "left",
-		valign = "center",
-		widget = wibox.container.place,
-	}
-
+local function top()
 	local function power_action(text, color, cmd)
 		local w = wibox.widget({
 			{
@@ -54,8 +44,8 @@ return function()
 		widget = wibox.container.margin,
 	}, nil)
 
-	local size = beautiful.spacing_xl * 1.5
-	local user = {
+	local size = beautiful.spacing_xl * 1.85
+	return {
 		{
 			image = gears.surface.load(os.getenv("HOME") .. "/Pictures/user.png"),
 			forced_height = size,
@@ -64,7 +54,10 @@ return function()
 			widget = wibox.widget.imagebox,
 		},
 		{
-			name,
+			{
+				markup = misc.wrap_tag("big", os.getenv("USER")),
+				widget = wibox.widget.textbox,
+			},
 			power,
 			-- set to 0 so widgets take minimal space
 			forced_width = 0,
@@ -75,6 +68,99 @@ return function()
 		spacing = beautiful.spacing_m,
 		layout = wibox.layout.fixed.horizontal,
 	}
+end
 
-	return wibox.widget(user)
+local function gauges()
+	local function gauge(id)
+		return {
+			{
+				widget = wibox.widget.textbox,
+				id = id .. "_text",
+			},
+			gears.table.crush(progress.widget(0, beautiful.accent), { id = id }),
+			fill_space = true,
+			spacing = beautiful.spacing_s,
+			layout = wibox.layout.fixed.horizontal,
+		}
+	end
+
+	return {
+		gauge("volume"),
+		gauge("brightness"),
+		gauge("battery"),
+		spacing = beautiful.spacing_m,
+		layout = wibox.layout.flex.vertical,
+	}
+end
+
+local function gen_widget()
+	return wibox.widget({
+		top(),
+		gauges(),
+		spacing = beautiful.spacing_m,
+		layout = wibox.layout.fixed.vertical,
+	})
+end
+
+local function init()
+	local model = {}
+	local widget = gen_widget()
+
+	local children = misc.children({
+		"volume",
+		"volume_text",
+		"brightness",
+		"brightness_text",
+		"battery",
+		"battery_text",
+	}, widget)
+
+	return model,
+		widget,
+		function()
+			local v = model.volume or 0
+			local b = model.brightness or 0
+			local bt = model.battery or 0
+
+			children.volume.value = v
+			children.volume_text.text = ("V %d%%"):format(v * 100)
+
+			-- @TODO brightness/battery
+			children.brightness.value = b
+			children.brightness_text.text = ("B %d%%"):format(b * 100)
+
+			children.battery.value = bt
+			children.battery_text.text = ("T %d%%"):format(bt * 100)
+		end
+end
+
+return function()
+	local model, widget, view = init()
+	view()
+
+	local children = misc.children({
+		"volume",
+		"brightness",
+	}, widget)
+
+	gears.timer({
+		timeout = misc.general_update_interval,
+		autostart = true,
+		callback = function()
+			awful.spawn.with_line_callback("pamixer --get-volume", {
+				stdout = function(line)
+					model.volume = tonumber(line) / 100
+					view()
+				end,
+			})
+		end,
+	})
+
+	progress.connect(children.volume, function(_, p)
+		awful.spawn("pamixer --set-volume " .. math.floor(p * 100))
+	end)
+
+	view()
+
+	return widget
 end

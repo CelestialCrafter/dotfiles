@@ -14,7 +14,6 @@ theme.spacing_l = theme.spacing_m * user.spacing_multiplier
 theme.spacing_xl = theme.spacing_l * user.spacing_multiplier
 
 -- misc
-theme.tasklist_plain_task_name = true
 theme.useless_gap = theme.spacing_s
 theme.wallpaper_path = user.wallpaper
 theme.wallpaper = function(s)
@@ -23,7 +22,7 @@ theme.wallpaper = function(s)
 		ratio = s.geometry.width / s.geometry.height,
 	})
 end
-theme.font = user.font
+theme.font = table.concat(user.font, " ")
 theme.rounded = function(cr, w, h)
 	local r = theme.spacing_s * (2 ^ (user.roundness - 1))
 	gears.shape.rounded_rect(cr, w, h, r)
@@ -54,6 +53,8 @@ theme.fg_focus = theme.text
 theme.fg_urgent = theme.text
 theme.fg_minimize = theme.text
 theme.prompt_bg_cursor = theme.text
+
+theme.tasklist_plain_task_name = true
 
 theme.notification_bg = theme.overlay
 theme.notification_border_color = "#00000000"

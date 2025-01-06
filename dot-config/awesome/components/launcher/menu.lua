@@ -95,7 +95,7 @@ local function app_widget(app, focused)
 			widget = wibox.widget.textbox,
 		},
 		layout = wibox.layout.fixed.vertical,
-		forced_width = size + misc.font_height() * 1.5,
+		forced_width = size + beautiful.get_font_height(beautiful.font) * 1.5,
 	}
 
 	if focused then
