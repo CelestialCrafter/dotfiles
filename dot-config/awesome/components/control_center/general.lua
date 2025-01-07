@@ -7,11 +7,18 @@ local misc = require("misc")
 local pulseaudio = require("system.pulseaudio")
 local progress = require("components.widgets.progress")
 local hover = require("components.widgets.hover")
+local element = require("components.widgets.element")
 local button = require("components.widgets.button")
 
 local function top()
 	local function power_action(text, color, cmd)
-		local w = wibox.widget(button(text, text, color))
+		local w = wibox.widget(gears.table.crush(
+			button({
+				text = text,
+				widget = wibox.widget.textbox,
+			}, color),
+			{ id = text }
+		))
 		hover(w, hover.bg())
 
 		w:add_button(awful.button({}, 1, nil, function()
@@ -51,7 +58,20 @@ local function top()
 				markup = misc.wrap_tag(os.getenv("USER"), "big"),
 				widget = wibox.widget.textbox,
 			},
-			power,
+			{
+				power,
+				hover(
+					wibox.widget(button({
+						awful.widget.layoutbox,
+						valign = "center",
+						halign = "center",
+						widget = wibox.container.place,
+					})),
+					hover.bg()
+				),
+				spacing = beautiful.spacing_m,
+				layout = wibox.layout.fixed.horizontal,
+			},
 			spacing = beautiful.spacing_s,
 			layout = wibox.layout.fixed.vertical,
 		},

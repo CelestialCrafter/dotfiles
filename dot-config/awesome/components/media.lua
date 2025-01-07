@@ -34,6 +34,10 @@ local function gen_widget()
 		}
 	end
 
+	local function sid(id, w)
+		return gears.table.crush(w, { id = id })
+	end
+
 	local info = {
 		tb("title"),
 		{
@@ -54,9 +58,9 @@ local function gen_widget()
 		{
 			{
 				button.array({
-					button("prev", "<", beautiful.primary),
-					button("play_pause", nil, beautiful.secondary),
-					button("next", ">", beautiful.accent),
+					sid("prev", button(tb(nil, "<"), beautiful.primary)),
+					sid("play_pause", button(tb("play_pause_text"), beautiful.secondary)),
+					sid("next", button(tb(nil, ">"), beautiful.accent)),
 				}),
 				element({
 					widget = wibox.widget.textbox,
@@ -148,7 +152,7 @@ local function init()
 		end
 end
 
-return function()
+return function(s)
 	local model, widget, view = init()
 
 	local cache_path = gears.filesystem.get_cache_dir() .. "media-art/"
@@ -218,7 +222,7 @@ return function()
 	mpris:connect_signal("playing", handle_playing)
 	view()
 
-	return awful.popup({
+	s.media = awful.popup({
 		widget = widget,
 		ontop = true,
 		placement = function(d)

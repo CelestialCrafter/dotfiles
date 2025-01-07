@@ -6,17 +6,16 @@ local element = require("components.widgets.element")
 
 local M = {}
 
-local function widget(_, id, text, color)
+local size = beautiful.spacing_xl + beautiful.spacing_s
+local function widget(_, w, color)
 	return gears.table.crush(
 		element({
-			text = text,
-			halign = "center",
-			widget = wibox.widget.textbox,
-			id = id .. "_text",
+			w,
+			widget = wibox.container.place,
 		}, nil, color),
 		{
-			id = id,
-			forced_width = beautiful.spacing_xl + beautiful.spacing_s,
+			forced_width = size,
+			forced_height = size,
 		}
 	)
 end

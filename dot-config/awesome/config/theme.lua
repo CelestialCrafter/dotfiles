@@ -76,4 +76,9 @@ theme.titlebar_sticky_button_inactive = theme.text_subtle_circle
 theme.titlebar_floating_button_active = theme.accent_circle
 theme.titlebar_floating_button_inactive = theme.text_subtle_circle
 
+local default_layouts = gears.filesystem.get_themes_dir() .. "default/layouts/"
+theme.layout_dwindle = default_layouts .. "dwindlew.png"
+theme.layout_floating = default_layouts .. "floatingw.png"
+theme.layout_max = default_layouts .. "maxw.png"
+
 beautiful.init(theme)

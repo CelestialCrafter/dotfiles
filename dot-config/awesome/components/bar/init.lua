@@ -4,7 +4,6 @@ local gears = require("gears")
 local beautiful = require("beautiful")
 
 local user = require("user")
-local media = require("components.media")
 local song = require("components.bar.song")
 local current_client = require("components.bar.current_client")
 local element = require("components.widgets.element")
@@ -25,10 +24,9 @@ return function(s)
 		s.control_center.visible = not s.control_center.visible
 	end))
 
-	local media_widget = media()
 	local song_widget = hover(song(), hover.bg())
 	song_widget:add_button(awful.button({}, 1, nil, function()
-		media_widget.visible = not media_widget.visible
+		s.media.visible = not s.media.visible
 	end))
 
 	local clock = element(wibox.widget.textclock("%I:%M%P"))
