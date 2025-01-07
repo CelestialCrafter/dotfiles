@@ -98,7 +98,7 @@ return function(s)
 			s.launcher.visible = false
 		end))
 
-		hover(app_widgets[1])
+		hover(app_widgets[1], hover.bg())
 		widgets.entries:add(app_widgets[1])
 
 		return app_widgets

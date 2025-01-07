@@ -77,38 +77,41 @@ local function app_widget(app, focused)
 		{
 			{
 				{
-					image = app.icon,
-					resize = true,
-					forced_height = size,
-					widget = wibox.widget.imagebox,
+					{
+						image = app.icon,
+						resize = true,
+						forced_height = size,
+						widget = wibox.widget.imagebox,
+					},
+					widget = wibox.container.place,
 				},
-				widget = wibox.container.place,
+				top = beautiful.spacing_m,
+				right = beautiful.spacing_m,
+				left = beautiful.spacing_m,
+				widget = wibox.container.margin,
 			},
-			top = beautiful.spacing_m,
-			right = beautiful.spacing_m,
-			left = beautiful.spacing_m,
-			widget = wibox.container.margin,
+			{
+				markup = app.name,
+				halign = "center",
+				widget = wibox.widget.textbox,
+				id = "name",
+			},
+			layout = wibox.layout.fixed.vertical,
+			forced_width = size + beautiful.get_font_height(beautiful.font) * 1.5,
 		},
-		{
-			markup = focused and misc.wrap_tag("b", app.name) or app.name,
-			halign = "center",
-			widget = wibox.widget.textbox,
-		},
-		layout = wibox.layout.fixed.vertical,
-		forced_width = size + beautiful.get_font_height(beautiful.font) * 1.5,
+		shape = beautiful.rounded,
+		widget = wibox.container.background,
 	}
 
+	widget = wibox.widget(widget)
+
 	if focused then
-		widget = {
-			widget,
-			bg = beautiful.primary,
-			fg = beautiful.base,
-			shape = beautiful.rounded,
-			widget = wibox.container.background,
-		}
+		misc.children("name", widget).markup = misc.wrap_tag(app.name, "b")
+		widget.bg = beautiful.highlight
+		widget.fg = beautiful.primary
 	end
 
-	return wibox.widget(widget)
+	return widget
 end
 
 local function gen_widget()
@@ -119,7 +122,6 @@ local function gen_widget()
 					{
 						{
 							element({
-								text = "Search: ",
 								ellipsize = "start",
 								widget = wibox.widget.textbox,
 								id = "search",
@@ -153,7 +155,7 @@ local function gen_widget()
 	})
 end
 
-local function init()
+local function init(s)
 	local model = {}
 	local widget = gen_widget()
 	local entries = misc.children("entries", widget)
@@ -184,11 +186,10 @@ local function init()
 
 				local w = app_widget(app, i == 1 and not empty)
 				if not empty then
-					hover(w)
+					hover(w, hover.bg(nil, beautiful.primary), hover.tag("name", "b"))
 					w:add_button(awful.button({}, 1, nil, function()
-						if model.current then
-							model.current.launch()
-						end
+						app.launch()
+						s.launcher.visible = false
 					end))
 				end
 				entries:add(w)
@@ -197,16 +198,16 @@ local function init()
 end
 
 return function(s)
-	local model, widget, view = init()
+	local model, widget, view = init(s)
 
 	local search_box = misc.children("search", widget)
 	local function run_search()
 		model.query = nil
 		view()
 
-		local original_text = search_box.text
+		search_box.text = "Search: "
 		awful.prompt.run({
-			prompt = original_text,
+			prompt = search_box.text,
 			textbox = search_box,
 			changed_callback = function(query)
 				model.query = query
@@ -218,7 +219,6 @@ return function(s)
 				end
 			end,
 			done_callback = function()
-				search_box.text = original_text
 				s.launcher.visible = false
 			end,
 		})

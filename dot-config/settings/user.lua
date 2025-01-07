@@ -1,10 +1,11 @@
 local user = { colors = {} }
 
-user.colors.text = "#E1E4F7"
 user.colors.base = "#14151C"
 user.colors.surface = "#1B1D29"
 user.colors.overlay = "#232636"
-user.colors.subtle = "#585663"
+user.colors.highlight = "#2E3142"
+user.colors.text = "#E1E4F7"
+user.colors.subtle = "#444657"
 user.colors.text_subtle = "#ACA8BF"
 
 user.colors.primary = "#77A4D4"

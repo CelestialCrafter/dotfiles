@@ -10,19 +10,23 @@ local current_client = require("components.bar.current_client")
 local element = require("components.widgets.element")
 local hover = require("components.widgets.hover")
 
+local eh = function(template)
+	return hover(wibox.widget(element(template)), hover.bg())
+end
+
 return function(s)
-	local apps = wibox.widget(element(wibox.widget.textbox("Applications")))
+	local apps = eh(wibox.widget.textbox("Applications"))
 	apps:add_button(awful.button({}, 1, nil, function()
 		s.launcher.visible = not s.launcher.visible
 	end))
 
-	local control_center = wibox.widget(element(wibox.widget.textbox("O")))
+	local control_center = eh(wibox.widget.textbox("O"))
 	control_center:add_button(awful.button({}, 1, nil, function()
 		s.control_center.visible = not s.control_center.visible
 	end))
 
 	local media_widget = media()
-	local song_widget = song()
+	local song_widget = hover(song(), hover.bg())
 	song_widget:add_button(awful.button({}, 1, nil, function()
 		media_widget.visible = not media_widget.visible
 	end))
@@ -49,15 +53,15 @@ return function(s)
 	bar:setup({
 		{
 			{
-				hover(control_center),
-				hover(apps),
+				control_center,
+				apps,
 				s.prompt,
 				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal,
 			},
 			current_client(s),
 			{
-				hover(song_widget),
+				song_widget,
 				clock,
 				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal,

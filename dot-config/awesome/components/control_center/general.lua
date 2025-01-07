@@ -5,45 +5,37 @@ local beautiful = require("beautiful")
 
 local misc = require("misc")
 local pulseaudio = require("system.pulseaudio")
-local element = require("components.widgets.element")
 local progress = require("components.widgets.progress")
 local hover = require("components.widgets.hover")
+local button = require("components.widgets.button")
 
 local function top()
 	local function power_action(text, color, cmd)
-		local w = wibox.widget({
-			{
-				text = text,
-				halign = "center",
-				widget = wibox.widget.textbox,
-			},
-			fg = color,
-			widget = wibox.container.background,
-		})
+		local w = wibox.widget(button(text, text, color))
+		hover(w, hover.bg())
 
 		w:add_button(awful.button({}, 1, nil, function()
 			awful.spawn(cmd)
 		end))
 
-		return hover(w)
+		return w
 	end
 
 	local logout = power_action("L", beautiful.accent, "loginctl lock-session")
-	logout:add_button({ "Shift" }, 1, nil, function()
+	logout:add_button(awful.button({ "Shift" }, 1, nil, function()
 		awful.spawn("loginctl terminate-session")
-	end)
+	end))
 
-	local power = element({
-		{
-			power_action("S", beautiful.primary, "systemctl poweroff"),
-			power_action("R", beautiful.secondary, "systemctl reboot"),
-			logout,
-			layout = wibox.layout.flex.horizontal,
-		},
-		right = beautiful.spacing_s,
-		left = beautiful.spacing_s,
-		widget = wibox.container.margin,
-	}, nil)
+	local poweroff = power_action("S", beautiful.primary, "systemctl poweroff")
+	poweroff:add_button(awful.button({ "Shift" }, 1, nil, function()
+		awful.spawn("systemctl suspend")
+	end))
+
+	local power = button.array({
+		poweroff,
+		power_action("R", beautiful.secondary, "systemctl reboot"),
+		logout,
+	})
 
 	local size = beautiful.spacing_xl * 1.85
 	return {
@@ -56,16 +48,13 @@ local function top()
 		},
 		{
 			{
-				markup = misc.wrap_tag("big", os.getenv("USER")),
+				markup = misc.wrap_tag(os.getenv("USER"), "big"),
 				widget = wibox.widget.textbox,
 			},
 			power,
-			-- set to 0 so widgets take minimal space
-			forced_width = 0,
 			spacing = beautiful.spacing_s,
 			layout = wibox.layout.fixed.vertical,
 		},
-		fill_space = true,
 		spacing = beautiful.spacing_m,
 		layout = wibox.layout.fixed.horizontal,
 	}
@@ -78,7 +67,7 @@ local function gauges()
 				widget = wibox.widget.textbox,
 				id = id .. "_text",
 			},
-			gears.table.crush(progress.widget(0, beautiful.accent), { id = id }),
+			gears.table.crush(progress(0, beautiful.accent), { id = id }),
 			fill_space = true,
 			spacing = beautiful.spacing_s,
 			layout = wibox.layout.fixed.horizontal,

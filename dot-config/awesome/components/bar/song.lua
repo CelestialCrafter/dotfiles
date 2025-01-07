@@ -4,17 +4,13 @@ local misc = require("misc")
 local mpris = require("system.mpris")
 local element = require("components.widgets.element")
 
-local function gen_widget()
-	return wibox.widget(element({
-		widget = wibox.widget.textbox,
-		id = "song",
-	}))
-end
-
 local function init()
 	local model = {}
 
-	local widget = gen_widget()
+	local widget = wibox.widget(element({
+		widget = wibox.widget.textbox,
+		id = "song",
+	}))
 	local song = misc.children("song", widget)
 
 	return model,

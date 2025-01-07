@@ -24,8 +24,13 @@ function M.truncate(text, chars)
 	return text:sub(1, chars - 3) .. "..."
 end
 
-function M.wrap_tag(tag, text)
-	return ("<%s>%s</%s>"):format(tag, gears.string.xml_escape(text), tag)
+function M.wrap_tag(text, tag, props)
+	props = props or {}
+	if #props > 0 then
+		table.insert(props, "")
+	end
+
+	return ("<%s%s>%s</%s>"):format(tag, table.concat(props, " "), gears.string.xml_escape(text), tag)
 end
 
 function M.debug(data, depth)

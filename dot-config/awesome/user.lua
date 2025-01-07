@@ -20,9 +20,4 @@ user.base_spacing = 4
 user.roundness = 2
 user.spacing_multiplier = 2
 
-local colors = dofile(os.getenv("HOME") .. "/.config/settings/user.lua").colors
-for k, v in pairs(colors) do
-	user[k] = v
-end
-
 return user

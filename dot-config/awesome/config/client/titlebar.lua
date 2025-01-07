@@ -3,7 +3,6 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 
 local user = require("user")
-local hover = require("components.widgets.hover")
 
 client.connect_signal("request::titlebars", function(c)
 	awful
@@ -19,9 +18,9 @@ client.connect_signal("request::titlebars", function(c)
 				nil,
 				{
 					{
-						hover(awful.titlebar.widget.floatingbutton(c)),
-						hover(awful.titlebar.widget.stickybutton(c)),
-						hover(awful.titlebar.widget.closebutton(c)),
+						awful.titlebar.widget.floatingbutton(c),
+						awful.titlebar.widget.stickybutton(c),
+						awful.titlebar.widget.closebutton(c),
 						spacing = beautiful.spacing_m,
 						layout = wibox.layout.fixed.vertical,
 					},

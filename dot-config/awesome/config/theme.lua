@@ -29,17 +29,10 @@ theme.rounded = function(cr, w, h)
 end
 
 -- colors
-theme.base = user.base
-theme.surface = user.surface
-theme.overlay = user.overlay
-theme.subtle = user.subtle
-
-theme.primary = user.primary
-theme.secondary = user.secondary
-theme.accent = user.accent
-
-theme.text = user.text
-theme.text_subtle = user.text_subtle
+local colors = dofile(os.getenv("HOME") .. "/.config/settings/user.lua").colors
+for k, v in pairs(colors) do
+	theme[k] = v
+end
 
 -- awesome
 theme.bg_normal = theme.base
@@ -72,18 +65,15 @@ end
 theme.primary_circle = theme.colored_circle(theme.primary)
 theme.secondary_circle = theme.colored_circle(theme.secondary)
 theme.accent_circle = theme.colored_circle(theme.accent)
+theme.text_subtle_circle = theme.colored_circle(theme.text_subtle)
 
 theme.titlebar_close_button_normal = theme.primary_circle
 theme.titlebar_close_button_focus = theme.primary_circle
 
-theme.titlebar_sticky_button_normal_inactive = theme.secondary_circle
-theme.titlebar_sticky_button_focus_inactive = theme.secondary_circle
-theme.titlebar_sticky_button_normal_active = theme.secondary_circle
-theme.titlebar_sticky_button_focus_active = theme.secondary_circle
+theme.titlebar_sticky_button_active = theme.secondary_circle
+theme.titlebar_sticky_button_inactive = theme.text_subtle_circle
 
-theme.titlebar_floating_button_normal_inactive = theme.accent_circle
-theme.titlebar_floating_button_focus_inactive = theme.accent_circle
-theme.titlebar_floating_button_normal_active = theme.accent_circle
-theme.titlebar_floating_button_focus_active = theme.accent_circle
+theme.titlebar_floating_button_active = theme.accent_circle
+theme.titlebar_floating_button_inactive = theme.text_subtle_circle
 
 beautiful.init(theme)

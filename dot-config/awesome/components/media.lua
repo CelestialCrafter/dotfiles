@@ -8,6 +8,7 @@ local mpris = require("system.mpris")
 local misc = require("misc")
 local hover = require("components.widgets.hover")
 local element = require("components.widgets.element")
+local button = require("components.widgets.button")
 
 local function hex(str)
 	return (str:gsub(".", function(c)
@@ -24,7 +25,7 @@ local function gen_widget()
 	local height = beautiful.spacing_xl * 5
 	local width = height * 2
 
-	local tb = function(id, text)
+	local function tb(id, text)
 		return {
 			text = text,
 			halign = "center",
@@ -43,6 +44,7 @@ local function gen_widget()
 			},
 			fg = beautiful.text_subtle,
 			widget = wibox.container.background,
+			id = "bg",
 		},
 		layout = wibox.layout.fixed.vertical,
 		forced_width = width,
@@ -51,12 +53,10 @@ local function gen_widget()
 	local controls = {
 		{
 			{
-				element({
-					tb("prev", "<"),
-					tb("play_pause"),
-					tb("next", ">"),
-					forced_width = beautiful.spacing_xl * 2,
-					layout = wibox.layout.flex.horizontal,
+				button.array({
+					button("prev", "<", beautiful.primary),
+					button("play_pause", nil, beautiful.secondary),
+					button("next", ">", beautiful.accent),
 				}),
 				element({
 					widget = wibox.widget.textbox,
@@ -67,7 +67,7 @@ local function gen_widget()
 			},
 			widget = wibox.container.place,
 		},
-		progress.widget(0),
+		gears.table.crush(progress(0), { id = "progress" }),
 		spacing = beautiful.spacing_m,
 		layout = wibox.layout.fixed.vertical,
 	}
@@ -115,8 +115,9 @@ local function init()
 		"position",
 
 		"prev",
-		"play_pause",
 		"next",
+		"play_pause",
+		"play_pause_text",
 	}, widget)
 
 	children.play_pause:add_button(awful.button({}, 1, nil, mpris.play_pause))
@@ -127,10 +128,9 @@ local function init()
 		mpris.seek(p)
 	end)
 
-	hover(children.play_pause)
-	hover(children.next)
-	hover(children.prev)
-	hover(children.progress)
+	hover(children.play_pause, hover.bg())
+	hover(children.next, hover.bg())
+	hover(children.prev, hover.bg())
 
 	return model,
 		widget,
@@ -139,12 +139,12 @@ local function init()
 			local c = format_sec(model.position.current or 0)
 
 			children.art.image = model.art
-			children.title.markup = misc.wrap_tag("big", misc.truncate(model.title or "No Title"))
+			children.title.markup = misc.wrap_tag(misc.truncate(model.title or "No Title"), "big")
 			children.artist.text = misc.truncate(model.artist or "No Artist")
 			children.album.text = misc.truncate(model.album or "", 42)
 			children.position.text = ("%02d:%02d/%02d:%02d"):format(table.unpack({ c.m, c.s, l.m, l.s }))
 			children.progress.value = model.progress or 0
-			children.play_pause.text = model.playing and "+" or "-"
+			children.play_pause_text.text = model.playing and "+" or "-"
 		end
 end
 
