@@ -3,8 +3,8 @@ local gears = require("gears")
 local apps = require("misc.apps")
 
 local M = {
-	visual_update_delay = 0.05,
-	general_update_interval = 0.5,
+	preview_update_interval = 0.5,
+	general_update_interval = 0.05,
 }
 
 function M.setup()

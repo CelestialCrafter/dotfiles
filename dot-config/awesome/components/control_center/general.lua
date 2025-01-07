@@ -4,6 +4,7 @@ local gears = require("gears")
 local beautiful = require("beautiful")
 
 local misc = require("misc")
+local pulseaudio = require("system.pulseaudio")
 local element = require("components.widgets.element")
 local progress = require("components.widgets.progress")
 local hover = require("components.widgets.hover")
@@ -118,7 +119,7 @@ local function init()
 	return model,
 		widget,
 		function()
-			local v = model.volume or 0
+			local v = pulseaudio.volume
 			local b = model.brightness or 0
 			local bt = model.battery or 0
 
@@ -146,18 +147,11 @@ return function()
 	gears.timer({
 		timeout = misc.general_update_interval,
 		autostart = true,
-		callback = function()
-			awful.spawn.with_line_callback("pamixer --get-volume", {
-				stdout = function(line)
-					model.volume = tonumber(line) / 100
-					view()
-				end,
-			})
-		end,
+		callback = view,
 	})
 
 	progress.connect(children.volume, function(_, p)
-		awful.spawn("pamixer --set-volume " .. math.floor(p * 100))
+		pulseaudio.volume = p
 	end)
 
 	view()

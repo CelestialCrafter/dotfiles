@@ -1,7 +1,7 @@
 local wibox = require("wibox")
 
 local misc = require("misc")
-local mpris = require("dbus.mpris")
+local mpris = require("system.mpris")
 local element = require("components.widgets.element")
 
 local function gen_widget()

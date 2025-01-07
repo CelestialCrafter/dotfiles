@@ -1,8 +1,9 @@
 local awful = require("awful")
 local popup = require("awful.hotkeys_popup")
-local mpris = require("dbus.mpris")
+local mpris = require("system.mpris")
 
 local user = require("user")
+local pulseaudio = require("system.pulseaudio")
 local screenshot = require("misc.screenshot")
 local apps = require("misc.apps")
 
@@ -31,14 +32,14 @@ awful.keyboard.append_global_keybindings({
 
 	-- media
 	awful.key({}, "XF86AudioMute", function()
-		awful.spawn("pamixer -t")
+		pulseaudio.toggle_mute()
 	end),
 
 	awful.key({}, "XF86AudioLowerVolume", function()
-		awful.spawn("pamixer -d 2")
+		pulseaudio.volume = pulseaudio.volume - 0.02
 	end),
 	awful.key({}, "XF86AudioRaiseVolume", function()
-		awful.spawn("pamixer -i 2")
+		pulseaudio.volume = pulseaudio.volume + 0.02
 	end),
 
 	awful.key({}, "XF86AudioPlay", function()

@@ -4,7 +4,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local progress = require("components.widgets.progress")
 
-local mpris = require("dbus.mpris")
+local mpris = require("system.mpris")
 local misc = require("misc")
 local hover = require("components.widgets.hover")
 local element = require("components.widgets.element")
