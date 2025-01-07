@@ -31,7 +31,6 @@ return function(s)
 		media_widget.visible = not media_widget.visible
 	end))
 
-	s.prompt = awful.widget.prompt()
 	local clock = element(wibox.widget.textclock("%I:%M%P"))
 
 	local bar = awful.wibar({

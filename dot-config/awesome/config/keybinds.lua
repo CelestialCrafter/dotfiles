@@ -19,15 +19,6 @@ awful.keyboard.append_global_keybindings({
 	awful.key({ "Mod1", "Control" }, "r", awesome.restart, { description = "reload", group = "awesome" }),
 	awful.key({ "Mod1", "Control" }, "q", awesome.quit, { description = "quit", group = "awesome" }),
 
-	awful.key({ modkey, "Shift" }, "/", popup.show_help, { description = "show help", group = "awesome" }),
-	awful.key({ modkey }, "x", function()
-		awful.prompt.run({
-			prompt = "Run Lua code: ",
-			textbox = s().prompt.widget,
-			exe_callback = awful.util.eval,
-			history_path = awful.util.get_cache_dir() .. "/history_eval",
-		})
-	end, { description = "run lua", group = "awesome" }),
 	awful.key({}, "Print", screenshot, { description = "screenshot", group = "awesome" }),
 
 	-- media
@@ -85,10 +76,14 @@ awful.keyboard.append_global_keybindings({
 		awful.client.swap.byidx(-1)
 	end, { description = "swap with previous", group = "client" }),
 
-	-- launcher
+	-- components
 	awful.key({ modkey }, "e", function()
-		s().prompt:run()
+		s().execute:emit_signal("command")
 	end, { description = "execute", group = "launcher" }),
+
+	awful.key({ modkey }, "x", function()
+		s().execute:emit_signal("lua")
+	end, { description = "run lua", group = "awesome" }),
 
 	awful.key({ modkey }, "Return", function()
 		awful.spawn(assert(apps.entries[user.terminal], ("app id %s does not exist"):format(user.terminal)).launch())

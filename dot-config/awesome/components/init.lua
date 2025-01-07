@@ -3,6 +3,7 @@ local control_center = require("components.control_center")
 local dock = require("components.launcher.dock")
 local launcher = require("components.launcher")
 local desktop = require("components.desktop")
+local execute = require("components.execute")
 
 return function(s)
 	bar(s)
@@ -10,4 +11,5 @@ return function(s)
 	dock(s)
 	launcher(s)
 	control_center(s)
+	execute(s)
 end
