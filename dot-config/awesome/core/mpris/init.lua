@@ -2,7 +2,7 @@ local gears = require("gears")
 local proxy = require("dbus_proxy")
 
 local misc = require("misc")
-local player = require("system.mpris.player")
+local player = require("core.mpris.player")
 
 local M = gears.object({})
 M.players = {}

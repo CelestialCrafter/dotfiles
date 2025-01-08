@@ -1,6 +1,6 @@
 local wibox = require("wibox")
 
-local upower = require("system.upower")
+local upower = require("core.upower")
 
 local function init()
 	local model = {}

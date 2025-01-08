@@ -11,7 +11,7 @@ naughty.connect_signal("request::display_error", function(message, startup)
 end)
 
 require("misc").setup()
-require("system")
+require("core")
 require("config.theme")
 require("config.layout")
 require("config.rules")

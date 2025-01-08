@@ -1,7 +1,7 @@
 local wibox = require("wibox")
 
 local misc = require("misc")
-local mpris = require("system.mpris")
+local mpris = require("core.mpris")
 
 local function init()
 	local model = {}

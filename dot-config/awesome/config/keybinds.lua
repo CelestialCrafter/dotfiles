@@ -1,9 +1,9 @@
 local awful = require("awful")
-local mpris = require("system.mpris")
-local backlight = require("system.backlight")
+local mpris = require("core.mpris")
+local backlight = require("core.backlight")
 
 local user = require("user")
-local pulseaudio = require("system.pulseaudio")
+local pulseaudio = require("core.pulseaudio")
 local screenshot = require("misc.screenshot")
 local apps = require("misc.apps")
 
