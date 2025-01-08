@@ -5,9 +5,9 @@ local beautiful = require("beautiful")
 
 local misc = require("misc")
 local pulseaudio = require("system.pulseaudio")
+local backlight = require("system.backlight")
 local progress = require("components.widgets.progress")
 local hover = require("components.widgets.hover")
-local element = require("components.widgets.element")
 local button = require("components.widgets.button")
 
 local function top()
@@ -128,7 +128,7 @@ local function init()
 	return model,
 		widget,
 		function()
-			local v = pulseaudio.volume
+			local v = model.volume or 0
 			local b = model.brightness or 0
 			local bt = model.battery or 0
 
@@ -153,14 +153,22 @@ return function()
 		"brightness",
 	}, widget)
 
-	gears.timer({
-		timeout = misc.general_update_interval,
-		autostart = true,
-		callback = view,
-	})
+	pulseaudio:connect_signal("volume", function(_, volume)
+		model.volume = volume
+		view()
+	end)
 
 	progress.connect(children.volume, function(_, p)
 		pulseaudio.volume = p
+	end)
+
+	backlight:connect_signal("brightness", function(_, brightness)
+		model.brightness = brightness
+		view()
+	end)
+
+	progress.connect(children.brightness, function(_, p)
+		backlight.brightness = p
 	end)
 
 	view()

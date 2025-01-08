@@ -1,6 +1,6 @@
 local awful = require("awful")
-local popup = require("awful.hotkeys_popup")
 local mpris = require("system.mpris")
+local backlight = require("system.backlight")
 
 local user = require("user")
 local pulseaudio = require("system.pulseaudio")
@@ -44,6 +44,14 @@ awful.keyboard.append_global_keybindings({
 	end),
 	awful.key({}, "XF86AudioStop", function()
 		mpris:shift(1)
+	end),
+
+	-- backlight
+	awful.key({}, "XF86MonBrightnessDown", function()
+		backlight.brightness = math.max(backlight.brightness - 10, 0)
+	end),
+	awful.key({}, "XF86MonBrightnessUp", function()
+		backlight.brightness = math.min(backlight.brightness + 10, 100)
 	end),
 
 	-- layout
