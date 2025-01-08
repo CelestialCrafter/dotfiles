@@ -21,7 +21,7 @@ end
 return function()
 	local model, widget, view = init()
 
-	mpris:connect_signal("metadata", function(_, metadata)
+	local function handle_metadata(_, metadata)
 		if metadata then
 			model.title = metadata.title
 			model.artist = metadata.artists[1]
@@ -30,8 +30,9 @@ return function()
 			model.artist = nil
 		end
 		view()
-	end)
-	view()
+	end
+	mpris:connect_signal("metadata", handle_metadata)
+	handle_metadata(mpris:metadata())
 
 	return widget
 end

@@ -12,7 +12,7 @@ local function init()
 			if not model.percentage then
 				widget.visible = false
 			else
-				widget.text = model.percentage .. "%"
+				widget.text = string.format("%d%%", model.percentage)
 			end
 		end
 end
@@ -24,6 +24,8 @@ return function()
 		model.percentage = percentage
 		view()
 	end)
+
+	model.percentage = upower:percentage()
 	view()
 
 	return widget

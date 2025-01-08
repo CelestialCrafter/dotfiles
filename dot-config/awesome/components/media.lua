@@ -220,7 +220,9 @@ return function(s)
 	mpris:connect_signal("metadata", handle_metadata)
 	mpris:connect_signal("position", handle_position)
 	mpris:connect_signal("playing", handle_playing)
-	view()
+	handle_metadata(mpris:metadata())
+	handle_position(mpris:position())
+	handle_playing(mpris:playing())
 
 	s.media = awful.popup({
 		widget = widget,

@@ -27,10 +27,10 @@ awful.keyboard.append_global_keybindings({
 	end),
 
 	awful.key({}, "XF86AudioLowerVolume", function()
-		pulseaudio.volume = math.max(pulseaudio.volume - 2, 0)
+		pulseaudio.volume = math.max(pulseaudio.volume - user.volume_adjust, 0)
 	end),
 	awful.key({}, "XF86AudioRaiseVolume", function()
-		pulseaudio.volume = math.min(pulseaudio.volume + 2, 100)
+		pulseaudio.volume = math.min(pulseaudio.volume + user.volume_adjust, 100)
 	end),
 
 	awful.key({}, "XF86AudioPlay", function()
@@ -48,10 +48,10 @@ awful.keyboard.append_global_keybindings({
 
 	-- backlight
 	awful.key({}, "XF86MonBrightnessDown", function()
-		backlight.brightness = math.max(backlight.brightness - 10, 0)
+		backlight.brightness = math.max(backlight.brightness - user.brightness_adjust, 0)
 	end),
 	awful.key({}, "XF86MonBrightnessUp", function()
-		backlight.brightness = math.min(backlight.brightness + 10, 100)
+		backlight.brightness = math.min(backlight.brightness + user.brightness_adjust, 100)
 	end),
 
 	-- layout

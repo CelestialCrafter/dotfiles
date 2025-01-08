@@ -10,11 +10,8 @@ end
 
 function M:collect()
 	awful.spawn.easy_async("pactl get-sink-volume @DEFAULT_SINK@", function(stdout)
-		local new = tonumber(stdout:match("(%d+)%%"))
-		if new ~= self.cached then
-			self.cached = new
-			self:emit_signal("volume", new)
-		end
+		self.cached = tonumber(stdout:match("(%d+)%%"))
+		self:emit_signal("volume", self.cached)
 	end)
 end
 

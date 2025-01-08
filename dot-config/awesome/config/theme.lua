@@ -18,7 +18,7 @@ theme.useless_gap = theme.spacing_s
 theme.wallpaper_path = user.wallpaper
 theme.wallpaper = function(s)
 	return gears.surface.crop_surface({
-		surface = gears.surface(beautiful.wallpaper_path),
+		surface = gears.surface(theme.wallpaper_path),
 		ratio = s.geometry.width / s.geometry.height,
 	})
 end

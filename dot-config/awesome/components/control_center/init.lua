@@ -6,12 +6,14 @@ local beautiful = require("beautiful")
 local notifications = require("components.control_center.notifications")
 local calendar = require("components.control_center.calendar")
 local general = require("components.control_center.general")
+local gauges = require("components.control_center.gauges")
 
 local function gen_widget()
 	return wibox.widget({
 		{
 			{
 				general(),
+				gauges(),
 				{
 					calendar(),
 					valign = "bottom",

@@ -82,7 +82,7 @@ function M:player_callback(name)
 							break
 						end
 
-						self:emit_signal(v, player[v](mpris))
+						self:emit_signal(v, player[v](self.players[name]))
 					end
 				end
 

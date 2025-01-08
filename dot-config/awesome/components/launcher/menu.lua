@@ -49,14 +49,12 @@ local function levenshtein(str1, str2)
 	return matrix[len1][len2]
 end
 
-local size = beautiful.spacing_xl * 2
+local icon_size = beautiful.spacing_xl * 2
 
 local function search(query)
 	local matched = {}
 
 	for _, app in pairs(apps.entries) do
-		query = query:gsub("%W", "")
-
 		if string.find(app.name:lower(), query:lower(), 1, true) ~= nil then
 			table.insert(matched, app)
 		end
@@ -70,6 +68,7 @@ local function search(query)
 end
 
 local function app_widget(app, focused)
+	local size = icon_size + beautiful.spacing_xl
 	local widget = {
 		{
 			{
@@ -77,7 +76,7 @@ local function app_widget(app, focused)
 					{
 						image = app.icon,
 						resize = true,
-						forced_height = size,
+						forced_height = icon_size,
 						widget = wibox.widget.imagebox,
 					},
 					widget = wibox.container.place,
@@ -88,13 +87,14 @@ local function app_widget(app, focused)
 				widget = wibox.container.margin,
 			},
 			{
-				markup = app.name,
+				markup = misc.truncate(app.name, 10),
 				halign = "center",
 				widget = wibox.widget.textbox,
 				id = "name",
 			},
 			layout = wibox.layout.fixed.vertical,
-			forced_width = size + beautiful.get_font_height(beautiful.font) * 1.5,
+			forced_width = size,
+			forced_height = size,
 		},
 		shape = beautiful.rounded,
 		widget = wibox.container.background,
@@ -170,7 +170,7 @@ local function init(s)
 			if empty then
 				-- empty entry so theres no weird ui shift with when nothing matched
 				table.insert(results, {
-					icon = gears.surface.load_from_shape(size, size, gears.shape.rounded_rect, "#00000000"),
+					icon = gears.surface.load_from_shape(icon_size, icon_size, gears.shape.rounded_rect, "#00000000"),
 					name = " ",
 				})
 
@@ -206,9 +206,8 @@ return function(s)
 		model.query = nil
 		view()
 
-		search_box.text = "Search: "
 		awful.prompt.run({
-			prompt = search_box.text,
+			prompt = "Search: ",
 			textbox = search_box,
 			changed_callback = function(query)
 				model.query = query
@@ -224,6 +223,7 @@ return function(s)
 			end,
 		})
 	end
+	view()
 
 	return widget, run_search
 end

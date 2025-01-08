@@ -14,10 +14,9 @@ local function app_widget(app)
 		image = app.icon,
 		forced_width = icon_size,
 		forced_height = icon_size,
+		buttons = { awful.button({}, 1, nil, app.launch) },
 		widget = wibox.widget.imagebox,
 	})
-
-	widget:add_button(awful.button({}, 1, nil, app.launch))
 
 	return hover(widget)
 end

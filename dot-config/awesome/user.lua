@@ -1,7 +1,7 @@
 local user = {}
 
-user.wallpaper = "~/Pictures/wallpaper.jpg"
-user.profile = "~/Pictures/user.png"
+user.wallpaper = os.getenv("HOME") .. "/Pictures/wallpaper.jpg"
+user.profile = os.getenv("HOME") .. "/Pictures/user.png"
 user.font = { "sans-serif", "11" }
 user.tags = { "1", "2", "3", "4", "5", "S" }
 
@@ -20,6 +20,8 @@ user.pinned_apps = {
 	vesktop = "dev.vencord.Vesktop.desktop",
 }
 
-user.battery_enabled = false
+user.osd_dismiss_timeout = 1
+user.volume_adjust = 5
+user.brightness_adjust = 5
 
 return user

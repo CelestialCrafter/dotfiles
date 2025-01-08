@@ -13,24 +13,22 @@ function M.setup()
 end
 
 function M.truncate(text, chars)
-	if not chars then
-		chars = 32
-	end
+	chars = chars or 32
 
 	if #text <= chars then
 		return text
 	end
 
-	return text:sub(1, chars - 3) .. "..."
+	return text:sub(1, chars - 3):gsub("%s$", "") .. "..."
 end
 
-function M.wrap_tag(text, tag, props)
-	props = props or {}
-	if #props > 0 then
-		table.insert(props, "")
+function M.wrap_tag(text, tag, args)
+	args = args or {}
+	if #args > 0 then
+		table.insert(args, "")
 	end
 
-	return ("<%s%s>%s</%s>"):format(tag, table.concat(props, " "), gears.string.xml_escape(text), tag)
+	return ("<%s%s>%s</%s>"):format(tag, table.concat(args, " "), gears.string.xml_escape(text), tag)
 end
 
 function M.debug(data, depth)

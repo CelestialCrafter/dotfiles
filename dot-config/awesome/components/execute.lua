@@ -3,7 +3,6 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 
 local misc = require("misc")
-local element = require("components.widgets.element")
 
 local function gen_widget()
 	return wibox.widget({
@@ -57,6 +56,7 @@ return function(s)
 			prompt = "Command: ",
 			textbox = text,
 			history_path = history_prefix .. "command",
+			exe_callback = awful.spawn.with_shell,
 			done_callback = done,
 		})
 		s.execute.visible = true
