@@ -13,7 +13,7 @@ function M:collect()
 		local new = tonumber(stdout:match("(%d+)%%"))
 		if new ~= self.cached then
 			self.cached = new
-			self:emit_signal("volume", new / 100)
+			self:emit_signal("volume", new)
 		end
 	end)
 end
@@ -21,7 +21,7 @@ end
 setmetatable(M, {
 	__newindex = function(t, k, v)
 		if k == "volume" then
-			rawset(t, "cached", math.floor(v * 100))
+			rawset(t, "cached", math.floor(v))
 			awful.spawn(("pactl set-sink-volume @DEFAULT_SINK@ %d%%"):format(t.cached))
 			return
 		end
@@ -30,7 +30,7 @@ setmetatable(M, {
 	end,
 	__index = function(t, k)
 		if k == "volume" then
-			return t.cached / 100
+			return t.cached
 		end
 
 		return rawget(t, k)

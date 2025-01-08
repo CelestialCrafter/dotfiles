@@ -27,10 +27,10 @@ awful.keyboard.append_global_keybindings({
 	end),
 
 	awful.key({}, "XF86AudioLowerVolume", function()
-		pulseaudio.volume = pulseaudio.volume - 0.02
+		pulseaudio.volume = pulseaudio.volume - 2
 	end),
 	awful.key({}, "XF86AudioRaiseVolume", function()
-		pulseaudio.volume = pulseaudio.volume + 0.02
+		pulseaudio.volume = pulseaudio.volume + 2
 	end),
 
 	awful.key({}, "XF86AudioPlay", function()

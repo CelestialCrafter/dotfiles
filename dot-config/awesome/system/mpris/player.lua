@@ -2,6 +2,10 @@ local proxy = require("dbus_proxy")
 
 local M = {}
 
+function M:Get(property)
+	return self.proxy:Get(self.interface, property)
+end
+
 function M:metadata()
 	if not self.is_connected then
 		return
@@ -16,10 +20,6 @@ function M:metadata()
 		album = m["xesam:album"],
 		title = m["xesam:title"],
 	}
-end
-
-function M:Get(property)
-	return self.proxy:Get(self.interface, property)
 end
 
 function M:playing()

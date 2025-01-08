@@ -5,6 +5,7 @@ local beautiful = require("beautiful")
 
 local user = require("user")
 local song = require("components.bar.song")
+local battery = require("components.bar.battery")
 local current_client = require("components.bar.current_client")
 local element = require("components.widgets.element")
 local hover = require("components.widgets.hover")
@@ -24,12 +25,10 @@ return function(s)
 		s.control_center.visible = not s.control_center.visible
 	end))
 
-	local song_widget = hover(song(), hover.bg())
+	local song_widget = eh(song())
 	song_widget:add_button(awful.button({}, 1, nil, function()
 		s.media.visible = not s.media.visible
 	end))
-
-	local clock = element(wibox.widget.textclock("%I:%M%P"))
 
 	local bar = awful.wibar({
 		height = beautiful.spacing_xl + beautiful.spacing_m,
@@ -59,7 +58,8 @@ return function(s)
 			current_client(s),
 			{
 				song_widget,
-				clock,
+				user.battery_enabled and eh(battery()),
+				element(wibox.widget.textclock("%I:%M%P")),
 				spacing = beautiful.spacing_s,
 				layout = wibox.layout.fixed.horizontal,
 			},

@@ -4,6 +4,8 @@ local function eval_python(content)
 	local program = whitelisted[1]
 
 	for i, line in ipairs(content.lines) do
+		line = line:match("^%s*(.*)")
+
 		if i ~= 1 then
 			lines[i - 1] = line
 			goto continue

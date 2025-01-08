@@ -8,6 +8,10 @@ user.tags = { "1", "2", "3", "4", "5", "S" }
 user.titlebar_position = "left"
 user.bar_position = "top"
 
+user.base_spacing = 4
+user.roundness = 2
+user.spacing_multiplier = 2
+
 user.terminal = "Alacritty.desktop"
 user.pinned_apps = {
 	Alacritty = "Alacritty.desktop",
@@ -16,8 +20,6 @@ user.pinned_apps = {
 	vesktop = "dev.vencord.Vesktop.desktop",
 }
 
-user.base_spacing = 4
-user.roundness = 2
-user.spacing_multiplier = 2
+user.battery_enabled = false
 
 return user

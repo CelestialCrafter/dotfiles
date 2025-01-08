@@ -4,8 +4,10 @@ local gears = require("gears")
 local beautiful = require("beautiful")
 
 local misc = require("misc")
+local user = require("user")
 local pulseaudio = require("system.pulseaudio")
 local backlight = require("system.backlight")
+local upower = require("system.upower")
 local progress = require("components.widgets.progress")
 local hover = require("components.widgets.hover")
 local button = require("components.widgets.button")
@@ -99,7 +101,7 @@ local function gauges()
 		gauge("brightness"),
 		gauge("battery"),
 		spacing = beautiful.spacing_m,
-		layout = wibox.layout.flex.vertical,
+		layout = wibox.layout.fixed.vertical,
 	}
 end
 
@@ -125,6 +127,11 @@ local function init()
 		"battery_text",
 	}, widget)
 
+	if not user.battery_enabled then
+		children.battery.visible = false
+		children.battery_text.visible = false
+	end
+
 	return model,
 		widget,
 		function()
@@ -132,15 +139,15 @@ local function init()
 			local b = model.brightness or 0
 			local bt = model.battery or 0
 
-			children.volume.value = v
-			children.volume_text.text = ("V %d%%"):format(v * 100)
+			children.volume.value = v / 100
+			children.volume_text.text = ("V %d%%"):format(v)
 
 			-- @TODO brightness/battery
-			children.brightness.value = b
-			children.brightness_text.text = ("B %d%%"):format(b * 100)
+			children.brightness.value = b / 100
+			children.brightness_text.text = ("B %d%%"):format(b)
 
-			children.battery.value = bt
-			children.battery_text.text = ("T %d%%"):format(bt * 100)
+			children.battery.value = bt / 100
+			children.battery_text.text = ("T %d%%"):format(bt)
 		end
 end
 
@@ -151,6 +158,7 @@ return function()
 	local children = misc.children({
 		"volume",
 		"brightness",
+		"battery",
 	}, widget)
 
 	pulseaudio:connect_signal("volume", function(_, volume)
@@ -159,7 +167,7 @@ return function()
 	end)
 
 	progress.connect(children.volume, function(_, p)
-		pulseaudio.volume = p
+		pulseaudio.volume = p * 100
 	end)
 
 	backlight:connect_signal("brightness", function(_, brightness)
@@ -168,7 +176,12 @@ return function()
 	end)
 
 	progress.connect(children.brightness, function(_, p)
-		backlight.brightness = p
+		backlight.brightness = p * 100
+	end)
+
+	upower:connect_signal("percentage", function(_, percentage)
+		model.battery = percentage
+		view()
 	end)
 
 	view()
