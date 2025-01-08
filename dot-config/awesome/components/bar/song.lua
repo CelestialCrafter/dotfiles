@@ -13,7 +13,7 @@ local function init()
 			if not model.title then
 				widget.text = "No Media"
 			else
-				widget.text = ("%s - %s"):format(misc.truncate(model.title, 24), misc.truncate(model.artist, 16))
+				widget.text = ("%s - %s"):format(misc.truncate(model.title, 26), misc.truncate(model.artist, 20))
 			end
 		end
 end

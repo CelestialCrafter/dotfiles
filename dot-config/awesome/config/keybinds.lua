@@ -27,10 +27,10 @@ awful.keyboard.append_global_keybindings({
 	end),
 
 	awful.key({}, "XF86AudioLowerVolume", function()
-		pulseaudio.volume = pulseaudio.volume - 2
+		pulseaudio.volume = math.max(pulseaudio.volume - 2, 0)
 	end),
 	awful.key({}, "XF86AudioRaiseVolume", function()
-		pulseaudio.volume = pulseaudio.volume + 2
+		pulseaudio.volume = math.min(pulseaudio.volume + 2, 100)
 	end),
 
 	awful.key({}, "XF86AudioPlay", function()
@@ -85,6 +85,11 @@ awful.keyboard.append_global_keybindings({
 	end, { description = "swap with previous", group = "client" }),
 
 	-- components
+	awful.key({ modkey }, "o", function()
+		local c = s().control_center
+		c.visible = not c.visible
+	end, { description = "execute", group = "launcher" }),
+
 	awful.key({ modkey }, "e", function()
 		s().execute:emit_signal("command")
 	end, { description = "execute", group = "launcher" }),

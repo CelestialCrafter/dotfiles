@@ -50,9 +50,6 @@ local function levenshtein(str1, str2)
 end
 
 local size = beautiful.spacing_xl * 2
-local cols = 12
-local rows = 6
-local max_matched = rows * cols
 
 local function search(query)
 	local matched = {}
@@ -114,7 +111,7 @@ local function app_widget(app, focused)
 	return widget
 end
 
-local function gen_widget()
+local function gen_widget(rows, cols)
 	return wibox.widget({
 		{
 			{
@@ -156,8 +153,12 @@ local function gen_widget()
 end
 
 local function init(s)
+	local cols = math.floor(s.workarea.width / 160)
+	local rows = cols / 2
+	local max_matched = rows * cols
+
 	local model = {}
-	local widget = gen_widget()
+	local widget = gen_widget(rows, cols)
 	local entries = misc.children("entries", widget)
 
 	return model,
