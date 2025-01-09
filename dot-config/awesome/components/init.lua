@@ -5,6 +5,7 @@ local launcher = require("components.launcher")
 local desktop = require("components.desktop")
 local execute = require("components.execute")
 local media = require("components.media")
+local osd = require("components.osd")
 
 return function(s)
 	bar(s)
@@ -14,4 +15,5 @@ return function(s)
 	launcher(s)
 	control_center(s)
 	execute(s)
+	osd()
 end
