@@ -13,6 +13,7 @@ user.roundness = 2
 user.spacing_multiplier = 2
 
 user.terminal = "Alacritty.desktop"
+user.autostart = {}
 user.pinned_apps = {
 	Alacritty = "Alacritty.desktop",
 	floorp = "one.ablaze.floorp.desktop",

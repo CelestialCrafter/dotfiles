@@ -1,4 +1,3 @@
-local awful = require("awful")
 local gears = require("gears")
 local apps = require("misc.apps")
 
@@ -8,8 +7,8 @@ local M = {
 }
 
 function M.setup()
-	awful.spawn("picom")
 	apps.setup()
+	require("misc.autostart")
 end
 
 function M.truncate(text, chars)
