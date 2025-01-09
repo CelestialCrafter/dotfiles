@@ -8,12 +8,13 @@ local backlight = require("core.backlight")
 
 mpris:setup()
 upower:setup()
+pulseaudio:setup()
 
+-- @TODO use some subscription instead of a timer
 gears.timer({
 	timeout = misc.general_update_interval,
 	autostart = true,
 	callback = function()
-		pulseaudio:collect()
 		backlight:collect()
 	end,
 })

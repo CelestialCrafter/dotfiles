@@ -56,6 +56,7 @@ return function()
 			return
 		end
 
+		-- ignore initial emission
 		if prev_volume ~= -1 then
 			popup.visible = true
 			timer:again()
@@ -72,6 +73,7 @@ return function()
 			return
 		end
 
+		-- ignore initial emission
 		if prev_brightness ~= -1 then
 			popup.visible = true
 			timer:again()

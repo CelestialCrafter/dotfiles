@@ -15,6 +15,21 @@ function M:collect()
 	end)
 end
 
+function M:setup()
+	-- https://github.com/Stardust-kyun/calla/blob/main/usr/share/calla/desktop/signal/volume.lua
+	awful.spawn.easy_async({ "pkill", "--full", "--uid", os.getenv("USER"), "^pactl subscribe" }, function()
+		awful.spawn.with_line_callback("pactl subscribe", {
+			stdout = function(line)
+				if gears.string.startswith(line, "Event 'change' on sink") then
+					M:collect()
+				end
+			end,
+		})
+	end)
+
+	M:collect()
+end
+
 setmetatable(M, {
 	__newindex = function(t, k, v)
 		if k == "volume" then

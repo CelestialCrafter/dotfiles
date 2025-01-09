@@ -3,7 +3,7 @@ local apps = require("misc.apps")
 
 local M = {
 	preview_update_interval = 0.5,
-	general_update_interval = 0.05,
+	general_update_interval = 0.1,
 }
 
 function M.setup()
