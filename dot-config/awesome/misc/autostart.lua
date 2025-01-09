@@ -3,7 +3,7 @@ local user = require("user")
 
 local apps = require("misc.apps")
 
-local autostart = { "picom" }
+local autostart = { "picom", "libinput-gestures" }
 
 for _, proc in ipairs(autostart) do
 	awful.spawn.easy_async("pkill " .. proc, function()
