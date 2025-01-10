@@ -7,14 +7,19 @@ local dpi = beautiful.xresources.apply_dpi
 
 local theme = {}
 
+local base = dpi(user.base_spacing)
+local function level(l)
+	return base * (user.spacing_multiplier ^ (l - 1))
+end
+
 -- spacing
-theme.spacing_s = dpi(user.base_spacing)
-theme.spacing_m = theme.spacing_s * user.spacing_multiplier
-theme.spacing_l = theme.spacing_m * user.spacing_multiplier
-theme.spacing_xl = theme.spacing_l * user.spacing_multiplier
+theme.spacing_s = level(1)
+theme.spacing_m = level(2)
+theme.spacing_l = level(3)
+theme.spacing_xl = level(4)
 
 -- misc
-theme.useless_gap = theme.spacing_s
+theme.useless_gap = level(user.gap_level) / 2
 theme.wallpaper_path = user.wallpaper
 theme.wallpaper = function(s)
 	return gears.surface.crop_surface({
@@ -24,8 +29,7 @@ theme.wallpaper = function(s)
 end
 theme.font = table.concat(user.font, " ")
 theme.rounded = function(cr, w, h)
-	local r = theme.spacing_s * (2 ^ (user.roundness - 1))
-	gears.shape.rounded_rect(cr, w, h, r)
+	gears.shape.rounded_rect(cr, w, h, level(user.round_level))
 end
 
 -- colors

@@ -9,7 +9,8 @@ user.titlebar_position = "left"
 user.bar_position = "top"
 
 user.base_spacing = 4
-user.roundness = 2
+user.gap_level = 2
+user.round_level = 2
 user.spacing_multiplier = 2
 
 user.terminal = "Alacritty.desktop"

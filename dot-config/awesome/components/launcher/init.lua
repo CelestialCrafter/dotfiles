@@ -29,6 +29,7 @@ return function(s)
 					{
 						taglist(s),
 						left = beautiful.useless_gap * 2,
+						right = beautiful.useless_gap * 2,
 						widget = wibox.container.margin,
 					},
 					widget = wibox.container.place,

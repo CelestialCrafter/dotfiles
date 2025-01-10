@@ -50,6 +50,7 @@ local function levenshtein(str1, str2)
 end
 
 local icon_size = beautiful.spacing_xl * 2
+local size = icon_size + beautiful.spacing_xl
 
 local function search(query)
 	local matched = {}
@@ -68,7 +69,8 @@ local function search(query)
 end
 
 local function app_widget(app, focused)
-	local size = icon_size + beautiful.spacing_xl
+	local margin = beautiful.spacing_m
+
 	local widget = {
 		{
 			{
@@ -81,9 +83,9 @@ local function app_widget(app, focused)
 					},
 					widget = wibox.container.place,
 				},
-				top = beautiful.spacing_m,
-				right = beautiful.spacing_m,
-				left = beautiful.spacing_m,
+				top = margin,
+				left = margin,
+				right = margin,
 				widget = wibox.container.margin,
 			},
 			{
@@ -153,7 +155,7 @@ local function gen_widget(rows, cols)
 end
 
 local function init(s)
-	local cols = math.floor(s.workarea.width / 160)
+	local cols = math.floor(s.workarea.width * 0.6 / size)
 	local rows = cols / 2
 	local max_matched = rows * cols
 

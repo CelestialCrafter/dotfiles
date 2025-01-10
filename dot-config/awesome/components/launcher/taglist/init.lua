@@ -31,6 +31,7 @@ return function(s)
 
 	local taglist = awful.widget.taglist({
 		screen = s,
+		-- @TODO filter out tags that go off the screen
 		filter = function(t)
 			local default_filter = awful.widget.taglist.filter.noempty
 			if default_filter(t) then
