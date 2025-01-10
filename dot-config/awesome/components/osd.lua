@@ -25,11 +25,32 @@ local function gen_widget()
 	})
 end
 
-return function()
+local function init()
+	local model = {}
 	local widget = gen_widget()
+
+	local children = misc.children({ "progress", "text" }, widget)
+
+	return model,
+		widget,
+		function()
+			if model.type == "pulseaudio" then
+				children.text.text = "V"
+				children.progress.color = pulseaudio.muted and beautiful.text_subtle or beautiful.accent
+				children.progress.value = (pulseaudio.volume or 0) / 100
+			else
+				children.text.text = "B"
+				children.progress.color = beautiful.accent
+				children.progress.value = backlight.brightness / 100
+			end
+		end
+end
+
+return function()
+	local model, widget, view = init()
 	local popup = awful.popup({
-		shape = beautiful.rounded,
 		widget = widget,
+		shape = beautiful.rounded,
 		placement = function(d)
 			awful.placement.bottom(d, {
 				margins = beautiful.useless_gap * 4,
@@ -40,47 +61,20 @@ return function()
 		visible = false,
 	})
 
-	local children = misc.children({ "progress", "text" }, widget)
-
 	local timer = gears.timer({
-		timeout = user.osd_dismiss_timeout,
+		timeout = user.dismiss_timeout,
 		single_shot = true,
 		callback = function()
 			popup.visible = false
 		end,
 	})
 
-	local prev_volume = -1
-	pulseaudio:connect_signal("volume", function(_, volume)
-		if prev_volume == volume then
-			return
-		end
-
-		-- ignore initial emission
-		if prev_volume ~= -1 then
-			popup.visible = true
-			timer:again()
-		end
-
-		prev_volume = volume
-		children.text.text = "V"
-		children.progress.value = volume / 100
+	popup:connect_signal("show", function(_, type)
+		model.type = type
+		view()
+		popup.visible = true
+		timer:again()
 	end)
 
-	local prev_brightness = -1
-	backlight:connect_signal("brightness", function(_, brightness)
-		if prev_brightness == brightness then
-			return
-		end
-
-		-- ignore initial emission
-		if prev_brightness ~= -1 then
-			popup.visible = true
-			timer:again()
-		end
-
-		prev_brightness = brightness
-		children.text.text = "B"
-		children.progress.value = brightness / 100
-	end)
+	return popup
 end

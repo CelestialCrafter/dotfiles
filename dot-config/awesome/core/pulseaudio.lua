@@ -2,16 +2,25 @@ local awful = require("awful")
 local gears = require("gears")
 
 local M = gears.object({})
-M.cached = 0
+M._volume = 0
+M._muted = false
 
 function M.toggle_mute()
 	awful.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")
 end
 
 function M:collect()
-	awful.spawn.easy_async("pactl get-sink-volume @DEFAULT_SINK@", function(stdout)
-		self.cached = tonumber(stdout:match("(%d+)%%"))
-		self:emit_signal("volume", self.cached)
+	awful.spawn.easy_async("pactl --format json list sinks", function(stdout)
+		self._volume = tonumber(stdout:match("(%d+)%%"))
+		self:emit_signal("volume", self.volume)
+	end)
+
+	awful.spawn.easy_async("pactl get-sink-mute @DEFAULT_SINK@", function(stdout)
+		local muted = stdout:match("no") or stdout:match("yes")
+		if muted then
+			self._muted = muted == "yes"
+			self:emit_signal("muted", self.muted)
+		end
 	end)
 end
 
@@ -33,8 +42,12 @@ end
 setmetatable(M, {
 	__newindex = function(t, k, v)
 		if k == "volume" then
-			rawset(t, "cached", math.floor(v))
-			awful.spawn(("pactl set-sink-volume @DEFAULT_SINK@ %d%%"):format(t.cached))
+			t._volume = math.floor(v)
+			awful.spawn(("pactl set-sink-volume @DEFAULT_SINK@ %d%%"):format(t._volume))
+			return
+		elseif k == "muted" then
+			t._muted = v
+			awful.spawn(("pactl set-sink-mute @DEFAULT_SINK@ %s"):format(v))
 			return
 		end
 
@@ -42,10 +55,10 @@ setmetatable(M, {
 	end,
 	__index = function(t, k)
 		if k == "volume" then
-			return t.cached
+			return t._volume
+		elseif k == "muted" then
+			return t._muted
 		end
-
-		return rawget(t, k)
 	end,
 })
 

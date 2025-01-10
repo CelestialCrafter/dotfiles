@@ -10,10 +10,27 @@ local osd = require("components.osd")
 return function(s)
 	bar(s)
 	desktop(s)
-	dock(s)
-	media(s)
-	launcher(s)
-	control_center(s)
-	execute(s)
-	osd()
+	s.dock = dock(s)
+	s.osd = osd()
+
+	s.execute = execute()
+	s.media = media(s)
+	s.launcher = launcher(s)
+	s.control_center = control_center()
+
+	local exclusive = { s.execute, s.media, s.launcher, s.control_center }
+	local current
+
+	for i, popup in ipairs(exclusive) do
+		popup:connect_signal("property::visible", function()
+			if not popup.visible then
+				return
+			end
+
+			current = i
+			for j, p in ipairs(exclusive) do
+				p.visible = i == j
+			end
+		end)
+	end
 end

@@ -104,10 +104,12 @@ return function(s)
 		return app_widgets
 	end
 
-	for class, id in pairs(user.pinned_apps) do
+	for class, id in pairs(user.dock) do
 		apps.class_to_id[class] = id
 		model.entries[id] = prepare(assert(apps.entries[id], ("app id %s does not exist"):format(id)))
 	end
+
+	client.connect_signal("focus", view)
 
 	client.connect_signal("request::manage", function(c)
 		local app = apps.notify(c.class)
@@ -143,7 +145,15 @@ return function(s)
 		end
 	end)
 
-	client.connect_signal("focus", view)
-
-	return widgets[1]
+	return awful.popup({
+		widget = widgets[1],
+		placement = function(d)
+			awful.placement.bottom(d, {
+				margins = beautiful.useless_gap * 4,
+				honor_workarea = true,
+			})
+		end,
+		visible = false,
+		ontop = true,
+	})
 end

@@ -18,7 +18,7 @@ return function(s)
 		top = s.workarea.y * (height / s.geometry.height),
 	})
 
-	s.launcher = wibox({
+	local popup = wibox({
 		widget = {
 			{
 				image = wallpaper,
@@ -40,15 +40,6 @@ return function(s)
 				expand = "none",
 				layout = wibox.layout.align.horizontal,
 			},
-			{
-				{
-					dock_widget,
-					bottom = beautiful.useless_gap * 2,
-					widget = wibox.container.margin,
-				},
-				valign = "bottom",
-				widget = wibox.container.place,
-			},
 			layout = wibox.layout.stack,
 		},
 		ontop = true,
@@ -59,7 +50,7 @@ return function(s)
 		visible = false,
 	})
 
-	s.launcher:connect_signal("property::visible", function()
+	popup:connect_signal("property::visible", function()
 		if s.launcher.visible then
 			run_search()
 		else
@@ -67,5 +58,5 @@ return function(s)
 		end
 	end)
 
-	return s.launcher
+	return popup
 end

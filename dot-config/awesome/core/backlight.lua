@@ -2,22 +2,22 @@ local awful = require("awful")
 local gears = require("gears")
 
 local M = gears.object({})
-M.cached = 0
+M._brightness = 0
 
 function M:collect()
 	if M.enabled == false then
 		return
 	end
 
-	awful.spawn.easy_async("brightnessctl -mc backlight i", function(stdout)
-		if stdout:match("Failed to read") then
+	awful.spawn.easy_async("brightnessctl -mc backlight i", function(stdout, _, _, code)
+		if code == 1 then
 			M.enabled = false
 			return
 		end
 		M.enabled = true
 
-		self.cached = tonumber(stdout:match("(%d+)%%"))
-		self:emit_signal("brightness", self.cached)
+		self._brightness = tonumber(stdout:match("(%d+)%%"))
+		self:emit_signal("brightness", self._brightness)
 	end)
 end
 
@@ -28,8 +28,8 @@ setmetatable(M, {
 				return
 			end
 
-			rawset(t, "cached", math.floor(v))
-			awful.spawn(("brightnessctl -c backlight s %s%%"):format(t.cached))
+			t._brightness = math.floor(v)
+			awful.spawn(("brightnessctl -c backlight s %s%%"):format(t._brightness))
 			return
 		end
 
@@ -37,7 +37,7 @@ setmetatable(M, {
 	end,
 	__index = function(t, k)
 		if k == "brightness" then
-			return t.cached
+			return t._brightness
 		end
 
 		return rawget(t, k)

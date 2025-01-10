@@ -19,11 +19,11 @@ end
 
 local history_prefix = awful.util.get_cache_dir() .. "/history_"
 
-return function(s)
+return function()
 	local widget = gen_widget()
 	local text = misc.children("text", widget)
 
-	s.execute = awful.popup({
+	local popup = awful.popup({
 		shape = beautiful.rounded,
 		widget = widget,
 		placement = function(d)
@@ -37,10 +37,10 @@ return function(s)
 	})
 
 	local function done()
-		s.execute.visible = false
+		popup.visible = false
 	end
 
-	s.execute:connect_signal("lua", function()
+	popup:connect_signal("lua", function()
 		awful.prompt.run({
 			prompt = "Lua: ",
 			textbox = text,
@@ -48,10 +48,10 @@ return function(s)
 			exe_callback = awful.util.eval,
 			done_callback = done,
 		})
-		s.execute.visible = true
+		popup.visible = true
 	end)
 
-	s.execute:connect_signal("command", function()
+	popup:connect_signal("command", function()
 		awful.prompt.run({
 			prompt = "Command: ",
 			textbox = text,
@@ -59,6 +59,8 @@ return function(s)
 			exe_callback = awful.spawn.with_shell,
 			done_callback = done,
 		})
-		s.execute.visible = true
+		popup.visible = true
 	end)
+
+	return popup
 end

@@ -14,14 +14,14 @@ user.spacing_multiplier = 2
 
 user.terminal = "Alacritty.desktop"
 user.autostart = {}
-user.pinned_apps = {
+user.dock = {
 	Alacritty = "Alacritty.desktop",
 	floorp = "one.ablaze.floorp.desktop",
 	Spotify = "com.spotify.Client.desktop",
 	vesktop = "dev.vencord.Vesktop.desktop",
 }
 
-user.osd_dismiss_timeout = 1
+user.dismiss_timeout = 1
 user.volume_adjust = 5
 user.brightness_adjust = 5
 

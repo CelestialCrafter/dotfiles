@@ -224,7 +224,7 @@ return function(s)
 	handle_position(mpris:position())
 	handle_playing(mpris:playing())
 
-	s.media = awful.popup({
+	return awful.popup({
 		widget = widget,
 		ontop = true,
 		placement = function(d)

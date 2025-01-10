@@ -35,10 +35,10 @@ local function gen_widget()
 	})
 end
 
-return function(s)
+return function()
 	local widget = gen_widget()
 
-	s.control_center = awful.popup({
+	return awful.popup({
 		widget = widget,
 		shape = beautiful.rounded,
 		ontop = true,

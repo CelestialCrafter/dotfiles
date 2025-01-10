@@ -46,6 +46,7 @@ local function init()
 			local v = model.volume or 0
 			local b = model.brightness or 0
 
+			children.volume.color = model.muted and beautiful.text_subtle or beautiful.accent
 			children.volume.value = v / 100
 			children.volume_text.text = ("V %d%%"):format(v)
 
@@ -64,6 +65,11 @@ return function()
 
 	pulseaudio:connect_signal("volume", function(_, volume)
 		model.volume = volume
+		view()
+	end)
+
+	pulseaudio:connect_signal("muted", function(_, muted)
+		model.muted = muted
 		view()
 	end)
 
