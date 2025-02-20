@@ -1,0 +1,9 @@
+[status]
+separator_open = ""
+separator_close = ""
+
+perm_sep = { fg = "black" }
+perm_type = { fg = "black" }
+perm_read = { fg = "black" }
+perm_write = { fg = "black" }
+perm_exec = { fg = "black" }

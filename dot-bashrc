@@ -1,15 +1,8 @@
-shopt -s dotglob
-
 eval "$(zoxide init bash)"
 alias vim='nvim'
 alias top='btop'
 alias please='sudo $(fc -ln 1)'
  
-function ps1_git_branch() {
-	BRANCH=$(git branch 2> /dev/null | grep "*" | colrm 1 2)
-	[[ ! -z $BRANCH ]] && echo "($BRANCH) "
-}
-
 # rose pine
 
 printf '\033]P0faf4ed'
@@ -29,4 +22,4 @@ printf '\033]PD907aa9'
 printf '\033]PEd7827e'
 printf '\033]PF575279'
 
-PS1='\[\e[94m\]$(ps1_git_branch)\[\e[95m\]\u \W \[\e[0m\]\[\e[5 q\]'
+PS1='\[\e[95m\]\u \W \[\e[0m\]\[\e[5 q\]'

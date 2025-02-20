@@ -1,0 +1,12 @@
+[manager]
+ratio = [ 2, 5, 4 ]
+show_hidden = true
+scrolloff = 12
+
+[preview]
+tab_size = 4
+image_delay = 50
+image_filter = "catmull-rom"
+
+[opener]
+edit = [{ run = "nvim --server ~/.cache/nvim/server.pipe --remote $@", block = true, desc = "neovim (remote)" }]

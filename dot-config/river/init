@@ -8,6 +8,7 @@ riverctl map normal Super R spawn fuzzel
 riverctl map normal Super+Shift Return spawn foot
 
 riverctl map normal Super Q close
+riverctl map normal Super+Shift Q spawn swaylock
 riverctl map normal Control+Alt Escape exit
 
 riverctl map normal Super J focus-view next
