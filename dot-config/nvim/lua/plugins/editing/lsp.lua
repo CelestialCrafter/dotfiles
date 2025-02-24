@@ -9,12 +9,8 @@ return {
 		"marksman",
 		"cssls",
 		"html",
-		"jsonls",
-		"clangd",
 	},
 	config = function(_, opts)
-		opts = opts or {}
-
 		local lspconfig = require("lspconfig")
 		for _, lsp in ipairs(opts) do
 			lspconfig[lsp].setup({})

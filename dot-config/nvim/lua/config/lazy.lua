@@ -5,7 +5,6 @@ utils.bootstrap(vim.fn.stdpath("data") .. "/lazy/lazy.nvim", "https://github.com
 local ok, lazy = pcall(require, "lazy")
 if ok then
 	lazy.setup({
-		install = { colorscheme = { "tokyonight" } },
 		spec = {
 			{ import = "plugins" },
 			{ import = "plugins.editing" },

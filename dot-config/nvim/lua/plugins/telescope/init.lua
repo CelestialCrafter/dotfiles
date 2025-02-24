@@ -27,10 +27,6 @@ local function key(lhs_suffix, picker, opts)
 	}
 end
 
-local open_with_trouble = function(...)
-	require("trouble.sources.telescope").open(...)
-end
-
 return {
 	{
 		"nvim-telescope/telescope.nvim",
@@ -44,7 +40,8 @@ return {
 				key("fr", builtin.lsp_references),
 				key("fd", builtin.lsp_definitions),
 				key("fs", builtin.lsp_document_symbols),
-				key("fD", builtin.diagnostics, { bufnr = 0 }),
+				key("fS", builtin.lsp_workspace_symbols),
+				key("fD", builtin.diagnostics),
 			}
 		end,
 		opts = {
@@ -53,9 +50,7 @@ return {
 					i = {
 						["<C-j>"] = "move_selection_next",
 						["<C-k>"] = "move_selection_previous",
-						["<C-t>"] = open_with_trouble,
 					},
-					n = { ["<C-t>"] = open_with_trouble },
 				},
 				layout_config = {
 					height = 0.7,
@@ -63,19 +58,15 @@ return {
 					horizontal = { preview_width = 0.45 },
 				},
 			},
-			pickers = {
-				buffers = {
-					mappings = {
-						i = {
-							["<C-d>"] = "delete_buffer",
-						},
-					},
-				},
-			},
 		},
+		config = function(_, opts)
+			require("telescope").setup(opts)
+			require("plugins.telescope.select_override")()
+		end,
 	},
 	{
 		"zschreur/telescope-jj.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim" },
 		config = function()
 			require("telescope").load_extension("jj")
 		end,

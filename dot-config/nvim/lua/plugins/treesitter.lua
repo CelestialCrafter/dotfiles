@@ -2,7 +2,6 @@ local utils = require("utils")
 
 return {
 	"nvim-treesitter/nvim-treesitter-textobjects",
-	"RRethy/nvim-treesitter-textsubjects",
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
@@ -14,6 +13,8 @@ return {
 				"html",
 				"rust",
 				"go",
+				"scss",
+				"css",
 				"markdown",
 			},
 			highlight = {
@@ -22,10 +23,13 @@ return {
 					return utils.large_file(bufnr, 500)
 				end,
 			},
-			textsubjects = {
+			incremental_selection = {
 				enable = true,
-				prev_selection = "<S-cr>",
-				keymaps = { ["<cr>"] = "textsubjects-smart" },
+				keymaps = {
+					init_selection = false,
+					node_incremental = "<cr>",
+					node_decremental = "<s-cr>",
+				},
 			},
 			textobjects = {
 				select = {
@@ -37,8 +41,10 @@ return {
 					keymaps = {
 						["af"] = "@function.outer",
 						["if"] = "@function.inner",
-						["iP"] = "@parameter.inner",
+						["ab"] = "@block.outer",
+						["ib"] = "@block.inner",
 						["aP"] = "@parameter.outer",
+						["iP"] = "@parameter.inner",
 					},
 				},
 			},

@@ -119,14 +119,18 @@ local highlights = {
 	st_command = { "Number", "Boolean", "Constant" },
 }
 
-local fg = extract_color({ "WinSeparator" })
-for name, data in pairs(highlights) do
-	vim.api.nvim_set_hl(0, name, {
-		bg = extract_color(data),
-		fg = fg,
-		bold = true,
-	})
-end
+vim.api.nvim_create_autocmd("ColorScheme", {
+	callback = function()
+		local fg = extract_color({ "Substitute" })
+		for name, data in pairs(highlights) do
+			vim.api.nvim_set_hl(0, name, {
+				bg = extract_color(data),
+				fg = fg,
+				bold = true,
+			})
+		end
+	end,
+})
 
 -- statusline
 local l = "%{%v:lua.St_mode_hl()%} %{v:lua.St_mode()} %#Statusline# %{%v:lua.St_filename()%}"

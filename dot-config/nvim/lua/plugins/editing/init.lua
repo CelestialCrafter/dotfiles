@@ -1,7 +1,5 @@
 return {
 	"tpope/vim-surround",
-	"tpope/vim-sleuth",
-	"wellle/targets.vim",
 	{ "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
 	{
 		"gbprod/cutlass.nvim",

@@ -1,12 +1,14 @@
 local utils = require("utils")
 
 local function search_word(forward)
-	require("flash").jump({
-		pattern = vim.fn.expand("<cword>"),
-		mode = "search",
-		search = { forward = forward },
-		jump = { nohlsearch = false },
-	})
+	return function()
+		require("flash").jump({
+			pattern = vim.fn.expand("<cword>"),
+			mode = "search",
+			search = { forward = forward },
+			jump = { nohlsearch = false },
+		})
+	end
 end
 
 return {
@@ -27,16 +29,12 @@ return {
 	keys = {
 		{
 			"*",
-			function()
-				search_word(true)
-			end,
+			search_word(true),
 			mode = utils.default_mode,
 		},
 		{
 			"#",
-			function()
-				search_word(false)
-			end,
+			search_word(false),
 			mode = utils.default_mode,
 		},
 	},
