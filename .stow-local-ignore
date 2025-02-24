@@ -1,3 +1,6 @@
 assets*
-
+.gitattributes
+.gitignore
+.git
+.jj
 stow_setup.sh
