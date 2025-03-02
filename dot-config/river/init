@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env fish
 
 # lock system before doing ANYTHING else
 riverctl spawn swaylock
@@ -37,17 +37,16 @@ riverctl map-pointer normal Super BTN_RIGHT resize-view
 
 riverctl map-pointer normal Super BTN_MIDDLE toggle-float
 
-for i in $(seq 1 10); do
-	tags=$((1 << ($i - 1)))
-
-	if [ $i == 10 ]; then
-		name="S"
-	else
-		name=$i
-	fi
+for i in (seq 1 10)
+	set -l tags (echo "print(1 << ($i - 1))" | lua)
+	echo $tags
+	set -l name $i
+	if test $i -eq 10
+		set name "S"
+	end
 
 	# Super+[1-9] -> focus tag [0-8]
-	riverctl map normal Super $name spawn "riverctl set-focused-tags $tags & ~/.config/scripts/set-background.sh $i"
+	riverctl map normal Super $name spawn "riverctl set-focused-tags $tags & ~/.config/scripts/set-background.fish $i"
 
 	# Super+Shift+[1-9] -> tag focused view with tag [0-8]
 	riverctl map normal Super+Shift $name set-view-tags $tags
@@ -57,11 +56,12 @@ for i in $(seq 1 10); do
 
 	# Super+Shift+Control+[1-9] -> toggle tag [0-8] of focused view
 	riverctl map normal Super+Shift+Control $name toggle-view-tags $tags
-done
+end
 
 # Super+0 -> focus all tags
 # Super+Shift+0 -> tag focused view with all tags
-all_tags=$(((1 << 32) - 1))
+# (1 << 32) - 1
+set -l all_tags 4294967295 
 riverctl map normal Super 0 set-focused-tags $all_tags
 riverctl map normal Super+Shift 0 set-view-tags $all_tags
 
@@ -73,29 +73,25 @@ riverctl map normal Super Right send-layout-cmd rivertile "main-location right"
 riverctl map normal Super Down send-layout-cmd rivertile "main-location bottom"
 riverctl map normal Super Left send-layout-cmd rivertile "main-location left"
 
-for mode in normal locked; do
+for mode in normal locked
 	# volume control
 	riverctl map $mode None XF86AudioRaiseVolume spawn "pamixer -i 5"
 	riverctl map $mode None XF86AudioLowerVolume spawn "pamixer -d 5"
-	riverctl map $mode None XF86AudioMute spawn 'pamixer --toggle-mute'
+	riverctl map $mode None XF86AudioMute spawn "pamixer --toggle-mute"
 
 	# playerctl
-	riverctl map $mode None XF86AudioMedia spawn 'playerctl play-pause'
-	riverctl map $mode None XF86AudioPlay spawn 'playerctl play-pause'
-	riverctl map $mode None XF86AudioPrev spawn 'playerctl previous'
-	riverctl map $mode None XF86AudioNext spawn 'playerctl next'
+	riverctl map $mode None XF86AudioMedia spawn "playerctl play-pause"
+	riverctl map $mode None XF86AudioPlay spawn "playerctl play-pause"
+	riverctl map $mode None XF86AudioPrev spawn "playerctl previous"
+	riverctl map $mode None XF86AudioNext spawn "playerctl next"
 	riverctl map-pointer $mode Super BTN_SIDE spawn "playerctld shift"
 	riverctl map-pointer $mode Super BTN_EXTRA spawn "playerctld unshift"
-done
+end
 
 riverctl background-color 0xfaf4ed
 riverctl focus-follows-cursor always
 riverctl set-cursor-warp on-focus-change
-
-# keyboard character repeat rate
 riverctl set-repeat 50 300
-
-# serverside decorations
 riverctl rule-add ssd
 
 # wideriver layout generator
@@ -109,14 +105,14 @@ pkill swww-daemon
 pkill fnott
 pkill playerctld
 pkill yambar
+pkill kanshi
 pkill wideriver
 
 # spawn new ones
 riverctl spawn swww-daemon
 riverctl spawn fnott
 riverctl spawn "playerctld daemon"
-riverctl spawn yambar
-
+riverctl spawn kanshi
 riverctl spawn "wideriver \
 	--layout left \
 	--stack dwindle \
@@ -127,4 +123,4 @@ riverctl spawn "wideriver \
 	--outer-gaps 14"
 
 # set initial bg
-~/.config/scripts/set-background.sh 1
+~/.config/scripts/set-background.fish 1
