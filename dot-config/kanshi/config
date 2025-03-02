@@ -1,0 +1,5 @@
+profile {
+	output DP-3 enable
+	output HDMI-A-5 enable
+	exec ~/.config/yambar/monitor.fish DP-3 HDMI-A-5
+}
