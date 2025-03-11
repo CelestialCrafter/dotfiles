@@ -22,7 +22,7 @@ log = "all()"
 "immutable_heads()" = "(trunk().. & ~mine())"
 
 [signing]
-sign-all = true
+behavior = "own"
 backend = "ssh"
 key = "~/.ssh/id_ed25519.pub"
 

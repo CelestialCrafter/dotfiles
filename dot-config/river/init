@@ -1,14 +1,17 @@
 #!/usr/bin/env fish
 
-# lock system before doing ANYTHING else
+riverctl background-color 0xfaf4ed
 riverctl spawn swaylock
+
+# fix some environment issues
+dbus-update-activation-environment --systemd XCURSOR_THEME XCURSOR_SIZE DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
 riverctl map normal None Print spawn 'grim -l 0 -g "$(slurp)" - | wl-copy --type image/png'
 riverctl map normal Super R spawn fuzzel
 riverctl map normal Super+Shift Return spawn foot
 
 riverctl map normal Super Q close
-riverctl map normal Control+Shift Escape spawn swaylock
+riverctl map normal Control+Shift Escape spawn "systemctl suspend && swaylock"
 riverctl map normal Control+Alt Escape exit
 
 riverctl map normal Super J focus-view next
@@ -88,7 +91,6 @@ for mode in normal locked
 	riverctl map-pointer $mode Super BTN_EXTRA spawn "playerctld unshift"
 end
 
-riverctl background-color 0xfaf4ed
 riverctl focus-follows-cursor always
 riverctl set-cursor-warp on-focus-change
 riverctl set-repeat 50 300
@@ -96,9 +98,6 @@ riverctl rule-add ssd
 
 # wideriver layout generator
 riverctl default-layout wideriver
-
-# fix a few issues (i forgot which lol)
-dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=river
 
 # kill old processes
 pkill swww-daemon
@@ -109,7 +108,7 @@ pkill kanshi
 pkill wideriver
 
 # spawn new ones
-riverctl spawn swww-daemon
+riverctl spawn "swww-daemon --format xrgb"
 riverctl spawn fnott
 riverctl spawn "playerctld daemon"
 riverctl spawn kanshi
