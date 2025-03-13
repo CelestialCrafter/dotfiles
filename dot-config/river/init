@@ -78,9 +78,9 @@ riverctl map normal Super Left send-layout-cmd rivertile "main-location left"
 
 for mode in normal locked
 	# volume control
-	riverctl map $mode None XF86AudioRaiseVolume spawn "pamixer -i 5"
-	riverctl map $mode None XF86AudioLowerVolume spawn "pamixer -d 5"
-	riverctl map $mode None XF86AudioMute spawn "pamixer --toggle-mute"
+	riverctl map $mode None XF86AudioRaiseVolume spawn "wpctl set-volume @DEFAULT_SINK@ 5%+"
+	riverctl map $mode None XF86AudioLowerVolume spawn "wpctl set-volume @DEFAULT_SINK@ 5%-"
+	riverctl map $mode None XF86AudioMute spawn "wpctl set-mute @DEFAULT_SINK@ toggle"
 
 	# playerctl
 	riverctl map $mode None XF86AudioMedia spawn "playerctl play-pause"
