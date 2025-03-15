@@ -1,3 +1,29 @@
+local utils = require("utils")
+local k = vim.keymap
+local m = utils.default_mode
+
+local function wrap(next, prev)
+	return function()
+		local _, ok = pcall(next)
+		if not ok then
+			pcall(prev)
+		end
+	end
+end
+
+k.set(m, "<C-j>", wrap(vim.cmd.cnext, vim.cmd.cprev))
+k.set(m, "<C-k>", wrap(vim.cmd.cprev, vim.cmd.cnext))
+k.set(m, "<leader>c", function()
+	for _, win in ipairs(vim.fn.getwininfo()) do
+		if win["quickfix"] == 1 then
+			vim.cmd.cclose()
+			return
+		end
+	end
+
+	vim.cmd.copen()
+end, { desc = "toggle quickfix" })
+
 local pre_qf
 vim.api.nvim_create_autocmd({ "QuickFixCmdPre", "QuickFixCmdPost", "BufEnter" }, {
 	pattern = "*",
@@ -12,6 +38,8 @@ vim.api.nvim_create_autocmd({ "QuickFixCmdPre", "QuickFixCmdPost", "BufEnter" },
 					vim.cmd(pre_qf .. "wincmd w")
 				end)
 			end,
+
+			-- quit if no other files open
 			BufEnter = function()
 				local persistent_windows = vim.tbl_filter(function(win)
 					return vim.bo[win.bufnr].bufhidden ~= "wipe"
