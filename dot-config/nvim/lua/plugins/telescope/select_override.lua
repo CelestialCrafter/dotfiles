@@ -10,10 +10,11 @@ local function default_kind(items, opts, on_choice)
 		finder = finders.new_table({
 			results = items,
 			entry_maker = function(item)
+				local formatted = opts.format_item(item)
 				return {
+					display = formatted,
+					ordinal = formatted,
 					value = item,
-					display = opts.format_item,
-					ordinal = tostring(item),
 				}
 			end,
 		}),

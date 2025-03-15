@@ -1,5 +1,4 @@
 local utils = require("utils")
-
 local k = vim.keymap
 local m = utils.default_mode
 
@@ -10,20 +9,6 @@ k.set(m, "<leader>y", '"+y')
 k.set(m, "<leader>Y", '"+y$')
 k.set(m, "<leader>P", '"+P')
 k.set(m, "<leader>p", '"+p')
-
--- quickfix
-k.set(m, "<C-j>", vim.cmd.cnext)
-k.set(m, "<C-k>", vim.cmd.cprev)
-k.set(m, "<leader>c", function()
-	for _, win in ipairs(vim.fn.getwininfo()) do
-		if win["quickfix"] == 1 then
-			vim.cmd.cclose()
-			return
-		end
-	end
-
-	vim.cmd.copen()
-end, { desc = "toggle quickfix" })
 
 -- lsp
 k.set(m, "<leader><cr>", vim.lsp.buf.code_action)

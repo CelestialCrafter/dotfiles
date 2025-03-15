@@ -3,7 +3,7 @@ local utils = require("utils")
 local function search_word(forward)
 	return function()
 		require("flash").jump({
-			pattern = vim.fn.expand("<cword>"),
+			pattern = vim.fn.expand("<CWORD>"),
 			mode = "search",
 			search = { forward = forward },
 			jump = { nohlsearch = false },
