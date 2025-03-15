@@ -3,8 +3,8 @@ alias top btop
 alias vim nvim
 
 alias nd "nix develop --command fish"
-function ns -w "nix shell" -a package
-	nix shell nixpkgs#$package
+function np -w "nix shell"
+	nix shell nixpkgs#$argv
 end
 
 abbr -a L --position anywhere --set-cursor "% &| less"

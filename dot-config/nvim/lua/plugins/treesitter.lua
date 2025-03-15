@@ -28,8 +28,8 @@ return {
 				enable = true,
 				keymaps = {
 					init_selection = false,
-					node_incremental = "<cr>",
-					node_decremental = "<s-cr>",
+					node_incremental = "<CR>",
+					node_decremental = "<S-CR>",
 				},
 			},
 			textobjects = {
