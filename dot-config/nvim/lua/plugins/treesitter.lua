@@ -16,6 +16,7 @@ return {
 				"scss",
 				"css",
 				"markdown",
+				"nix"
 			},
 			highlight = {
 				enable = true,

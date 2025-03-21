@@ -9,6 +9,7 @@ return {
 		"marksman",
 		"cssls",
 		"html",
+		"nil_ls"
 	},
 	config = function(_, opts)
 		local lspconfig = require("lspconfig")

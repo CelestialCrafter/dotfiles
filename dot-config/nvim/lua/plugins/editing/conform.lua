@@ -8,6 +8,7 @@ return {
 			javascript = { "prettierd" },
 			go = { "goimports", "gofmt" },
 			css = { "stylelint" },
+			nix = { "nixfmt" },
 		},
 	},
 }
