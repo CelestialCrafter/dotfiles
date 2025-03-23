@@ -6,6 +6,9 @@ alias nd "nix develop --command fish"
 function np -w "nix shell"
 	nix shell nixpkgs#$argv
 end
+function nr -w "nix run"
+	nix run nixpkgs#$argv
+end
 
 abbr -a L --position anywhere --set-cursor "% &| less"
 
