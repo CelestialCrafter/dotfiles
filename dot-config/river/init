@@ -105,6 +105,7 @@ pkill fnott
 pkill playerctld
 pkill yambar
 pkill kanshi
+pkill mpd-mpris
 pkill wideriver
 
 # spawn new ones
@@ -112,6 +113,7 @@ riverctl spawn "swww-daemon --format xrgb"
 riverctl spawn fnott
 riverctl spawn "playerctld daemon"
 riverctl spawn kanshi
+riverctl spawn mpd-mpris
 riverctl spawn "wideriver \
 	--layout left \
 	--stack dwindle \
