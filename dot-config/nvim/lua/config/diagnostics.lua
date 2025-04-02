@@ -118,6 +118,6 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 
 vim.api.nvim_create_autocmd("InsertEnter", {
 	callback = function()
-		vim.diagnostic.disable()
+		vim.diagnostic.enable(false)
 	end,
 })
