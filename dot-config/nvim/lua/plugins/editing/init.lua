@@ -1,6 +1,5 @@
 return {
 	"tpope/vim-surround",
-	{ "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
 	{
 		"gbprod/cutlass.nvim",
 		opts = { cut_key = "m" },

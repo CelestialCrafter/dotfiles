@@ -46,7 +46,7 @@ local function render_float(namespace, diagnostics)
 	-- render
 	local float_bufnr, winnr = vim.lsp.util.open_floating_preview(lines, "plaintext", {
 		relative = "editor",
-		offset_x = vim.o.columns - vim.fn.wincol(),
+		offset_x = vim.o.columns,
 		offset_y = -vim.fn.winline(),
 		max_width = math.max(math.floor(vim.o.columns / 4), 42),
 
@@ -98,8 +98,6 @@ vim.diagnostic.handlers["celestial/diagnostics"] = {
 }
 
 vim.diagnostic.config({
-	virtual_text = false,
-	severity_sort = true,
 	signs = {
 		text = {
 			[severity.ERROR] = "┨ ",
