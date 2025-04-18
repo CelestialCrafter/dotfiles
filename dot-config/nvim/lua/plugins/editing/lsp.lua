@@ -9,12 +9,10 @@ return {
 		"marksman",
 		"cssls",
 		"html",
-		"nil_ls"
+		"nil_ls",
+		"gleam",
 	},
 	config = function(_, opts)
-		local lspconfig = require("lspconfig")
-		for _, lsp in ipairs(opts) do
-			lspconfig[lsp].setup({})
-		end
+		vim.lsp.enable(opts)
 	end,
 }

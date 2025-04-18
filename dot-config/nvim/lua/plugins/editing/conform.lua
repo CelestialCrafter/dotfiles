@@ -9,6 +9,7 @@ return {
 			go = { "goimports", "gofmt" },
 			css = { "stylelint" },
 			nix = { "nixfmt" },
+			gleam = { "gleam" },
 		},
 	},
 }
