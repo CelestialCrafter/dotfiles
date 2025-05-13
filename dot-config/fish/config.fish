@@ -2,10 +2,14 @@
 alias top btop
 alias vim nvim
 
-alias nd "nix develop --command fish"
+function nd -w "nix develop"
+	nix develop .#$argv --command fish
+end
+
 function np -w "nix shell"
 	nix shell nixpkgs#$argv
 end
+
 function nr -w "nix run"
 	nix run nixpkgs#$argv
 end
