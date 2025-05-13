@@ -11,6 +11,7 @@ return {
 		"html",
 		"nil_ls",
 		"gleam",
+		"zls"
 	},
 	config = function(_, opts)
 		vim.lsp.enable(opts)

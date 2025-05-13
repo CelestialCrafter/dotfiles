@@ -10,6 +10,7 @@ return {
 			css = { "stylelint" },
 			nix = { "nixfmt" },
 			gleam = { "gleam" },
+			zig = { "zigfmt" },
 		},
 	},
 }

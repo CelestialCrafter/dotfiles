@@ -16,6 +16,7 @@ return {
 			"markdown",
 			"nix",
 			"gleam",
+			"zig"
 		},
 		highlight = {
 			enable = true,
