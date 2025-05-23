@@ -11,7 +11,7 @@ function np -w "nix shell"
 end
 
 function nr -w "nix run"
-	nix run nixpkgs#$argv
+	nohup nix run nixpkgs#$argv &> /dev/null & disown
 end
 
 abbr -a L --position anywhere --set-cursor "% &| less"
