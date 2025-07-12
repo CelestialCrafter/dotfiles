@@ -1,7 +1,0 @@
-require("config.profile")
-require("config.opts")
-require("config.keymaps")
-require("config.statusline")
-require("config.diagnostics")
-require("config.yank_highlight")
-require("config.lazy")

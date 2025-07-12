@@ -1,17 +1,16 @@
 # aliases/abbrs
 alias top btop
-alias vim nvim
 
 function nd -w "nix develop"
-	nix develop .#$argv --command fish
+    nix develop .#$argv --command fish
 end
 
 function np -w "nix shell"
-	nix shell nixpkgs#$argv
+    nix shell nixpkgs#$argv
 end
 
 function nr -w "nix run"
-	nohup nix run nixpkgs#$argv &> /dev/null & disown
+    nohup nix run nixpkgs#$argv &>/dev/null & disown
 end
 
 abbr -a L --position anywhere --set-cursor "% &| less"
