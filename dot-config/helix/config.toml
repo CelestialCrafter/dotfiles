@@ -1,0 +1,92 @@
+theme = "rose_pine_dawn"
+
+[editor]
+middle-click-paste = false
+scrolloff = 0
+shell = ["fish", "--no-config", "--command"]
+line-number = "relative"
+auto-format = false
+bufferline = "always"
+color-modes = true
+default-line-ending = "lf"
+popup-border = "all"
+indent-heuristic = "tree-sitter"
+
+[editor.statusline]
+left = ["mode", "spinner"]
+center = ["file-base-name", "read-only-indicator", "file-modification-indicator"]
+right = ["diagnostics", "register", "position", "file-type"]
+mode.normal = "Normal"
+mode.insert = "Insert"
+mode.select = "Select"
+
+[editor.lsp]
+display-signature-help-docs = false
+
+[editor.cursor-shape]
+insert = "bar"
+
+[editor.file-picker]
+hidden = false
+
+[editor.soft-wrap]
+enable = true
+
+[keys.normal]
+"+" = ":format"
+"*" = "search_selection"
+";" = "repeat_last_motion"
+"A-." = "no_op"
+
+ret = "expand_selection"
+"S-ret" = "shrink_selection"
+
+[keys.normal.space]
+space = "file_picker"
+s = "no_op"
+r = "no_op"
+h = "no_op"
+a = "no_op"
+K = "no_op"
+c = "no_op"
+C = "no_op"
+"A-c" = "no_op"
+F = "no_op"
+e = "no_op"
+E = "no_op"
+b = "no_op"
+S = "no_op"
+d = "no_op"
+D = "no_op"
+j = "no_op"
+g = "no_op"
+k = "no_op"
+"'" = "no_op"
+"/" = "no_op"
+"?" = "no_op"
+
+[keys.normal.space.f]
+f = "file_picker"
+F = "file_picker_in_current_buffer_directory"
+e = "file_explorer"
+E = "file_explorer_in_current_buffer_directory"
+b = "buffer_picker"
+s = "symbol_picker"
+S = "workspace_symbol_picker"
+d = "diagnostics_picker"
+D = "workspace_diagnostics_picker"
+g = "global_search"
+"'" = "last_picker"
+"?" = "command_palette"
+
+[keys.normal.space.l]
+r = "rename_symbol"
+h = "select_references_to_symbol_under_cursor"
+a = "code_action"
+k = "hover"
+c = "toggle_comments"
+
+[keys.normal."="]
+l = "select_next_sibling"
+h = "select_prev_sibling"
+a = "select_all_siblings"
