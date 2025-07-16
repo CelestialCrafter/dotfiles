@@ -25,3 +25,5 @@ fish_vi_cursor
 
 # other
 zoxide init fish | source
+cat /etc/profiles/per-user/celestial/etc/profile.d/hm-session-vars.sh \
+    | babelfish | source
