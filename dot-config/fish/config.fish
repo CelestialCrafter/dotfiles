@@ -25,5 +25,12 @@ fish_vi_cursor
 
 # other
 zoxide init fish | source
-cat /etc/profiles/per-user/celestial/etc/profile.d/hm-session-vars.sh \
-    | babelfish | source
+
+if command -q nix-your-shell
+  nix-your-shell fish | source
+end
+
+set -l hm /etc/profiles/per-user/celestial/etc/profile.d/hm-session-vars.sh
+if test -e $hm
+    cat $hm | babelfish | source
+end
