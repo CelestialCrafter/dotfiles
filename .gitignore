@@ -1,1 +1,10 @@
+# temporary until all nix migrations are finished
 dot-config/spicetify
+dot-config/helix
+
+# Ignore build outputs from performing a nix-build or `nix build` command
+result
+result-*
+
+# Ignore automatically generated direnv output
+.direnv
