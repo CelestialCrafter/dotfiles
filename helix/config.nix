@@ -5,11 +5,7 @@ let
   mkNoOps = keys: genAttrs keys (_: "no_op");
   static =
     let
-
-      prefix = {
-        macro = "<null>";
-        key = "null";
-      };
+      prefix = "0";
       toMacroUnprefixed = genAttrs [
         "last_picker"
         "expand_selection"
@@ -20,11 +16,10 @@ let
     {
       fromMacro = fold recursiveUpdate { } (
         mapAttrsToList (
-          command: macro:
-          fold (x: acc: { ${x} = acc; }) command ([ prefix.key ] ++ (stringToCharacters macro))
+          command: macro: fold (x: acc: { ${x} = acc; }) command ([ prefix ] ++ (stringToCharacters macro))
         ) toMacroUnprefixed
       );
-      toMacro = mapAttrs (_: macro: prefix.macro + macro) toMacroUnprefixed;
+      toMacro = mapAttrs (_: macro: prefix + macro) toMacroUnprefixed;
     };
 in
 with static.toMacro;
@@ -44,7 +39,7 @@ with static.toMacro;
     ];
 
     completion-timeout = 5;
-    word-completion.trigger-length = 3;
+    word-completion.trigger-length = 2;
 
     trim-trailing-whitespace = true;
     trim-final-newlines = true;
@@ -111,8 +106,8 @@ with static.toMacro;
       "S-ret" = "shrink_selection";
 
       # jump to start/end of node
-      "A-`" = "@${expand_selection + flip_selections + collapse_selection}";
-      "`" = "@${expand_selection + collapse_selection}";
+      "`" = "@${expand_selection + flip_selections + collapse_selection}";
+      "A-`" = "@${expand_selection + collapse_selection}";
 
       # vim quickfix emulation
       "C-k" = "@${last_picker}<up><ret>";
