@@ -45,8 +45,9 @@ with static.toMacro;
     trim-final-newlines = true;
     default-line-ending = "lf";
 
-    end-of-line-diagnostics = "disable";
-    inline-diagnostics.cursor-line = "disable";
+    end-of-line-diagnostics = "hint";
+    inline-diagnostics.cursor-line = "info";
+    inline-diagnostics.other-lines = "info";
 
     soft-wrap.enable = true;
     smart-tab.enable = false;
@@ -169,7 +170,6 @@ with static.toMacro;
         "d"
         "D"
         "j"
-        "G"
         "k"
         "/"
         "?"
