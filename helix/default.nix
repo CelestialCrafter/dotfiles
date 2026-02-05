@@ -11,7 +11,7 @@ in
 wrap "helix" (
   lib.mapAttrs' (name: value: lib.nameValuePair name (toToml name value)) {
     "config.toml" = import ./config.nix pkgs;
-    "language.toml" = import ./language.nix;
+    "languages.toml" = import ./languages.nix;
     "themes/custom.toml" = import ./theme.nix;
   }
 )

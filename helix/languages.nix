@@ -11,7 +11,7 @@ let
   };
 in
 {
-  languages = [
+  language = [
     {
       name = "rust";
       formatter = {
@@ -31,9 +31,7 @@ in
     }
     {
       name = "nix";
-      formatter = {
-        command = "nixfmt";
-      };
+      formatter.command = "nixfmt";
     }
     {
       name = "markdown";
@@ -42,12 +40,6 @@ in
         args = [ "-" ];
       };
     }
-    (withPrettier "javascript" "js")
-    (withPrettier "typescript" "ts")
-    (withPrettier "html" "html")
-    (withPrettier "css" "css")
-    (withPrettier "scss" "scss")
-    (withPrettier "json" "json")
     {
       name = "lua";
       formatter = {
@@ -55,6 +47,16 @@ in
         args = [ "-" ];
       };
     }
+    {
+      name = "typst";
+      formatter.command = "typstyle";
+    }
+    (withPrettier "javascript" "js")
+    (withPrettier "typescript" "ts")
+    (withPrettier "html" "html")
+    (withPrettier "css" "css")
+    (withPrettier "scss" "scss")
+    (withPrettier "json" "json")
     (withPrettier "svelte" "svelte")
   ];
 }
