@@ -2,7 +2,7 @@
 #![enable(unwrap_newtypes)]
 #![enable(unwrap_variant_newtypes)]
 (
-	address: "127.0.0.1:6600",
+	address: "100.64.0.1:6600",
 	lyrics_dir: "/var/lib/mpd/music",
 	password: None,
 	theme: "theme",
