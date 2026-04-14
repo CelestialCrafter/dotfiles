@@ -7,4 +7,4 @@ else
 	set bg "$HOME/Pictures/Wallpapers/normal.png"
 end
 
-swww img "$bg" --transition-type none
+awww img "$bg" --transition-type none

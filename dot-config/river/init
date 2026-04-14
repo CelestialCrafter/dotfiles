@@ -64,7 +64,7 @@ end
 # Super+0 -> focus all tags
 # Super+Shift+0 -> tag focused view with all tags
 # (1 << 32) - 1
-set -l all_tags 4294967295 
+set -l all_tags 4294967295
 riverctl map normal Super 0 set-focused-tags $all_tags
 riverctl map normal Super+Shift 0 set-view-tags $all_tags
 
@@ -100,7 +100,7 @@ riverctl rule-add ssd
 riverctl default-layout wideriver
 
 # kill old processes
-pkill swww-daemon
+pkill awww-daemon
 pkill fnott
 pkill playerctld
 pkill yambar
@@ -109,7 +109,7 @@ pkill mpd-mpris
 pkill wideriver
 
 # spawn new ones
-riverctl spawn "swww-daemon --format xrgb"
+riverctl spawn "awww-daemon --format xrgb"
 riverctl spawn fnott
 riverctl spawn "playerctld daemon"
 riverctl spawn kanshi
