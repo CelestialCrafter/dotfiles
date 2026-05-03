@@ -1,0 +1,77 @@
+# general
+[[verbs]]
+invocation = "edit"
+key = "e"
+apply_to = "text_file"
+external = "hx {file}:{line}"
+leave_broot = false
+
+[[verbs]]
+invocation = "create {subpath}"
+external = "touch {directory}/{subpath}"
+leave_broot = false
+
+[[verbs]]
+invocation = "terminal"
+key = "t"
+external = "fish"
+set_working_dir = true
+leave_broot = false
+
+[[verbs]]
+invocation = "run {cmd}"
+external = ["fish", "--init-command", "set --export FILE {file}", "--command", "{cmd}"]
+set_working_dir = true
+leave_broot = false
+
+[[verbs]]
+invocation = "finish"
+key = "f"
+apply_to = "directory"
+external = "cd {directory}"
+from_shell = true
+
+# jujutsu
+[[verbs]]
+invocation = "jj-diff"
+external = "jj diff {file}"
+leave_broot = false
+
+[[verb]]
+invocation = "jj-annotate"
+external = "jj file annotate {file}"
+leave_broot = false
+
+# navigation
+[[verbs]]
+invocation = "jump {path}"
+internal = ":focus {path}"
+
+[[verbs]]
+invocation = "home"
+key = "~"
+internal = ":focus ~"
+
+[[verbs]]
+key = "enter"
+internal = ":focus"
+
+[[verbs]]
+key = "ctrl-u"
+internal = ":page_up"
+
+[[verbs]]
+key = "ctrl-d"
+internal = ":page_down"
+
+[[verbs]]
+key = "tab"
+internal = ":next_match"
+
+[[verbs]]
+key = "shift-tab"
+internal = ":previous_match"
+
+[[verbs]]
+key = "i"
+internal = ":mode_input"

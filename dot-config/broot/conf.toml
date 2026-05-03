@@ -1,0 +1,32 @@
+date_time_format = "%d/%m/%Y %r"
+modal = true
+initial_mode = "command"
+imports = ["verbs.toml", "skins/rose-pine-dawn.toml"]
+quit_on_last_cancel = true
+
+[[preview_transformers]]
+input_extensions = ["json"]
+output_extension = "json"
+mode = "text"
+command = ["jq"]
+
+[[preview_transformers]]
+input_extensions = ["ods", "odt", "odp"]
+output_extension = "png"
+mode = "image"
+command = [
+  "libreoffice", "--headless",
+  "--convert-to", "png",
+  "--outdir", "{output-dir}",
+  "{input-path}"
+]
+
+[[preview_transformers]]
+input_extensions = ["typ"]
+output_extension = "png"
+mode = "image"
+command = [
+  "typst", "compile",
+  "--format", "png",
+  "{input-path}", "{output-dir}"
+]
