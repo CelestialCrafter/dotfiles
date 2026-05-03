@@ -24,8 +24,6 @@ fish_vi_key_bindings
 fish_vi_cursor
 
 # other
-zoxide init fish | source
-
 if command -q nix-your-shell
   nix-your-shell fish | source
 end

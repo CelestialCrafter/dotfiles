@@ -1,0 +1,114 @@
+[skin]
+directory = "rgb(86, 148, 159)" # Foam
+file = "rgb(70, 66, 97)" # Text
+pruning = "rgb(152, 147, 165) none italic" # Muted
+selected_line = "none rgb(244, 237, 232)" # Highlight Low
+tree = "rgb(152, 147, 165)" # Muted
+
+# Search
+char_match = "rgb(234, 157, 52) none underlined" # Gold
+parent = "rgb(86, 148, 159) none bold" # Foam
+
+# File properties
+exe = "rgb(40, 105, 131)" # Pine
+link = "rgb(144, 122, 169)" # Iris
+sparse = "rgb(86, 148, 159)" # Foam
+
+# Prompt
+input = "rgb(215, 130, 126)" # Rose
+
+# Status bar
+status_bold = "rgb(70, 66, 97) rgb(242, 233, 225) bold" # Text w/ Overlay
+status_code = "rgb(40, 105, 131) rgb(242, 233, 225)" # Pine w/ Overlay
+status_ellipsis = "rgb(70, 66, 97) rgb(242, 233, 225)" # Text w/ Overlay
+status_error = "rgb(180, 99, 122) rgb(242, 233, 225)" # Love w/ Overlay
+status_italic = "rgb(70, 66, 97) rgb(242, 233, 225) italic" # Text w/ Overlay
+status_job = "rgb(70, 66, 97) rgb(242, 233, 225)" # Text w/ Overlay
+status_normal = "rgb(70, 66, 97) rgb(242, 233, 225)" # Text w/ Overlay
+
+# Flag status
+flag_label = "rgb(215, 130, 126)" # Rose
+flag_value = "rgb(215, 130, 126) none bold" # Rose
+
+# Background
+default = "none none"
+
+# Scrollbar
+scrollbar_track = "rgb(250, 244, 237)" # Base
+scrollbar_thumb = "rgb(234, 157, 52)" # Gold
+
+# Git
+git_branch = "rgb(144, 122, 169)" # Iris
+git_deletions = "rgb(180, 99, 122)" # Love
+git_insertions = "rgb(86, 148, 159)" # Foam
+git_status_conflicted = "rgb(180, 99, 122)" # Love
+git_status_current = "rgb(215, 130, 126)" # Rose
+git_status_ignored = "rgb(152, 147, 165)" # Muted
+git_status_modified = "rgb(215, 130, 126)" # Rose
+git_status_new = "rgb(40, 105, 131) none bold" # Pine
+git_status_other = "rgb(144, 122, 169)" # Iris
+
+# Staging area
+staging_area_title = "rgb(234, 157, 52)" # Gold
+
+# Documentation
+help_bold = "rgb(70, 66, 97) none bold" # Text
+help_code = "rgb(86, 148, 159)" # Foam
+help_headers = "rgb(234, 157, 52)" # Gold
+help_italic = "rgb(70, 66, 97) none italic" # Text
+help_paragraph = "rgb(70, 66, 97)" # Text
+help_table_border = "rgb(152, 147, 165)" # Muted
+
+# Device column
+device_id_major = "rgb(144, 122, 169)" # Iris
+device_id_minor = "rgb(144, 122, 169)" # Iris
+device_id_sep = "rgb(144, 122, 169)" # Iris
+
+# Counts column
+count = "rgb(144, 122, 169)" # Iris
+
+# Dates column
+dates = "rgb(215, 130, 126)" # Rose
+
+# Permissions column
+group = "rgb(234, 157, 52)" # Gold
+owner = "rgb(234, 157, 52)" # Gold
+perm__ = "rgb(152, 147, 165)" # Muted
+perm_r = "rgb(234, 157, 52)" # Gold
+perm_w = "rgb(180, 99, 122)" # Love
+perm_x = "rgb(40, 105, 131)" # Pine
+
+# Hex preview
+hex_null = "rgb(152, 147, 165)" # Muted
+hex_ascii_graphic = "rgb(40, 105, 131)" # Pine
+hex_ascii_whitespace = "rgb(234, 157, 52)" # Gold
+hex_ascii_other = "rgb(86, 148, 159)" # Foam
+hex_non_ascii = "rgb(144, 122, 169)" # Iris
+
+# Used for displaying errors
+file_error = "rgb(180, 99, 122)" # Love
+
+# Content searches
+content_extract = "rgb(70, 66, 97)" # Text
+content_match = "rgb(215, 130, 126) none underlined" # Rose
+
+# Used in status line
+purpose_bold = "rgb(70, 66, 97) rgb(242, 233, 225) bold" # Text w/ Overlay
+purpose_ellipsis = "rgb(70, 66, 97)" # Text
+purpose_italic = "rgb(70, 66, 97) rgb(242, 233, 225) italic" # Text w/ Overlay
+purpose_normal = "rgb(70, 66, 97)" # Text
+
+# Modal indicator
+mode_command_mark = "rgb(250, 244, 237) rgb(86, 148, 159)" # Base w/ Foam
+
+# File system occupation
+good_to_bad_0 = "rgb(40, 105, 131)" # Pine
+good_to_bad_1 = "rgb(40, 105, 131)" # Pine
+good_to_bad_2 = "rgb(40, 105, 131)" # Pine
+good_to_bad_3 = "rgb(40, 105, 131)" # Pine
+good_to_bad_4 = "rgb(40, 105, 131)" # Pine
+good_to_bad_5 = "rgb(180, 99, 122)" # Love
+good_to_bad_6 = "rgb(180, 99, 122)" # Love
+good_to_bad_7 = "rgb(180, 99, 122)" # Love
+good_to_bad_8 = "rgb(180, 99, 122)" # Love
+good_to_bad_9 = "rgb(180, 99, 122)" # Love
