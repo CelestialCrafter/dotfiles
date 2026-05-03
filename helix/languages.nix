@@ -51,6 +51,13 @@ in
       name = "typst";
       formatter.command = "typstyle";
     }
+    {
+      name = "java";
+      formatter = {
+        command = "google-java-format";
+        args = [ "-" ];
+      };
+    }
     (withPrettier "javascript" "js")
     (withPrettier "typescript" "ts")
     (withPrettier "html" "html")

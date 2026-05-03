@@ -49,7 +49,11 @@ with static.toMacro;
     inline-diagnostics.cursor-line = "info";
     inline-diagnostics.other-lines = "info";
 
-    soft-wrap.enable = true;
+    soft-wrap = {
+      enable = true;
+      wrap-indicator = "  ";
+
+    };
     smart-tab.enable = false;
 
     undercurl = true;
@@ -106,10 +110,6 @@ with static.toMacro;
       ret = "expand_selection";
       "S-ret" = "shrink_selection";
 
-      # jump to start/end of node
-      "`" = "@${expand_selection + flip_selections + collapse_selection}";
-      "A-`" = "@${expand_selection + collapse_selection}";
-
       # vim quickfix emulation
       "C-k" = "@${last_picker}<up><ret>";
       "C-j" = "@${last_picker}<down><ret>";
@@ -133,8 +133,8 @@ with static.toMacro;
           e = "file_explorer";
           E = "file_explorer_in_current_buffer_directory";
 
-          s = "symbol_picker";
-          S = "workspace_symbol_picker";
+          s = "lsp_or_syntax_symbol_picker";
+          S = "lsp_or_syntax_workspace_symbol_picker";
 
           d = "diagnostics_picker";
           D = "workspace_diagnostics_picker";
@@ -148,9 +148,7 @@ with static.toMacro;
         l = {
           r = "rename_symbol";
           h = "select_references_to_symbol_under_cursor";
-          a = "code_action";
           k = "hover";
-          c = "toggle_comments";
         };
       }
       // mkNoOps ([
@@ -173,6 +171,7 @@ with static.toMacro;
         "k"
         "/"
         "?"
+        "."
       ]);
     }
   );
