@@ -32,3 +32,5 @@ set -l hm /etc/profiles/per-user/celestial/etc/profile.d/hm-session-vars.sh
 if test -e $hm
     cat $hm | babelfish | source
 end
+
+set -x PATH $PATH ~/.local/bin
