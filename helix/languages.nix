@@ -58,6 +58,13 @@ in
         args = [ "-" ];
       };
     }
+    {
+      name = "erlang";
+      formatter = {
+        command = "erlfmt";
+        args = [ "-" ];
+      };
+    }
     (withPrettier "javascript" "js")
     (withPrettier "typescript" "ts")
     (withPrettier "html" "html")
