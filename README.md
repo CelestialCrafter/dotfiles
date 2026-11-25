@@ -1,5 +1,8 @@
 # dotfiles
 
+> [!WARNING]
+> this repository has moved to [tangled](https://tangled.org/celestial.moe/dotfiles)!
+
 my dotfiles!
 ![main](https://github.com/user-attachments/assets/879768e4-5a9f-4207-9e7e-7f6eaa9d0f18)
 
